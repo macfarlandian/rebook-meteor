@@ -1,0 +1,13 @@
+<template name="schemtest">
+    <h1>chapter contents</h1>
+    <h3>length: {{chapter.length}}</h3>
+    <ul>
+        {{#each chapter.contents}}
+        <li>name: {{this.name}} | start: {{this.start}} |
+            length: {{this.length}} | end: {{this.end}}</li>
+        {{/each}}
+    </ul>
+
+    <h2>timeline</h2>
+    <svg id="timeline"></svg>
+</template>

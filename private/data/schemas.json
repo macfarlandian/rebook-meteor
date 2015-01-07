@@ -1,0 +1,70 @@
+{
+    "RESOURCE": {
+        "type": "text | image | audio | video | html",
+        "name": "name of thing.ext",
+        "assetPath": "path to file location",
+        "length": 9.9, //if media
+        "contents": "whatever, if a text file",
+
+    },
+
+    "CHAPTER": {
+        "_id": 999,
+        "contents": [
+            {
+                "resource_id": 999,
+                "start": 0,
+                "end": 3.5,
+                "length": 3.5,
+                "meta": {
+                    "arbitrary key": "arbitrary value"
+                }
+            },
+            {
+                "fileid": 999,
+                "start": 1.2,
+                "end": 2.4,
+                "length": 1.2,
+                "meta": {}
+            },
+            ...
+        ],
+        "meta": {
+            "arbitrary key": "arbitrary value",
+            "..."
+        }
+    },
+
+    "SEQUENCE": {
+        "_id": 999,
+        "chapters": [
+            {
+                "id": 999,
+                "required": true,
+            },
+            {
+                "id": 999,
+                "required": true,
+            },
+            ...
+        ],
+        "name": "name of sequence"
+    },
+
+    "COLLECTION": {
+        "_id": 999,
+        "chapters": [
+            {}
+        ],
+        "name": "name of collection",
+        "triggers": [
+            {
+                "keys": [999,999,...],
+                "action": {
+                    "type": "unlock | transition  | ...",
+                    "targets": [999,999,...]
+                }
+            }
+        ]
+    }
+}
