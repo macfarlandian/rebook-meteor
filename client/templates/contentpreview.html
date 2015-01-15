@@ -3,15 +3,56 @@
     <article>
         <h2>{{title}}</h2>
         {{#each paras contents}}
-        <p>{{#markdown}}{{this}}{{/markdown}}</p>
+        {{#markdown}}{{this.text}}{{/markdown}}
+            {{!-- {{#each this}}
+                <span class="word">{{this}}</span>
+            {{/each}} --}}
+        {{#if markOverlaps}}
+            {{#each markOverlaps.start}}
+            <div class="ui horizontal divider">
+                start {{this}}
+            </div>
+            {{/each}}
+            {{#each markOverlaps.end}}
+            <div class="ui horizontal divider">
+                end {{this}}
+            </div>
+            {{/each}}
+        {{/if}}
         {{/each}}
     </article>
     {{/if}}
     {{#if $eq type 'audio'}}
     <article>
-        <div class="ui card">
+        <div class="ui fluid card">
+            <!-- <img src="http://placehold.it/350x150" alt="" class="ui image"/> -->
             <div class="content">
-                <span class="header">{{name}}</span>
+                <div class="header">{{name}}</div>
+                <div class="meta">[format] [length]</div>
+                <div class="description">
+                    <p>
+                        <i class="large play icon link"></i>
+                        <i class="large stop icon link"></i>
+                    </p>
+                    <p>[description of file]</p>
+                </div>
+            </div>
+            <div class="extra content">
+                <h5>Options</h5>
+                <div class="ui list">
+                    <a class="item">
+                        <i class="icon checkmark box"></i>
+                        <div class="content">Loop</div>
+                    </a>
+                    <a class="item">
+                        <i class="icon checkmark box"></i>
+                        <div class="content">Fade in</div>
+                    </a>
+                    <a class="item">
+                        <i class="icon checkmark box"></i>
+                        <div class="content">Fade out</div>
+                    </a>
+                </div>
             </div>
         </div>
     </article>

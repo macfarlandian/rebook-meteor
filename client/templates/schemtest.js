@@ -39,6 +39,10 @@ Template.schemtest.rendered = function(){
             .domain([0,1])
             .range([0,minute])
             ;
+        // 1 word = .004 minutes (1/250)
+        var wordScale = d3.scale.linear()
+            .domain([0,.004])
+            .range([0,1]);
 
         //select elements that correspond to documents
         var bars = timeline.selectAll(".bar")
@@ -51,10 +55,33 @@ Template.schemtest.rendered = function(){
             .style("height", function(d){ return tScale(d.length) + "px" })
             .style("top", function(d){ return tScale(d.start) + "px" })
             .on('click', function(d){
+                // display preview template with content
                 if (previewContent) Blaze.remove(previewContent);
                 var previewNode = d3.select('#preview')[0][0];
                 previewContent = Blaze
                     .renderWithData(Template.contentpreview, d, previewNode);
+
+                // check for overlaps and store in session
+                var others = _.without(c.contents, d),
+                overlaps = [];
+                _.each(others, function(r){
+                    var overlap = {};
+                    // overlapping starts
+                    if (r.start > d.start && r.start < d.end) {
+
+                        overlap.start = wordScale(r.start);
+                    }
+                    // overlapping ends
+                    if (r.end > d.start && r.end < d.end) {
+                        overlap.end = wordScale(r.end);
+                    }
+                    // if not empty, push
+                    if (overlap) {
+                        overlap.name = r.name;
+                        overlaps.push(overlap)
+                    }
+                })
+                Session.set('overlaps', overlaps);
             })
                 .append("small")
                 .text(function(d){ return d.name })
