@@ -1,13 +1,47 @@
 <template name="schemtest">
-    <h1>chapter contents</h1>
-    <h3>length: {{chapter.length}}</h3>
-    <ul>
-        {{#each chapter.contents}}
-        <li>name: {{this.name}} | start: {{this.start}} |
-            length: {{this.length}} | end: {{this.end}}</li>
-        {{/each}}
-    </ul>
+    <div class="ui internally celled relaxed three column grid">
 
-    <h2>timeline</h2>
-    <svg id="timeline"></svg>
+        <section class="column">
+            <div class="ui sticky">
+                <h2>timeline</h2>
+                <div id="timeline" class="ui padded eight column grid"></div>
+            </div>
+        </section>
+
+        <section class="column" id="main">
+            <h1>{{chapter.name}}</h1>
+            {{#each chapter.contents}}
+                {{#if $eq type 'text'}}
+                    <article>
+                    {{#each paras contents}}
+                        <p>{{#markdown}}{{this}}{{/markdown}}</p>
+                    {{/each}}
+                    </article>
+                {{/if}}
+                {{#if $eq type 'audio'}}
+                    <article class="right floated">
+                        <div class="ui card">
+                            <div class="content">
+                                <span class="header">{{name}}</span>
+                            </div>
+                        </div>
+                    </article>
+                {{/if}}
+            {{/each}}
+        </section>
+
+        <section class="column">
+            <div class="ui sticky">
+                <h2>chapter contents</h2>
+                <h3>length: {{chapter.length}}</h3>
+                <ul>
+                    {{#each chapter.contents}}
+                    <li>name: {{this.name}} | start: {{this.start}} |
+                        length: {{this.length}} | end: {{this.end}}</li>
+                        {{/each}}
+                </ul>
+            </div>
+
+        </section>
+    </div>
 </template>

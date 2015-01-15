@@ -21,12 +21,8 @@ function getChapter() {
 }
 
 Template.schemtest.helpers({
-    text: function(){
-        // for now, testing with one text file
-        var d = Resources.findOne({"type": "text"});
-            if (d == undefined) return d;
-        // break text into paragraphs
-        return d.contents.split(/(\r\n|\n|\r)/gm)
+    paras: function(text){
+        return text.split(/(\r\n|\n|\r)/gm)
     },
     length: function(){
         // for now, testing with one text file
@@ -34,14 +30,20 @@ Template.schemtest.helpers({
             if (d == undefined) return d;
         // use rough word count (tokenized by whitespace)
         // divided by 250 words per minute (english avg)
-        if (d) return d.contents.split(/\s+/).length / 250;
+        return d.contents.split(/\s+/).length / 250;
     },
     chapter: getChapter,
+    title: function(){
+        // for now, testing with one text file
+        var d = Resources.findOne({"type": "text"});
+            if (d == undefined) return d;
+        return d.name.split(/-\d+-\.txt/)[0];
+    }
 });
 
 Template.schemtest.rendered = function(){
     // do d3 stuff
-    var svg = d3.select('svg#timeline');
+    var timeline = d3.select('#timeline');
     Tracker.autorun(function(){
         var c = getChapter();
         if (!c) return null;
@@ -53,21 +55,22 @@ Template.schemtest.rendered = function(){
             ;
 
         //select elements that correspond to documents
-        var bars = svg.selectAll("rect")
+        var bars = timeline.selectAll(".bar")
             .data(c.contents);
 
         //handle new documents via enter()
         bars.enter()
-            .append("rect")
-            .attr('height', function(d){ return xScale(d.length) })
-            .attr("y", function(d){ return xScale(d.start) })
-            .attr("x", function(d,i) { return i * 25 })
-            .attr('width', 20)
+            .append("div")
+            .classed("bar column", true)
+            .style("height", function(d){ return xScale(d.length) + "px" })
+            .style("top", function(d){ return xScale(d.start) + "px" })
+            // .style("left", function(d,i) { return i * 25 + "px" })
+            // .style("width", "20px")
             ;
 
         bars
             .transition()
-            .attr('height', function(d){ return xScale(d.length)})
+            .style("height", function(d){ return xScale(d.length) + "px"})
             ;
 
         bars.exit()
@@ -75,4 +78,11 @@ Template.schemtest.rendered = function(){
             ;
 
     });
+
+    // semantic UI
+    $('.ui.sticky')
+        .sticky({
+            context: '#main'
+        });
+;
 };
