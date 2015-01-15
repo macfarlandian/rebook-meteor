@@ -1,0 +1,19 @@
+<template name="contentpreview">
+    {{#if $eq type 'text'}}
+    <article>
+        <h2>{{title}}</h2>
+        {{#each paras contents}}
+        <p>{{#markdown}}{{this}}{{/markdown}}</p>
+        {{/each}}
+    </article>
+    {{/if}}
+    {{#if $eq type 'audio'}}
+    <article>
+        <div class="ui card">
+            <div class="content">
+                <span class="header">{{name}}</span>
+            </div>
+        </div>
+    </article>
+    {{/if}}
+</template>

@@ -1,7 +1,7 @@
 #timeline {
     .bar {
         position: relative;
-        background-color: #000000;
+        background-color: #CDCDCD;
         border: solid #f7f7f7 1px;
     }
 }
@@ -10,6 +10,51 @@
     font-size: 1.3rem;
 }
 
+#preview {
+    position:fixed;
+    height: 100%;
+    overflow:auto;
+}
+
 .right.floated {
     float:right;
+}
+
+svg#tAxis {
+    position: absolute;
+    right: 0;
+    width: 35px;
+
+    path.domain {
+        fill: none;
+        stroke: #000000;
+        stroke-width: 1px;
+    }
+    .tick{
+        line {
+            stroke: #000000;
+            stroke-width: 1px;
+        }
+    }
+
+}
+
+#gridcontainer {
+    position:absolute;
+    right:35px;
+    left:0;
+
+    svg#gridlines {
+
+        width: 100%;
+
+        .tick{
+            line {
+                stroke: #000000;
+                opacity: 0.3;
+                stroke-width: 1px;
+            }
+        }
+    }
+
 }

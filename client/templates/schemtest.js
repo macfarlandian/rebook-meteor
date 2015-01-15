@@ -21,25 +21,11 @@ function getChapter() {
 }
 
 Template.schemtest.helpers({
-    paras: function(text){
-        return text.split(/(\r\n|\n|\r)/gm)
-    },
-    length: function(){
-        // for now, testing with one text file
-        var d = Resources.findOne({"type": "text"});
-            if (d == undefined) return d;
-        // use rough word count (tokenized by whitespace)
-        // divided by 250 words per minute (english avg)
-        return d.contents.split(/\s+/).length / 250;
-    },
     chapter: getChapter,
-    title: function(){
-        // for now, testing with one text file
-        var d = Resources.findOne({"type": "text"});
-            if (d == undefined) return d;
-        return d.name.split(/-\d+-\.txt/)[0];
-    }
 });
+
+// global vars for displaying preview on click
+previewContent = undefined;
 
 Template.schemtest.rendered = function(){
     // do d3 stuff
@@ -48,10 +34,10 @@ Template.schemtest.rendered = function(){
         var c = getChapter();
         if (!c) return null;
         // set up d3 scales
-        var xScale = d3.scale.linear()
-            // 1 minute == 50px
+        var minute = 80;
+        var tScale = d3.scale.linear()
             .domain([0,1])
-            .range([0,50])
+            .range([0,minute])
             ;
 
         //select elements that correspond to documents
@@ -62,27 +48,64 @@ Template.schemtest.rendered = function(){
         bars.enter()
             .append("div")
             .classed("bar column", true)
-            .style("height", function(d){ return xScale(d.length) + "px" })
-            .style("top", function(d){ return xScale(d.start) + "px" })
+            .style("height", function(d){ return tScale(d.length) + "px" })
+            .style("top", function(d){ return tScale(d.start) + "px" })
+            .on('click', function(d){
+                if (previewContent) Blaze.remove(previewContent);
+                var previewNode = d3.select('#preview')[0][0];
+                previewContent = Blaze
+                    .renderWithData(Template.contentpreview, d, previewNode);
+            })
+                .append("small")
+                .text(function(d){ return d.name })
             // .style("left", function(d,i) { return i * 25 + "px" })
             // .style("width", "20px")
             ;
 
         bars
             .transition()
-            .style("height", function(d){ return xScale(d.length) + "px"})
+            .style("height", function(d){ return tScale(d.length) + "px"})
             ;
 
         bars.exit()
             .remove()
             ;
 
+        // timeline axis display
+        var axisScale = d3.scale.linear()
+            .domain([0, c.length])
+            .range([0, minute * c.length])
+            ;
+        var tAxis = d3.svg.axis()
+            .scale(axisScale)
+            .orient('right')
+            .ticks(Math.floor(c.length))
+            ;
+
+        d3.select('#tAxis')
+            .attr('height', axisScale(c.length) + 20)
+                .append('g')
+                .attr('transform', 'translate(0,10)')
+                .call(tAxis)
+                ;
+        d3.select('#gridlines')
+            .attr('height', axisScale(c.length) + 20)
+                .append('g')
+                .attr('transform', 'translate(0,10)')
+                .call(d3.svg.axis()
+                        .scale(axisScale)
+                        .orient('right')
+                        .ticks(Math.floor(c.length) * 2)
+                        .tickSize(9999,0)
+                        .tickFormat("")
+                )
+                ;
     });
 
     // semantic UI
     $('.ui.sticky')
         .sticky({
-            context: '#main'
+            context: '#preview'
         });
 ;
 };
