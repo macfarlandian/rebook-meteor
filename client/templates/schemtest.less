@@ -15,6 +15,22 @@
     position:fixed;
     height: 100%;
     overflow:auto;
+
+    .inactive {
+        position:fixed;
+        width: inherit;
+        margin-left: -1em;
+        background-color: rgba(0, 0, 0, 0.5);
+        &.top {
+            top:0;
+            bottom: 67%;
+        }
+        &.bottom {
+            bottom:0;
+            top: 67%;
+        }
+
+    }
 }
 
 .right.floated {

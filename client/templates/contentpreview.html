@@ -1,5 +1,8 @@
 <template name="contentpreview">
+    {{#with $.Session.get 'previewData'}}
     {{#if $eq type 'text'}}
+    <div class="inactive top"></div>
+    <div class="inactive bottom"></div>
     <article>
         <h2>{{title}}</h2>
         {{#each paras contents}}
@@ -57,4 +60,5 @@
         </div>
     </article>
     {{/if}}
+    {{/with}}
 </template>
