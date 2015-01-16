@@ -1,0 +1,16 @@
+<template name="resourceList">
+    {{#with $.Session.get 'previewData'}}
+    <h1>{{pageTitle}}</h1>
+    <div class="ui large celled list">
+        {{#each retrieve collection}}
+        <a class="item">
+            <i class="large top aligned {{type}} file outline icon"></i>
+            <div class="content">
+                <div class="header">{{displayName}}</div>
+                [file metadata]
+            </div>
+        </a>
+        {{/each}}
+    </div>
+    {{/with}}
+</template>

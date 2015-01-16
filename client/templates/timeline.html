@@ -1,3 +1,10 @@
-<template name="timeline">
-    <svg id="chap"></svg>
+<template name="chapterTimeline">
+    <h1>{{chapter.name}}</h1>
+    <div>
+        <svg id="tAxis"></svg>
+        <div id="gridcontainer">
+            <svg id="gridlines"></svg>
+        </div>
+        <div id="timeline" class="ui padded eight column grid"></div>
+    </div>
 </template>
