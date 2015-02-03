@@ -20,10 +20,21 @@ Meteor.startup(function(){
         Resources.insert(aud);
     }
 
+    if (Resources.find({type: "image"}).count() === 0) {
+        var img = {
+            type: "image",
+            name: "david bowie's grandma",
+            assetPath: "image01.jpg",
+            length: 0.2
+        };
+        Resources.insert(img);
+    }
+
     if (Chapters.find().count() === 0) {
         var aud = Resources.findOne({type: "audio"}),
             text = Resources.findOne({type: "text"}),
             chap = {
+                name: 'Chapter the First',
                 contents: [
                     {
                         resource_id: aud._id,
@@ -40,5 +51,22 @@ Meteor.startup(function(){
                 ]
             };
         Chapters.insert(chap);
+        chap.name = "Chapter the Second";
+        Chapters.insert(chap);
+        chap.name = "Chapter the Third";
+        Chapters.insert(chap);
+
+    }
+
+    if (Sequences.find().count() == 0) {
+        var seq = {
+            name: 'Sequence the First',
+            chapters: []
+        };
+        var chaps = Chapters.find();
+        chaps.forEach(function(doc){
+            seq.chapters.push({_id: doc._id});
+        });
+        Sequences.insert(seq);
     }
 })

@@ -1,5 +1,9 @@
 <template name="chapterTimeline">
-    <h1>{{chapter.name}}</h1>
+    {{#with $.Session.get 'workData'}}
+    {{#with chapter this}}
+    <h1>{{name}}</h1>
+    {{/with}}
+    {{/with}}
     <div>
         <svg id="tAxis"></svg>
         <div id="gridcontainer">

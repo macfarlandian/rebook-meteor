@@ -1,41 +1,16 @@
-// a helper helper ... DRY chapter fetching
-function getChapter() {
-    var c = Chapters.findOne();
-    if (c == undefined) return c;
-
-    //  sort contents by start
-    c.contents = _.sortBy(c.contents, function(r){
-        return r.start;
-    });
-
-    // calculate chapter length on the fly
-    c.length = _.max(c.contents, function(r){return r.end}).end;
-
-    // join references with resource records
-    _.each(c.contents, function(e,i,l){
-        var r = Resources.findOne(e.resource_id);
-        l[i] = _.extend(l[i], r)
-    });
-
-    return c;
-}
+Template.chapterTimeline.helpers({
+    chapter: function(_id){
+        // debugger;
+        return getChapter(_id);
+    }
+});
 
 Template.chapterTimeline.rendered = function(){
     // do d3 stuff
     var timeline = d3.select('#timeline');
     Tracker.autorun(function(){
-        var c = getChapter();
+        var c = getChapter(Session.get('workData'));
         if (!c) return null;
-        // set up d3 scales
-        var minute = 80;
-        var tScale = d3.scale.linear()
-        .domain([0,1])
-        .range([0,minute])
-        ;
-        // 1 word = .004 minutes (1/250)
-        var wordScale = d3.scale.linear()
-        .domain([0,.004])
-        .range([0,1]);
 
         //select elements that correspond to documents
         var bars = timeline.selectAll(".bar")
