@@ -22,6 +22,9 @@ Template.resourceList.events({
         if (Session.get('previewData').collection == "Resources") {
             Session.set('previewArea', 'contentpreview');
             Session.set('previewData', this);
+        } else if (Session.get('previewData').collection == "Chapters") {
+            Session.set('workArea', 'chapterTimeline');
+            Session.set('workData', this._id);
         }
     }
 });
