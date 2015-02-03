@@ -1,9 +1,12 @@
 Template.resourceList.helpers({
     retrieve: function(coll){
-        if (coll == 'Resources') {
-            return Resources.find();
-        } else if (coll == 'Chapters') {
-            return Chapters.find();
+        switch (coll) {
+            case 'Resources':
+                return Resources.find();
+            case 'Chapters':
+                return Chapters.find();
+            case 'Sequences':
+                return Sequences.find();
         }
 
     },
@@ -19,12 +22,19 @@ Template.resourceList.helpers({
 
 Template.resourceList.events({
     "click .item": function(event, template){
-        if (Session.get('previewData').collection == "Resources") {
-            Session.set('previewArea', 'contentpreview');
-            Session.set('previewData', this);
-        } else if (Session.get('previewData').collection == "Chapters") {
-            Session.set('workArea', 'chapterTimeline');
-            Session.set('workData', this._id);
+        switch(Session.get('previewData').collection) {
+            case "Resources":
+                Session.set('previewArea', 'contentpreview');
+                Session.set('previewData', this);
+                break;
+            case "Chapters":
+                Session.set('workArea', 'chapterTimeline');
+                Session.set('workData', this._id);
+                break;
+            case "Sequences":
+                Session.set('workArea', 'sequenceBuild');
+                Session.set('workData', this._id);
+                break;
         }
     }
 });
