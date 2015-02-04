@@ -3,7 +3,7 @@ Meteor.startup(function(){
     // is rendered in the two panes of the main grid
     Session.set('workArea', 'chapterTimeline');
     Session.set('previewArea', 'resourceList');
-    Session.set('workData', "LPwCqv84PMs2znhbe");
+    Session.set('workData', "qQmoKK9qDhK6ororX");
     Session.set('previewData', {
         pageTitle: 'Resources',
         collection: 'Resources'

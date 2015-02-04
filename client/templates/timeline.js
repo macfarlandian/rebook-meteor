@@ -14,55 +14,65 @@ Template.chapterTimeline.rendered = function(){
 
         //select elements that correspond to documents
         var bars = timeline.selectAll(".bar")
-        .data(c.contents);
+        .data(c.contents)
+        ;
 
         //handle new documents via enter()
         bars.enter()
         .append("div")
         .classed("bar column", true)
-        .style("height", function(d){ return tScale(d.length) + "px" })
-        .style("top", function(d){ return tScale(d.start) + "px" })
-        .on('click', function(d){
-            // display preview template with content
-            Session.set('previewArea', 'contentpreview');
-            Session.set('previewData', d);
-
-            // check for overlaps and store in session
-            var others = _.without(c.contents, d),
-            overlaps = [];
-            _.each(others, function(r){
-                var overlap = {};
-                // overlapping starts
-                if (r.start > d.start && r.start < d.end) {
-
-                    overlap.start = wordScale(r.start);
-                }
-                // overlapping ends
-                if (r.end > d.start && r.end < d.end) {
-                    overlap.end = wordScale(r.end);
-                }
-                // if not empty, push
-                if (overlap) {
-                    overlap.name = r.name;
-                    overlaps.push(overlap)
-                }
-            })
-            Session.set('overlaps', overlaps);
-        })
-        .append("small")
-        .text(function(d){ return d.name })
-        // .style("left", function(d,i) { return i * 25 + "px" })
-        // .style("width", "20px")
         ;
 
+        // apply to enter + update
         bars
-        .transition()
-        .style("height", function(d){ return tScale(d.length) + "px"})
-        ;
+            .on('click', function(d){
+                // display preview template with content
+                Session.set('previewArea', 'contentpreview');
+                Session.set('previewData', d);
+
+                // check for overlaps and store in session
+                var others = _.without(c.contents, d),
+                overlaps = [];
+                _.each(others, function(r){
+                    var overlap = {};
+                    // overlapping starts
+                    if (r.start > d.start && r.start < d.end) {
+
+                        overlap.start = wordScale(r.start);
+                    }
+                    // overlapping ends
+                    if (r.end > d.start && r.end < d.end) {
+                        overlap.end = wordScale(r.end);
+                    }
+                    // if not empty, push
+                    if (overlap) {
+                        overlap.name = r.name;
+                        overlaps.push(overlap)
+                    }
+                })
+                Session.set('overlaps', overlaps);
+            })
+            .transition()
+            .style("height", function(d){ return tScale(d.length) + "px" })
+            .style("top", function(d){ return tScale(d.start) + "px" })
+            ;
+
+        // append labels
+        var labels = bars
+            .selectAll('small')
+            .data(function(d){
+                return [d];
+            });
+
+        labels.enter()
+            .append("small");
+
+        labels.text(function(d){ return d.name });
+
 
         bars.exit()
-        .remove()
-        ;
+            .remove()
+            ;
 
         // timeline axis display
         var axisScale = d3.scale.linear()
