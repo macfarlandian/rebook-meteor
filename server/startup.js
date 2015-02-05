@@ -1,13 +1,27 @@
-
 Meteor.startup(function(){
-    // fixtures for testing
+    // data fixtures for testing
+    var textfiles = [
+        "bar tattoo -33-.txt",
+        "waiting for the G -61-.txt",
+        "AIDS Parade -65-.txt",
+        "bad news -226-.txt",
+        "manhole -227-.txt",
+        "keys -185-.txt",
+        "police investigation -196-.txt",
+        "garbage train -205-.txt",
+        "rondo -287-.txt"
+    ];
+
     if (Resources.find({type: "text"}).count() === 0) {
-        var text = {
-            type: "text",
-            name: "bar tattoo -33-.txt",
-            contents: Assets.getText('data/scriv-export/Draft/bar tattoo -33-.txt'),
-        }
-        Resources.insert(text);
+        _.each(textfiles, function(name){
+            var text = {
+                type: "text",
+                name: name,
+                contents: Assets.getText('data/scriv-export/Draft/'+name),
+            };
+            text.length = (text.contents.split(/\s+/).length / 250);
+            Resources.insert(text);
+        })
     }
 
     if (Resources.find({type: "audio"}).count() === 0) {
@@ -31,95 +45,93 @@ Meteor.startup(function(){
     }
 
     if (Chapters.find().count() === 0) {
-        var aud = Resources.findOne({type: "audio"}),
-            text = Resources.findOne({type: "text"}),
-            img = Resources.findOne({type: "image"}),
-            chap = {
-                name: 'Chapter the First',
-                contents: [
-                    {
-                        resource_id: aud._id,
-                        start: 0,
-                        end: 0 + aud.length,
-                        length: aud.length
-                    },
-                    {
-                        resource_id: text._id,
-                        start: 0.3,
-                        length: (text.contents.split(/\s+/).length / 250),
-                        end: 0.3 + (text.contents.split(/\s+/).length / 250)
-                    }
-                ]
-            };
-        Chapters.insert(chap);
-        chap = {
-            name: 'Chapter the Second',
-            contents: [
-                {
+        _.each(textfiles, function(name, index){
+            var text = Resources.findOne({name: name}),
+                chap = {
+                    name: name.split(/-\d+-\.txt/)[0],
+                    contents: [
+                        {
+                            resource_id: text._id,
+                            start: 0,
+                            length: text.length,
+                            end: 0 + text.length
+                        }
+                    ]
+                };
+            if (index == 0){
+                var aud = Resources.findOne({type: "audio"});
+                chap.contents.push({
                     resource_id: aud._id,
-                    start: 1.5,
-                    end: 1.5 + aud.length,
-                    length: aud.length
-                },
-                {
-                    resource_id: text._id,
                     start: 0,
-                    length: (text.contents.split(/\s+/).length / 250),
-                    end: 0 + (text.contents.split(/\s+/).length / 250)
-                }
-            ]
-        };
-        Chapters.insert(chap);
-        chap = {
-            name: 'Chapter the Third',
-            contents: [
-                {
+                    end: 0 + aud.length,
+                    length: aud.length
+                });
+                chap.contents[0].start += 0.3;
+                chap.contents[0].end += 0.3;
+            }
+            if (index == 2){
+                var img = Resources.findOne({type: "image"});
+                chap.contents.push({
                     resource_id: img._id,
                     start: 3,
                     end: 3 + img.length,
                     length: img.length
-                },
-                {
-                    resource_id: text._id,
-                    start: 0,
-                    length: (text.contents.split(/\s+/).length / 250),
-                    end: 0 + (text.contents.split(/\s+/).length / 250)
-                }
-            ]
-        };
-        Chapters.insert(chap);
+                });
+            }
+            Chapters.insert(chap);
+        })
 
     }
 
     if (Sequences.find().count() == 0) {
         var seq = {
-            name: 'Sequence the First',
-            chapters: []
+            name: 'Sugar – First Leg',
+            contents: []
         };
-        var chaps = Chapters.find();
+        var slice = _.map(_.slice(textfiles, 0, 3), function(name){
+            return name.split(/-\d+-\.txt/)[0];
+        });
+        var chaps = Chapters.find({name: {$in: slice}});
         chaps.forEach(function(doc){
-            seq.chapters.push({_id: doc._id});
+            seq.contents.push({_id: doc._id, model: 'Chapters'});
         });
         Sequences.insert(seq);
-        var seq = {
-            name: 'Sequence the Second',
-            chapters: []
+
+        seq = {
+            name: 'Sugar – Second Leg',
+            contents: []
         };
-        chaps.forEach(function(doc){
-            seq.chapters.push({_id: doc._id});
+        slice = _.map(_.slice(textfiles, 3, 6), function(name){
+            return name.split(/-\d+-\.txt/)[0];
         });
-        seq.chapters.reverse();
+        chaps = Chapters.find({name: {$in: slice}});
+        chaps.forEach(function(doc){
+            seq.contents.push({_id: doc._id, model: 'Chapters'});
+        });
+        Sequences.insert(seq);
+
+        seq = {
+            name: 'Xu Kong – Second Leg',
+            contents: []
+        };
+        slice = _.map(_.slice(textfiles, 6), function(name){
+            return name.split(/-\d+-\.txt/)[0];
+        });
+        chaps = Chapters.find({name: {$in: slice}});
+        chaps.forEach(function(doc){
+            seq.contents.push({_id: doc._id, model: 'Chapters'});
+        });
         Sequences.insert(seq);
     }
 
     if (Collections.find().count() == 0) {
         var coll = {
-            name: 'Collection the First',
-            chapters: []
+            name: 'Second Leg',
+            contents: []
         };
-        var chaps = Chapters.find();
-        chaps.forEach(function(doc){
-            coll.chapters.push({_id: doc._id});
+        var seqs = Sequences.find({name: /Second Leg/})
+        seqs.forEach(function(doc){
+            coll.contents.push({_id: doc._id, model: 'Sequences'});
         });
         Collections.insert(coll);
     }
