@@ -1,8 +1,9 @@
 <template name="collectionBuild">
     {{#with collection}}
-    <div class="ui cards">
-        {{#each chapters}}
-        {{#with getChapter _id}}
+    <h1>{{name}}</h1>
+    <div class="ui five cards">
+        {{#each contents}}
+        {{#with getContents}}
         <div class="card" style="height: {{tScale length}};">
             <div class="content">
                 <div class="header">{{name}}</div>

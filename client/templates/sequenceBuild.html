@@ -1,16 +1,16 @@
 <template name="sequenceBuild">
     {{#with sequence}}
     <h1>Sequence: {{name}}</h1>
-    <div class="ui three column padded grid sequence">
-        {{#each chapters}}
-            {{#with getChapter _id}}
-            <div class="column chapter block" style="height: {{tScale length}};">
+    <div class="ui padded grid sequence">
+        {{#each contents}}
+            {{#with getContents}}
+            <div class="three wide column chapter block" style="height: {{tScale length}};">
                 {{name}}
             </div>
-            <div class="column">
+            <div class="seven wide column">
                 metadata
             </div>
-            <div class="column">
+            <div class="six wide column">
                 triggers
             </div>
             {{/with}}
