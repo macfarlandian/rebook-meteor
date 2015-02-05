@@ -111,4 +111,16 @@ Meteor.startup(function(){
         seq.chapters.reverse();
         Sequences.insert(seq);
     }
+
+    if (Collections.find().count() == 0) {
+        var coll = {
+            name: 'Collection the First',
+            chapters: []
+        };
+        var chaps = Chapters.find();
+        chaps.forEach(function(doc){
+            coll.chapters.push({_id: doc._id});
+        });
+        Collections.insert(coll);
+    }
 })

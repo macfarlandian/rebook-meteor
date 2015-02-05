@@ -19,5 +19,12 @@ Template.menu.events({
             pageTitle: 'Sequences',
             collection: 'Sequences'
         });
+    },
+    "click .collections": function(event, template){
+        Session.set('previewArea', 'resourceList');
+        Session.set('previewData', {
+            pageTitle: 'Collections',
+            collection: 'Collections'
+        });
     }
 });

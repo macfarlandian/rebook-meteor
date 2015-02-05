@@ -7,6 +7,8 @@ Template.resourceList.helpers({
                 return Chapters.find();
             case 'Sequences':
                 return Sequences.find();
+            case 'Collections':
+                return Collections.find();
         }
 
     },
@@ -33,6 +35,10 @@ Template.resourceList.events({
                 break;
             case "Sequences":
                 Session.set('workArea', 'sequenceBuild');
+                Session.set('workData', this._id);
+                break;
+            case "Collections":
+                Session.set('workArea', 'collectionBuild');
                 Session.set('workData', this._id);
                 break;
         }
