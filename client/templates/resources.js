@@ -1,16 +1,6 @@
 Template.resourceList.helpers({
     retrieve: function(coll){
-        switch (coll) {
-            case 'Resources':
-                return Resources.find();
-            case 'Chapters':
-                return Chapters.find();
-            case 'Sequences':
-                return Sequences.find();
-            case 'Collections':
-                return Collections.find();
-        }
-
+        return Models[coll].find();
     },
     displayName: function(){
         if (this == undefined) return this;
@@ -27,7 +17,7 @@ Template.resourceList.events({
         switch(Session.get('previewData').collection) {
             case "Resources":
                 Session.set('previewArea', 'contentpreview');
-                Session.set('previewData', this);
+                Session.set('previewData', this._id);
                 break;
             case "Chapters":
                 Session.set('workArea', 'chapterTimeline');

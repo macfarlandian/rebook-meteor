@@ -1,4 +1,7 @@
 Template.contentpreview.helpers({
+    resource: function(){
+        return Resources.findOne(Session.get('previewData'));
+    },
     paras: function(text){
         var paras = text.split(/(?:\s*\r\n|\s*\n|\s*\r){2,}/gm);
         // paras = _.map(paras, function(p){
@@ -18,18 +21,6 @@ Template.contentpreview.helpers({
             },0)
             ;
         return paras
-    },
-    length: function(){
-        // for now, testing with one text file
-        var d = Resources.findOne({"type": "text"});
-        if (d == undefined) return d;
-        // use rough word count (tokenized by whitespace)
-        // divided by 250 words per minute (english avg)
-        return d.contents.split(/\s+/).length / 250;
-    },
-    title: function(){
-        if (this == undefined) return this;
-        return this.name.split(/-\d+-\.txt/)[0];
     },
     markOverlaps: function(){
         if (this == undefined) return this;

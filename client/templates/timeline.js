@@ -28,7 +28,7 @@ Template.chapterTimeline.rendered = function(){
             .on('click', function(d){
                 // display preview template with content
                 Session.set('previewArea', 'contentpreview');
-                Session.set('previewData', d);
+                Session.set('previewData', d._id);
 
                 // check for overlaps and store in session
                 var others = _.without(c.contents, d),

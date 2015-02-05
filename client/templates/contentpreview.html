@@ -1,10 +1,10 @@
 <template name="contentpreview">
-    {{#with $.Session.get 'previewData'}}
+    {{#with resource}}
     {{#if $eq type 'text'}}
     <div class="inactive top"></div>
     <div class="inactive bottom"></div>
     <article>
-        <h2>{{title}}</h2>
+        <h2>{{name}}</h2>
         {{#each paras contents}}
         {{#markdown}}{{this.text}}{{/markdown}}
             {{!-- {{#each this}}
@@ -24,23 +24,40 @@
         {{/if}}
         {{/each}}
     </article>
-    {{/if}}
-    {{#if $eq type 'audio'}}
+    {{else}}
     <article>
         <div class="ui fluid card">
-            <!-- <img src="http://placehold.it/350x150" alt="" class="ui image"/> -->
+            {{#if $eq type 'image'}}
+            <img src="http://placehold.it/500x320&text=image+TK" alt="" class="ui image"/>
+            {{/if}}
             <div class="content">
                 <div class="header">{{name}}</div>
-                <div class="meta">[format] [length]</div>
+                <div class="meta">
+                    <div class="ui label">
+                        type
+                        <div class="detail">
+                            {{type}}
+                        </div>
+                    </div>
+                    <div class="ui label">
+                        length
+                        <div class="detail">
+                            {{length}} min
+                        </div>
+                    </div>
+                </div>
                 <div class="description">
+                    {{#if $eq type 'audio'}}
                     <p>
                         <i class="large play icon link"></i>
                         <i class="large stop icon link"></i>
                     </p>
+                    {{/if}}
                     <p>[description of file]</p>
                 </div>
             </div>
             <div class="extra content">
+                {{#if $eq type 'audio'}}
                 <h5>Options</h5>
                 <div class="ui list">
                     <a class="item">
@@ -56,6 +73,7 @@
                         <div class="content">Fade out</div>
                     </a>
                 </div>
+                {{/if}}
             </div>
         </div>
     </article>
