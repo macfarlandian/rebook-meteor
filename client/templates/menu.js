@@ -29,5 +29,6 @@ Template.menu.events({
     },
     "click .book": function(event, template){
         Session.set('workArea', 'bookBuild');
+        Session.set('workData', "sNeQAtid4hJxoPrRH");
     }
 });
