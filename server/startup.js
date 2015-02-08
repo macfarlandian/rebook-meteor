@@ -135,4 +135,27 @@ Meteor.startup(function(){
         });
         Collections.insert(coll);
     }
+
+    if (Books.find().count() == 0){
+        var book = {
+            name: '12-9',
+            contents: [
+                {
+                    model: 'Sequences',
+                    _id: Sequences.findOne({name: 'Sugar – First Leg'})._id,
+                    unlocks: [{
+                        type: 'completion',
+                        target: Collections.findOne({name: 'Second Leg'})._id
+                    }]
+                },
+                {
+                    model: 'Collections',
+                    _id: Collections.findOne({name: 'Second Leg'})._id,
+                    unlocks: []
+                }
+            ],
+            start: Sequences.findOne({name: 'Sugar – First Leg'})._id
+        };
+        Books.insert(book);
+    }
 })

@@ -26,5 +26,8 @@ Template.menu.events({
             pageTitle: 'Collections',
             collection: 'Collections'
         });
+    },
+    "click .book": function(event, template){
+        Session.set('workArea', 'bookBuild');
     }
 });

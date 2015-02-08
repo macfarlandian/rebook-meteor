@@ -1,11 +1,11 @@
 Meteor.startup(function(){
     // these session variables determine what template & data
     // is rendered in the two panes of the main grid
-    Session.set('workArea', 'chapterTimeline');
+    Session.set('workArea', 'bookBuild');
+    Session.set('workData', "sNeQAtid4hJxoPrRH");
     Session.set('previewArea', 'resourceList');
-    Session.set('workData', "qQmoKK9qDhK6ororX");
     Session.set('previewData', {
-        pageTitle: 'Resources',
-        collection: 'Resources'
+        pageTitle: 'Sequences',
+        collection: 'Sequences'
     });
 });

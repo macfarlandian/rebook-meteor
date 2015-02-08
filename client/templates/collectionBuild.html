@@ -1,17 +1,19 @@
 <template name="collectionBuild">
     {{#with collection}}
     <h1>{{name}}</h1>
-    <div class="ui five cards">
-        {{#each contents}}
-        {{#with getContents}}
-        <div class="card" style="height: {{tScale length}};">
-            <div class="content">
-                <div class="header">{{name}}</div>
-                <div class="meta">{{type}} [format] [length]</div>
+    <div class="ui segment">
+        <div class="ui five cards">
+            {{#each contents}}
+            {{#with getContents}}
+            <div class="card" style="height: {{tScale length}};">
+                <div class="content">
+                    <div class="header">{{name}}</div>
+                    <div class="meta">{{type}} [format] [length]</div>
+                </div>
             </div>
+            {{/with}}
+            {{/each}}
         </div>
-        {{/with}}
-        {{/each}}
     </div>
     {{/with}}
 </template>
