@@ -11,6 +11,26 @@
     margin-right: auto;
 }
 
+
+
+
+
+
+// ************************************
+// COLORS
+// ************************************
+
+@chapter-color: #00cbeb;
+
+
+
+
+
+
+// ************************************
+// STYLES
+// ************************************
+
 .ui.grid {
     margin: 0;
 }
@@ -22,7 +42,7 @@
     .header.attached {
         font-size: @font-base * 2.25;
         color: #ffffff;
-        background-color: #00cbeb;
+        background-color: @chapter-color;
         margin: 0;
 
         h1 {
@@ -31,11 +51,19 @@
     }
 
     article {
-        margin-top: 1.5em;
+        padding-top: 1.5em;
         p {
             font-size: @font-base;
             line-height: 1.4;
             .typewide();
+        }
+
+        .progress-container {
+            width: 15px;
+            .fader {
+                background-color: @chapter-color;
+                transition: opacity 0.5s;
+            }
         }
     }
 }

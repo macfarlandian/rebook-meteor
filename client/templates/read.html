@@ -1,15 +1,3 @@
 <template name="read">
-    <!-- chapter -->
-    {{#with resource}}
-    <div class="ui centered one column grid rebook-chapter">
-        <div class="ui top attached center aligned header">
-            <h1>{{this.name}}</h1>
-        </div>
-        <article class="column">
-            {{#each paras contents}}
-            {{#markdown}}{{this.text}}{{/markdown}}
-            {{/each}}
-        </article>
-    </div>
-    {{/with}}
+    {{> chapter resource}}
 </template>
