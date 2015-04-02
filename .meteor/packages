@@ -12,3 +12,4 @@ nooitaf:semantic-ui
 less
 markdown
 raix:handlebar-helpers
+iron:router
