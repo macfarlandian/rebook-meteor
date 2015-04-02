@@ -8,8 +8,8 @@ meteor-platform
 autopublish
 insecure
 d3
-nooitaf:semantic-ui
 less
 markdown
 raix:handlebar-helpers
 iron:router
+semantic:ui-css
