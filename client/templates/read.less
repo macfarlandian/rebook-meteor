@@ -1,0 +1,41 @@
+// ************************************
+// TYPOGRAPHY VARS & MIXINS
+// ************************************
+@import url(http://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700);
+@import url(http://fonts.googleapis.com/css?family=PT+Sans:700,700italic);
+
+@font-base: 22px;
+.typewide() {
+    max-width: @font-base * 25;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.ui.grid {
+    margin: 0;
+}
+
+.rebook-chapter {
+
+    font-family: 'PT Serif', serif;
+
+    .header.attached {
+        font-size: @font-base * 2.25;
+        color: #ffffff;
+        background-color: #00cbeb;
+        margin: 0;
+
+        h1 {
+            padding: 1.5em 0;
+        }
+    }
+
+    article {
+        margin-top: 1.5em;
+        p {
+            font-size: @font-base;
+            line-height: 1.4;
+            .typewide();
+        }
+    }
+}
