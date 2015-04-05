@@ -1,3 +1,28 @@
 <template name="read">
-    {{> chapter resource}}
+    <!-- chapter -->
+    <div class="rebook-chapter">
+        <div class="ui centered one column grid">
+            <div class="ui top attached center aligned header">
+                <h1>{{name}}</h1>
+            </div>
+            <div class="column">
+                <article>
+                    {{#each paras contents}}
+                    {{#markdown}}{{text}}{{/markdown}}
+                    {{/each}}
+                </article>
+            </div>
+
+            <div class="column">
+                <nav class="next">
+                    <h3 class="ui header">choose next</h3>
+                    <div class="ui fluid vertical menu">
+                        <a href="" class="item">link</a>
+                        <a href="" class="item">link</a>
+                        <a href="" class="item">link</a>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </div>
 </template>
