@@ -11,13 +11,20 @@
     margin-right: auto;
 }
 
-.ui.grid {
-    margin: 0;
+.base-shadow() {
+    box-shadow: 0 .25rem .25rem rgba(0, 0, 0, 0.5);
 }
 
-.rebook-chapter {
 
+
+
+
+.rebook-chapter {
+    overflow: hidden;
+    position: absolute;
+    z-index: 10;
     font-family: 'PT Serif', serif;
+    top: 100%;
 
     .header.attached {
         font-size: @font-base * 2.25;
@@ -26,16 +33,30 @@
         margin: 0;
 
         h1 {
+            font-family: 'PT Sans', sans-serif;
             padding: 1.5em 0;
         }
     }
 
     article {
-        margin-top: 1.5em;
+        .base-shadow();
+        padding-top: 5rem !important;
+        padding-bottom: 5rem !important;
+        margin-top: -1rem;
+        margin-bottom: 5rem;
+        background-color: #ffffff;
         p {
             font-size: @font-base;
             line-height: 1.4;
             .typewide();
         }
+    }
+
+    nav.next {
+        .base-shadow();
+        background-color: #ffffff;
+        margin: 0 5rem;
+        margin-bottom: 5rem;
+        padding: 2rem;
     }
 }
