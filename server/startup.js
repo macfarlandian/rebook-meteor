@@ -54,7 +54,8 @@ Meteor.startup(function(){
                             resource_id: text._id,
                             start: 0,
                             length: text.length,
-                            end: 0 + text.length
+                            end: 0 + text.length,
+                            track: 0
                         }
                     ]
                 };
@@ -64,7 +65,8 @@ Meteor.startup(function(){
                     resource_id: aud._id,
                     start: 0,
                     end: 0 + aud.length,
-                    length: aud.length
+                    length: aud.length,
+                    track: 1
                 });
                 chap.contents[0].start += 0.3;
                 chap.contents[0].end += 0.3;
@@ -75,7 +77,8 @@ Meteor.startup(function(){
                     resource_id: img._id,
                     start: 3,
                     end: 3 + img.length,
-                    length: img.length
+                    length: img.length,
+                    track: 1
                 });
             }
             Chapters.insert(chap);
