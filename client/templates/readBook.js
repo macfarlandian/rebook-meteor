@@ -5,10 +5,15 @@ Template.readBook.helpers({
 	resource: function(){
         return Resources.findOne({"name": /bar tattoo/});
     },
+    getContents: function(){
+    	return Models[this.model].findOne(this._id);
+    }
 });
 
 Template.readBook.events({
 	'click #startButton': function (event) {
-		Session.set('chapterQueue', [this.start]);
+		var book = this;
+		var first = _.findWhere(book.contents, {_id: book.start})
+		Session.set('chapterQueue', [{model: first.model, _id: first._id}]);
 	}
 });
