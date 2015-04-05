@@ -1,0 +1,16 @@
+<template name="library">
+	<div class="ui page grid">	
+		<div class="sixteen wide column">
+			<h1 class="ui dividing header">Library</h1>
+			<div class="ui cards">
+			{{#each books}}
+				<a class="card" href="{{pathFor route="library.book" data=linkParams}}">
+					<div class="content">
+						<div class="header">{{ name }}</div>
+					</div>
+				</a>
+			{{/each}}
+			</div>
+		</div>
+	</div>
+</template>
