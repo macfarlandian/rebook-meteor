@@ -4,7 +4,6 @@ Template.read.helpers({
     },
     chapter: function(){
         var _id = this.toString();
-        console.log(_id)
         return Chapters.findOne(_id);
     },
     paras: function(text){
