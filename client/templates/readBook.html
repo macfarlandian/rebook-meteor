@@ -1,0 +1,16 @@
+<template name="readBook">
+	<div id="bookHome">
+		<div class="ui page grid">
+			<div class="sixteen wide column">
+				<h1 class="ui dividing header">{{name}}</h1>
+				<div>title page</div>
+				<div class="ui divider"></div>
+				<button class="ui button" id="startButton">start</button>
+			</div>
+		</div>
+	</div>
+	<!-- chapters -->
+	{{#each chapterQueue}}
+		{{> read resource}}
+	{{/each}}
+</template>
