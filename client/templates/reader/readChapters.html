@@ -1,0 +1,19 @@
+<template name="readChapters">  
+    <div class="column">
+        <div class="ui center aligned header">
+            <h1>{{name}}</h1>
+        </div>
+        <article>
+            {{#each mainTrack}}
+                {{#with resource }}
+                  {{#if isText}}
+                      {{#each paras contents}}
+                          {{#markdown}}{{text}}{{/markdown}}
+                      {{/each}}
+                  {{/if}}
+                {{/with}}
+            {{/each}}
+        </article>
+    </div>
+
+</template>

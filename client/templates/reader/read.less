@@ -20,22 +20,31 @@
 
 
 
-.rebook-chapter {
+.rebook-sequence {
     overflow: hidden;
     position: absolute;
     z-index: 10;
     font-family: 'PT Serif', serif;
     top: 100%;
+    width: 100%;
 
-    .header.attached {
+    .ui.header {
         font-size: @font-base * 2.25;
         color: #ffffff;
         background-color: @chapter-color;
         margin: 0;
+        border: none;
+        border-radius: 0;
 
         h1 {
             font-family: 'PT Sans', sans-serif;
-            padding: 1.5em 0;
+            padding: 3em 1em;
+        }
+
+        &.sequence {
+            background-color: #191919;
+            font-size: @font-base * 3.5;
+            padding: 2em 1em;
         }
     }
 

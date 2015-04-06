@@ -1,0 +1,12 @@
+<template name="readSequences">
+	<div class="rebook-sequence">
+        <div class="ui centered header sequence">
+            <h1>{{name}}</h1>
+        </div>
+        <div class="ui centered one column grid">
+            {{#each contents}}
+            	{{> readChapters getChapter}}
+            {{/each}}
+        </div>
+    </div>
+</template>
