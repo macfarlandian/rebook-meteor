@@ -30,7 +30,3 @@ Template.readChapters.helpers({
         }
     }
 });
-
-Template.readChapters.onRendered(function() {
-    // $('.rebook-chapter').animate({top: 0}, 1000);
-});
