@@ -5,5 +5,6 @@ Template.readSequences.helpers({
 });
 
 Template.readSequences.onRendered(function() {
+    $('#bookHome').dimmer('show');
     $('.rebook-sequence').animate({top: 0}, 1000);
 });
