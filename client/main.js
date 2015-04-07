@@ -8,4 +8,8 @@ Meteor.startup(function(){
         pageTitle: 'Sequences',
         collection: 'Sequences'
     });
+
+
+    // for now, a test user ID for placemarking
+    Session.set('userId', 'test123');
 });

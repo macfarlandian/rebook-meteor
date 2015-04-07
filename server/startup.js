@@ -161,4 +161,5 @@ Meteor.startup(function(){
         };
         Books.insert(book);
     }
+
 })
