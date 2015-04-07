@@ -6,5 +6,13 @@ Template.readSequences.helpers({
 
 Template.readSequences.onRendered(function() {
     $('#bookHome').dimmer('show');
-    $('.rebook-sequence').animate({top: 0}, 1000);
+    $(window).scrollTop($('.rebook-sequence')[0].offsetTop);
+
+    var data = this.data;
+
+    this.$('.rebook-sequence').visibility({
+    	onPassing: function(){
+    		Session.set('container', {_id: data._id, model: 'Sequences'});
+    	}
+    });
 });
