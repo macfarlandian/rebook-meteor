@@ -66,17 +66,27 @@
         margin-top: -1rem;
         margin-bottom: 5rem;
         background-color: #FFF9E5;
+        position: relative;
         p {
             font-size: @font-base;
             line-height: 1.6;
             .typewide();
         }
 
-        .progress-container {
+        .fader {
             width: 15px;
-            .fader {
-                background-color: @chapter-color;
-                transition: opacity 0.5s;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            background-color: @chapter-color;
+            transition: opacity 0.2s;
+
+            &.left {
+                left: 0;
+            }
+
+            &.right {
+                right: 0;
             }
         }
     }

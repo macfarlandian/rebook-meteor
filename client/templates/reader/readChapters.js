@@ -34,50 +34,13 @@ Template.readChapters.helpers({
 Template.readChapters.onRendered(function(){
     var t = this; // to access the meteor template object in other scopes
 
-    // t.$('.ui.sticky')
-    //   .sticky({
-    //     context: 'article.column'
-    // });
-
-    // t.$('.progress-container .fader').height($(window).height());
-
     $(t.firstNode).visibility({
-        options: {
-            once: false,
-        },
-
-        onPassing: function(calculations) {
+        once: false,
+        onPassing: function(calc) {
             markPlace(Session.get('container')._id, Session.get('container').model, t.data._id);
         },
         onUpdate: function(calc){
-
+            t.$('.fader').css({opacity: 1 - calc.percentagePassed})
         }
     })
-
-    // //** onscroll animations
-    // var scroll_pos = 0;
-
-    // // debounce: scroll events fire too often, performance suffers (esp on mobile)
-    // $(document).scroll($.debounce(250, function() {
-    //     // refresh on the fly because we never know when meteor is going to
-    //     // update the DOM
-
-    //     debugger;
-    //     var offsets = {
-    //         'animation_begin_pos': t.find('article.column').offsetTop,
-    //         'animation_end_pos': t.find('article.column').offsetTop + t.find('article.column').offsetHeight - $(window).height()
-    //     }
-
-    //     scroll_pos = $(this).scrollTop();
-
-    //     var percentScrolled = (scroll_pos - offsets.animation_begin_pos) / ( offsets.animation_end_pos - offsets.animation_begin_pos );
-
-    //     if (0 <= percentScrolled && 1 >= percentScrolled) {
-    //         $('.fader').css({opacity: 1 - percentScrolled});
-    //     } else if (0 > percentScrolled) {
-    //         $('.fader').css({opacity: 1});
-    //     } else {
-    //         $('.fader').css({opacity: 0});
-    //     }
-    // }));
 });

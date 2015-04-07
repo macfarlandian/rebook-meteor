@@ -3,7 +3,9 @@
         <div class="ui center aligned header">
             <h1>{{name}}</h1>
         </div>
-        <article>
+        <article id="{{_id}}">
+          <div class="left fader"></div>
+          <div class="right fader"></div>
             {{#each mainTrack}}
                 {{#with resource }}
                   {{#if isText}}
