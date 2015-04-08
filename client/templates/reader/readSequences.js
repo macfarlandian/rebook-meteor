@@ -6,7 +6,15 @@ Template.readSequences.helpers({
 
 Template.readSequences.onRendered(function() {
     $('#bookHome').dimmer('show');
-    $(window).scrollTop($('.rebook-sequence')[0].offsetTop);
+    
+    var place = Placemarkers.findOne({userId: Session.get('userId'), book: Router.current().params.bookId});
+    if (_.has(place, 'chapter')) {
+        // if a chapter is marked, scroll to it
+        $('html, body').animate({scrollTop: $('#'+place.chapter).offset().top}, 750)
+    } else {
+        // else just scroll to beginning of sequence
+        $('html, body').animate({'scrollTop': $('.rebook-sequence').offset().top}, 500);
+    }
 
     var data = this.data;
 

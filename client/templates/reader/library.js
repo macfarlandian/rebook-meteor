@@ -3,6 +3,6 @@ Template.library.helpers({
 		return Books.find();
 	},
 	linkParams: function(){
-		return {_id: this._id}
+		return {bookId: this._id}
 	}
 });

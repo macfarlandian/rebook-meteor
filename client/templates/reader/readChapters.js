@@ -35,9 +35,15 @@ Template.readChapters.onRendered(function(){
     var t = this; // to access the meteor template object in other scopes
 
     $(t.firstNode).visibility({
-        once: false,
+        once: true,
         onPassing: function(calc) {
-            markPlace(Session.get('container')._id, Session.get('container').model, t.data._id);
+            // pause to make sure the user isn't just skimming past
+            Meteor.setTimeout(function(){
+                if (calc.passing) {
+                    markPlace(Session.get('container')._id, Session.get('container').model, t.data._id);
+                }
+            }, 750); //timer length should be the same as initial scroll time to prevent triggering here
+            
         },
         onUpdate: function(calc){
             t.$('.fader').css({opacity: 1 - calc.percentagePassed})
