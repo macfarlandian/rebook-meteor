@@ -5,6 +5,7 @@ Template.readSequences.helpers({
 });
 
 Template.readSequences.onRendered(function() {
+    var t = this;
     $('#bookHome').dimmer('show');
     
     var place = Placemarkers.findOne({userId: Session.get('userId'), book: Router.current().params.bookId});
@@ -16,8 +17,14 @@ Template.readSequences.onRendered(function() {
     var data = this.data;
 
     this.$('.rebook-sequence').visibility({
-    	onPassing: function(){
+    	onTopVisible: function(){
     		Session.set('container', {_id: data._id, model: 'Sequences'});
     	}
     });
+    this.$('.rebook-sequence .chapters').visibility({
+        once: false,
+        onBottomVisible: function(){
+            $(this).trigger('sequence:end');
+        }
+    })
 });

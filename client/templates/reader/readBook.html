@@ -12,7 +12,8 @@
 		<div class="ui inverted dimmer"></div>
 	</div>
 	<!-- chapters -->
-	{{#each readingNow}}
+	{{#with readingNow}}
 		{{> Template.dynamic template=getTemplate data=getContents }}
-	{{/each}}
+	{{/with}}
+
 </template>

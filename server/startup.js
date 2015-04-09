@@ -146,7 +146,7 @@ Meteor.startup(function(){
                 {
                     model: 'Sequences',
                     _id: Sequences.findOne({name: 'Sugar – First Leg'})._id,
-                    unlocks: [{
+                    gates: [{
                         type: 'completion',
                         target: Collections.findOne({name: 'Second Leg'})._id
                     }]
@@ -154,7 +154,7 @@ Meteor.startup(function(){
                 {
                     model: 'Collections',
                     _id: Collections.findOne({name: 'Second Leg'})._id,
-                    unlocks: []
+                    gates: []
                 }
             ],
             start: Sequences.findOne({name: 'Sugar – First Leg'})._id

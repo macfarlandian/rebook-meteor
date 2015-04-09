@@ -21,42 +21,68 @@
 
 
 // ************************************
-// JUNK DRAWER
+// JUNK DRAWER MIXINS
 // ************************************
 .base-shadow() {
     box-shadow: 0 .25rem .25rem rgba(0, 0, 0, 0.5);
+}
+
+.rebook-page() {
+    overflow-x: hidden;
+    position: absolute;
+    z-index: 10;
+    font-family: 'PT Serif', serif;
+    top: 100%;
+    width: 100%;
+}
+
+.rebook-header(){
+    font-size: @font-base * 2.25;
+    color: #ffffff;
+    background-color: @chapter-color;
+    margin: 0;
+    border: none;
+    border-radius: 0;
+
+    h1 {
+        font-family: 'PT Sans', sans-serif;
+        padding: 3em 1em;
+    }
+
+    &.sequence, &.collection {
+            background-color: #191919;
+            font-size: @font-base * 3.5;
+            padding: 2em 1em;
+        }
 }
 
 
 
 
 
+#bookHome {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 0;
+}
+
+
+
+
 .rebook-sequence {
-    overflow: hidden;
-    position: absolute;
-    z-index: 10;
-    font-family: 'PT Serif', serif;
-    top: 100%;
-    width: 100%;
+    .rebook-page();
+
+    &:after {
+        content: "";
+        height: 1000px;
+        display: block;
+    }
 
     .ui.header {
-        font-size: @font-base * 2.25;
-        color: #ffffff;
-        background-color: @chapter-color;
-        margin: 0;
-        border: none;
-        border-radius: 0;
-
-        h1 {
-            font-family: 'PT Sans', sans-serif;
-            padding: 3em 1em;
-        }
-
-        &.sequence {
-            background-color: #191919;
-            font-size: @font-base * 3.5;
-            padding: 2em 1em;
-        }
+        .rebook-header();
     }
 
     article {
@@ -97,5 +123,13 @@
         margin: 0 5rem;
         margin-bottom: 5rem;
         padding: 2rem;
+    }
+}
+
+.rebook-collection {
+    .rebook-page();
+
+    .ui.header {
+        .rebook-header();
     }
 }
