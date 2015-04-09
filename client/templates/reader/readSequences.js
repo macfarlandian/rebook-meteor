@@ -8,12 +8,9 @@ Template.readSequences.onRendered(function() {
     $('#bookHome').dimmer('show');
     
     var place = Placemarkers.findOne({userId: Session.get('userId'), book: Router.current().params.bookId});
-    if (_.has(place, 'chapter')) {
-        // if a chapter is marked, scroll to it
-        $('html, body').animate({scrollTop: $('#'+place.chapter).offset().top}, 750)
-    } else {
-        // else just scroll to beginning of sequence
-        $('html, body').animate({'scrollTop': $('.rebook-sequence').offset().top}, 500);
+    if (place.chapter == undefined) {
+        // go to beginning of sequence
+        $('html, body').animate({'scrollTop': $('.rebook-sequence').offset().top}, 0);
     }
 
     var data = this.data;

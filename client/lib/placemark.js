@@ -1,4 +1,4 @@
-markPlace = function(container, model, chapter){
+markPlace = function(container, model, chapter, para){
 	var route = Router.current(),
 		book = route.params.bookId,
 		mark = Placemarkers.findOne({userId: Session.get('userId'), book: book})
@@ -9,13 +9,11 @@ markPlace = function(container, model, chapter){
 		book: book,
 		container: container,
 		model: model,
-		position: 0
-		// TODO: how to mark position? 
+		chapter: chapter,
+		para: para
 	}
 
-	if (chapter) newMark.chapter = chapter;
-
-	if (mark) {
+	if (mark != undefined) {
 		Placemarkers.update({_id: mark._id}, newMark);	
 	} else {
 		Placemarkers.insert(newMark);
