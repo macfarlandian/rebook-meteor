@@ -23,7 +23,7 @@ Template.readSequences.onRendered(function() {
     });
     this.$('.rebook-sequence .chapters').visibility({
         once: false,
-        onBottomVisible: function(){
+        onBottomPassed: function(){
             $(this).trigger('sequence:end');
         }
     })

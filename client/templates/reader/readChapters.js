@@ -32,20 +32,26 @@ Template.readChapters.helpers({
 });
 
 Template.readChapters.onRendered(function(){
-    var t = this; // to access the meteor template object in other scopes
+    var t = this; // to access the meteor template object in deeper scopes
 
     // watch for reader starting a new chapter
     $(t.firstNode).visibility({
-        onTopPassed: function(calc){
-            // pause to make sure the user isn't just skimming past
-            Meteor.setTimeout(function(){
-                if (calc.passing) {
-                    markPlace(Session.get('container')._id, Session.get('container').model, t.data._id);
-                }
-            }, 750); //timer length should be the same as initial scroll time to prevent triggering here
-        },
+        once: false,
         onUpdate: function(calc){
+            // fade the color rails
             t.$('.fader').css({opacity: 1 - calc.percentagePassed});
+        },
+        onBottomPassed: function(calc){
+            var bookQuery = {
+                userId: Session.get('userId'),
+                book: Router.current().params.bookId
+            };
+            var path = ReadingPaths.findOne(bookQuery);
+            if (!_.includes(path.path, t.data._id)){
+                // on completion of a new chapter, add it to the path
+                path.path.push(t.data._id);
+                ReadingPaths.update(path._id, {$set: {path: path.path}});
+            }
         }
     });
 

@@ -1,11 +1,5 @@
 Template.readBook.helpers({
-	chapterQueue: function(){
-		return Session.get('chapterQueue');
-	},
-	resource: function(){
-        return Resources.findOne({"name": /bar tattoo/});
-    },
-    readingNow: function(){
+	readingNow: function(){
     	return Placemarkers.findOne({userId: Session.get('userId'), book: Router.current().params.bookId});
     },
     getContents: function(){
@@ -22,7 +16,7 @@ Template.readBook.events({
 		var first = _.findWhere(book.contents, {_id: book.start})
 
 		$('#bookHome').dimmer('toggle');
-
+		
 		markPlace(first._id, first.model);
 	}, 
 	'sequence:end': function(event){
@@ -41,5 +35,17 @@ Template.readBook.events({
 		} else {
 			// end of book
 		}
+	}
+});
+
+Template.readBook.onRendered(function(){
+	var bookQuery = {
+		userId: Session.get('userId'),
+		book: Router.current().params.bookId
+	};
+
+	if (ReadingPaths.find(bookQuery).count() == 0) {
+		bookQuery.path = [];
+		ReadingPaths.insert(bookQuery);
 	}
 });
