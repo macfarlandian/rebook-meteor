@@ -17,7 +17,7 @@ Template.readSequences.onRendered(function() {
     var data = this.data;
 
     this.$('.rebook-sequence').visibility({
-    	onTopVisible: function(){
+        onTopVisible: function(){
     		Session.set('container', {_id: data._id, model: 'Sequences'});
     	}
     });

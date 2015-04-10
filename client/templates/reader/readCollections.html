@@ -3,10 +3,11 @@
 		<div class="ui centered header collection">
             <h1>{{name}}</h1>
         </div>
-        <div class="ui centered one column grid chapters">
-    		
+        {{#with choice }}
+            {{> Template.dynamic template=choice.template data=choice.data}}
+        {{/with}}
+        <div class="ui centered one column grid">
     		<div class="column">
-		        {{#if choose}}
 		        <nav class="next">
 		            <h2>choose next</h2>
 		            <div class="ui fluid vertical menu">
@@ -21,7 +22,6 @@
 		                {{/each}}
 		            </div>
 		        </nav>
-		        {{/if}}
 		    </div>
         </div>
 	</div>

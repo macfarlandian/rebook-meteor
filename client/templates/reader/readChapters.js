@@ -55,24 +55,10 @@ Template.readChapters.onRendered(function(){
         }
     });
 
-    // watch for reader progressing to a new paragraph
-    var paras = t.$('article > p');
-    paras.visibility({
-        once: false,
-        onTopPassed: function(calc){
-            // pause to make sure the user isn't just skimming past
-            var p = this;
-            Meteor.setTimeout(function(){
-                if (calc.passing) {
-                    // debugger;
-                    markPlace(Session.get('container')._id, Session.get('container').model, t.data._id, paras.index(p));
-                }
-            }, 750); //timer length should be the same as initial scroll time to prevent triggering here
-        }
-    });
+    // retrieve place marker
+    var place = Placemarkers.findOne({userId: Session.get('userId'), book: Router.current().params.bookId});
 
     // scroll to the most recent paragraph, if marked, if it's in this chapter
-    var place = Placemarkers.findOne({userId: Session.get('userId'), book: Router.current().params.bookId});
     if (place.chapter == t.data._id) {
         // if a chapter is marked
         if (place.para != undefined) {
@@ -85,5 +71,25 @@ Template.readChapters.onRendered(function(){
         }    
     }
     
+    // watch for reader progressing to a new paragraph
+    var paras = t.$('article > p');
+    paras.visibility({
+        once: false,
+        onTopPassed: function(calc){
+            // pause to make sure the user isn't just skimming past
+            var p = this;
+            Meteor.setTimeout(function(){
+                if (calc.passing) {
+                    newMark = {
+                        sequence: place.sequence,
+                        collection: place.collection,
+                        chapter: t.data._id,
+                        paragraph: paras.index(p)
+                    };
+                    markPlace(newMark);
+                }
+            }, 750); //timer length should be the same as initial scroll time to prevent triggering here
+        }
+    });
         
 });

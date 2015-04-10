@@ -4,14 +4,20 @@ markPlace = function(container, model, chapter, para){
 		mark = Placemarkers.findOne({userId: Session.get('userId'), book: book})
 		;
 	
-	var newMark = {
-		userId: Session.get('userId'),
-		book: book,
-		container: container,
-		model: model,
-		chapter: chapter,
-		para: para
+	if (_.isPlainObject(arguments[0])) {
+		// can pass an object with all settings instead of all these params
+		var newMark = arguments[0];
+	} else {
+		var newMark = {
+			container: container,
+			model: model,
+			chapter: chapter,
+			para: para
+		}
 	}
+	newMark.userId = Session.get('userId');
+	newMark.book = book;
+		
 
 	if (mark != undefined) {
 		Placemarkers.update({_id: mark._id}, newMark);	
@@ -19,4 +25,8 @@ markPlace = function(container, model, chapter, para){
 		Placemarkers.insert(newMark);
 	}
 	
+}
+
+getPlace = function(){
+	return Placemarkers.findOne({userId: Session.get('userId'), book: Router.current().params.bookId});
 }
