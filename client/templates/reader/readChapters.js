@@ -77,7 +77,9 @@ Template.readChapters.onRendered(function(){
         once: false,
         onTopPassed: function(calc){
             // pause to make sure the user isn't just skimming past
-            var p = this;
+            var p = this,
+                place = getPlace();
+
             Meteor.setTimeout(function(){
                 if (calc.passing) {
                     newMark = {

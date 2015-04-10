@@ -23,7 +23,7 @@ Template.readSequences.onRendered(function() {
     });
     this.$('.rebook-sequence .chapters').visibility({
         once: false,
-        onBottomPassed: function(){
+        onBottomVisible: function(){
             // add completed container to history, if not already there
             var bookQuery = {
                 userId: Session.get('userId'),

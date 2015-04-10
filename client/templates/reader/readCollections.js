@@ -35,6 +35,8 @@ Template.readCollections.events({
 		var context = this;
 
 		var place = getPlace();
+		place.chapter = undefined;
+		place.sequence = undefined;
 		
 		if (context.model == 'Sequences') place.sequence = context._id;
 		if (context.model == 'Chapters') place.chapter = context._id;
