@@ -18,6 +18,18 @@ Template.readBook.events({
 		$('#bookHome').dimmer('toggle');
 		
 		markPlace(first._id, first.model);
+
+		// create a history entry for this book
+		var bookQuery = {
+			userId: Session.get('userId'),
+			book: Router.current().params.bookId
+		};
+
+		if (ReadingPaths.findOne(bookQuery) == undefined) {
+			bookQuery.path = [];
+			bookQuery.containers = [];
+			ReadingPaths.insert(bookQuery);
+		}
 	}, 
 	'sequence:end': function(event){
 		console.log('sequence:end')
@@ -34,18 +46,7 @@ Template.readBook.events({
 			markPlace(next._id, next.model)
 		} else {
 			// end of book
+
 		}
-	}
-});
-
-Template.readBook.onRendered(function(){
-	var bookQuery = {
-		userId: Session.get('userId'),
-		book: Router.current().params.bookId
-	};
-
-	if (ReadingPaths.find(bookQuery).count() == 0) {
-		bookQuery.path = [];
-		ReadingPaths.insert(bookQuery);
 	}
 });

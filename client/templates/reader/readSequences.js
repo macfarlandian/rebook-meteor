@@ -24,6 +24,18 @@ Template.readSequences.onRendered(function() {
     this.$('.rebook-sequence .chapters').visibility({
         once: false,
         onBottomPassed: function(){
+            // add completed container to history, if not already there
+            var bookQuery = {
+                userId: Session.get('userId'),
+                book: Router.current().params.bookId
+            };
+            var path = ReadingPaths.findOne(bookQuery);
+            if (!_.includes(path.containers, data._id)) {
+                path.containers.push(data._id);
+                ReadingPaths.update(path._id, {$set: {containers: path.containers}});
+            }
+
+            // signal up the scope that we've reached the end of this sequence
             $(this).trigger('sequence:end');
         }
     })

@@ -1,0 +1,28 @@
+<template name="readCollections">
+	<div class="rebook-collection">
+		<div class="ui centered header collection">
+            <h1>{{name}}</h1>
+        </div>
+        <div class="ui centered one column grid chapters">
+    		
+    		<div class="column">
+		        {{#if choose}}
+		        <nav class="next">
+		            <h2>choose next</h2>
+		            <div class="ui fluid vertical menu">
+		                {{#each contents}}
+		                	{{#if isChapter}}
+		                	{{#with getChapter _id}}
+		                		<a class="item">{{name}}</a>
+		                	{{/with}}
+		                	{{else}}
+		                		<a class="item {{#if isRead}}disabled{{/if}}">{{sequenceName}}</a>
+		                	{{/if}}
+		                {{/each}}
+		            </div>
+		        </nav>
+		        {{/if}}
+		    </div>
+        </div>
+	</div>
+</template>
