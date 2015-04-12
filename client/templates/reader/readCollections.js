@@ -27,6 +27,20 @@ Template.readCollections.helpers({
 	sequenceName: function(){
 		var seq = Sequences.findOne(this._id);
 		if (seq) return seq.name;
+	}, 
+
+	allRead: function(){
+		var bookQuery = {
+			userId: Session.get('userId'),
+			book: Router.current().params.bookId
+		};
+		var path = ReadingPaths.findOne(bookQuery);
+		if (path){
+			var ids = _.pluck(this.contents, '_id');
+			return _.reduce(ids, function(memo, val){
+				return memo && (_.contains(path.path, val) || _.contains(path.containers, val))
+			}, true)
+		}
 	}
 });
 
@@ -44,4 +58,20 @@ Template.readCollections.events({
 		markPlace(place);
 
 	}
+});
+
+Template.readCollections.onRendered(function(){
+	this.$('nav.next').visibility({
+		onBottomPassed: function(){
+			// add completed container to history, if not already there
+            var path = getPath();
+            if (!_.includes(path.containers, this.data._id)) {
+                path.containers.push(this.data._id);
+                ReadingPaths.update(path._id, {$set: {containers: path.containers}});
+            }
+
+			// signal to the book that we've reached the end of this collection
+			$(this).trigger('collection:end');
+		}
+	});
 });

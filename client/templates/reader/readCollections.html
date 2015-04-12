@@ -7,7 +7,7 @@
             {{> Template.dynamic template=choice.template data=choice.data}}
         {{/with}}
         <div class="ui centered one column grid">
-    		<div class="column">
+    		<div class="column {{#if allRead}}allRead{{/if}}">
 		        <nav class="next">
 		            <h2>choose next</h2>
 		            <div class="ui fluid vertical menu">

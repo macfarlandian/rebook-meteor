@@ -8,7 +8,7 @@ Template.readSequences.onRendered(function() {
     var t = this;
     $('#bookHome').dimmer('show');
     
-    var place = Placemarkers.findOne({userId: Session.get('userId'), book: Router.current().params.bookId});
+    var place = getPlace();
     if (place.chapter == undefined) {
         // go to beginning of sequence
         $('html, body').animate({'scrollTop': $('.rebook-sequence').offset().top}, 0);
@@ -25,11 +25,7 @@ Template.readSequences.onRendered(function() {
         once: false,
         onBottomVisible: function(){
             // add completed container to history, if not already there
-            var bookQuery = {
-                userId: Session.get('userId'),
-                book: Router.current().params.bookId
-            };
-            var path = ReadingPaths.findOne(bookQuery);
+            var path = getPath();
             if (!_.includes(path.containers, data._id)) {
                 path.containers.push(data._id);
                 ReadingPaths.update(path._id, {$set: {containers: path.containers}});

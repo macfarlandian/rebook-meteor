@@ -42,11 +42,7 @@ Template.readChapters.onRendered(function(){
             t.$('.fader').css({opacity: 1 - calc.percentagePassed});
         },
         onBottomPassed: function(calc){
-            var bookQuery = {
-                userId: Session.get('userId'),
-                book: Router.current().params.bookId
-            };
-            var path = ReadingPaths.findOne(bookQuery);
+            var path = getPath();
             if (!_.includes(path.path, t.data._id)){
                 // on completion of a new chapter, add it to the path
                 path.path.push(t.data._id);
@@ -56,14 +52,14 @@ Template.readChapters.onRendered(function(){
     });
 
     // retrieve place marker
-    var place = Placemarkers.findOne({userId: Session.get('userId'), book: Router.current().params.bookId});
+    var place = getPlace();
 
     // scroll to the most recent paragraph, if marked, if it's in this chapter
     if (place.chapter == t.data._id) {
         // if a chapter is marked
-        if (place.para != undefined) {
+        if (place.paragraph != undefined) {
             // if a paragraph is marked, go to it
-            var scrolltarget = $('#'+place.chapter + ' article > p').eq(place.para).offset().top;
+            var scrolltarget = $('#'+place.chapter + ' article > p').eq(place.paragraph).offset().top;
             $('html, body').scrollTop(scrolltarget);
         } else {
             // go to start of chapter

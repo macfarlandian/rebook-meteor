@@ -45,7 +45,7 @@ Template.readBook.events({
 	'sequence:end': function(event){
 		var bookId = Router.current().params.bookId,
 			book = Books.findOne({_id: bookId}),
-			place = Placemarkers.findOne({userId: Session.get('userId'), book: bookId});
+			place = getPlace();
 
 		if (place.collection != undefined) {
 			// collections can contain sequences, so return to the collection home
@@ -62,6 +62,21 @@ Template.readBook.events({
 			} else {
 				// end of book
 			}
+		}
+	},
+	'collection:end': function(event){
+		var bookId = Router.current().params.bookId,
+			book = Books.findOne({_id: bookId}),
+			place = getPlace();
+		var coll = this._id;
+		var next = _.findIndex(book.contents, {_id: coll}) + 1;
+		if (next < book.contents.length) {
+			next = book.contents[next];
+			if (next.model == 'Sequences') markPlace({sequence: next._id})
+			if (next.model == 'Collections') markPlace({collection: next._id})
+		} else {
+			// end of book
+			$('.the-end').dimmer('show');
 		}
 	}
 });

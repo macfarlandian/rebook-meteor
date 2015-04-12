@@ -55,6 +55,13 @@
         }
 }
 
+.afterPad(){
+    &:after {
+        content: "";
+        height: 1000px;
+        display: block;
+    }
+}
 
 
 
@@ -74,11 +81,7 @@
 .rebook-sequence {
     .rebook-page();
 
-    &:after {
-        content: "";
-        height: 1000px;
-        display: block;
-    }
+    .afterPad();
 
     .ui.header {
         .rebook-header();
@@ -133,6 +136,10 @@
         &:after {
             display: none;
         }
+    }
+
+    .allRead{
+        .afterPad();
     }
 
     nav.next {

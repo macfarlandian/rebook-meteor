@@ -20,6 +20,14 @@ getChapter = function(_id) {
     return c;
 }
 
+getPath = function(){
+    var bookQuery = {
+        userId: Session.get('userId'),
+        book: Router.current().params.bookId
+    };
+    return ReadingPaths.findOne(bookQuery);
+}
+
 
 // set up d3 scales
 minute = 80;
