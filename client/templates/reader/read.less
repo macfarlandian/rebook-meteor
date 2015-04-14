@@ -1,0 +1,151 @@
+// ************************************
+// TYPOGRAPHY VARS & MIXINS
+// ************************************
+@import url(http://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700);
+@import url(http://fonts.googleapis.com/css?family=PT+Sans:700,700italic);
+
+@font-base: 22px;
+.typewide() {
+    max-width: @font-base * 25;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+// ************************************
+// COLORS
+// ************************************
+@chapter-color: #00cbeb;
+
+
+
+
+
+// ************************************
+// JUNK DRAWER MIXINS
+// ************************************
+.base-shadow() {
+    box-shadow: 0 .25rem .25rem rgba(0, 0, 0, 0.5);
+}
+
+.rebook-page() {
+    overflow: hidden;
+    position: absolute;
+    z-index: 10;
+    top: 100%;
+    width: 100%;
+}
+
+.rebook-header(){
+    font-size: @font-base * 2.25;
+    color: #ffffff;
+    background-color: @chapter-color;
+    margin: 0;
+    border: none;
+    border-radius: 0;
+
+    h1 {
+        font-family: 'PT Sans', sans-serif;
+        padding: 3em 1em;
+    }
+
+    &.sequence, &.collection {
+            background-color: #191919;
+            font-size: @font-base * 3.5;
+            padding: 2em 1em;
+        }
+}
+
+.afterPad(){
+    &:after {
+        content: "";
+        height: 1000px;
+        display: block;
+    }
+}
+
+
+
+
+#bookHome {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 0;
+}
+
+
+
+
+.rebook-sequence {
+    .rebook-page();
+
+    .afterPad();
+
+    .ui.header {
+        .rebook-header();
+    }
+
+    article {
+        .base-shadow();
+        font-family: 'PT Serif', serif;
+        padding-top: 5rem !important;
+        padding-bottom: 5rem !important;
+        margin-top: -1rem;
+        margin-bottom: 5rem;
+        background-color: #FFF9E5;
+        position: relative;
+        p {
+            font-size: @font-base;
+            line-height: 1.6;
+            .typewide();
+        }
+
+        .fader {
+            width: 15px;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            background-color: @chapter-color;
+            transition: opacity 0.2s;
+
+            &.left {
+                left: 0;
+            }
+
+            &.right {
+                right: 0;
+            }
+        }
+    }
+}
+
+.rebook-collection {
+    .rebook-page();
+
+    .ui.header {
+        .rebook-header();
+    }
+
+    .rebook-sequence {
+        position: relative;
+        top: none;
+        margin-top: 1em;
+
+        &:after {
+            display: none;
+        }
+    }
+
+    .allRead{
+        .afterPad();
+    }
+
+    nav.next {
+        .base-shadow();
+        background-color: #FFF9E5;
+        margin: 5rem;
+        padding: 2rem;
+    }
+}

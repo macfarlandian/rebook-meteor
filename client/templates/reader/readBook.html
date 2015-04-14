@@ -1,0 +1,23 @@
+<template name="readBook">
+	<div id="bookHome">
+		<div class="ui page grid">
+			<div class="sixteen wide column">
+				<h1 class="ui dividing header">{{name}}</h1>
+				<div>title page</div>
+				<div class="ui divider"></div>
+				<button class="ui button" id="startButton">start</button>
+			</div>
+		</div>
+
+		<div class="ui inverted dimmer"></div>
+	</div>
+	<!-- chapters -->
+	{{#with readingNow}}
+		{{> Template.dynamic template=getTemplate data=getContents }}
+	{{/with}}
+	<div class="ui page dimmer the-end">
+		<div class="content">
+			<div class="center"><h2 class="huge header">The End</h2></div>
+		</div>
+	</div>
+</template>
