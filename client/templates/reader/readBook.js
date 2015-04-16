@@ -80,3 +80,23 @@ Template.readBook.events({
 		}
 	}
 });
+
+Template.readBook.onRendered(function(){
+	var lastScroll = 0,
+		t = this;
+	t.$('.ui.sidebar')
+	    .sidebar({
+	    	transition: 'overlay',
+	    	dimPage: false
+	    })
+	    ;
+	$(window).scroll(function(e){
+		var newscroll = this.scrollY;
+		if (newscroll < lastScroll) {
+			$('.ui.sidebar:not(.visible)').sidebar('show');
+		} else if (newscroll > lastScroll) {
+			$('.ui.sidebar.visible').sidebar('hide');
+		}
+		lastScroll = newscroll;
+	})
+});

@@ -9,6 +9,9 @@
     max-width: @font-base * 25;
     margin-left: auto;
     margin-right: auto;
+    padding-left: 7%;
+    padding-right: 7%;
+    box-sizing: content-box;
 }
 
 // ************************************
@@ -106,7 +109,7 @@
         }
 
         .fader {
-            width: 15px;
+            width: 4%;
             position: absolute;
             top: 0;
             bottom: 0;
@@ -150,5 +153,27 @@
         background-color: #FFF9E5;
         margin: 5rem;
         padding: 2rem;
+    }
+}
+
+
+// ************************************
+// IN-BOOK MENU
+// ************************************
+
+
+.pushable .pusher.readbook {
+    position: static;
+}
+
+.ui.bottom.sidebar.bookControls {
+    width: 8rem !important;
+    right: 0;
+    left: auto;
+    background-color: #000;
+
+    .control {
+        text-align: center;
+        padding: 1rem;
     }
 }

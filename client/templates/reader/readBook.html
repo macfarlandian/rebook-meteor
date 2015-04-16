@@ -1,5 +1,42 @@
 <template name="readBook">
-	<div id="bookHome">
+	<!-- sidebars -->
+	<div class="ui sidebar top">
+		<div class="ui large black inverted menu">
+			<a class="item" href="{{pathFor route="library"}}">
+			    <i class="chevron left icon"></i> Back to Library
+			</a>
+			
+			<div class="right menu">
+				<a class="item">
+				  	{{name}} | {{#with readingNow}}{{#with getContents }}{{ name }}{{/with}}{{/with}}
+				</a>
+			</div>
+		</div>
+	</div>
+	<div class="ui bottom sidebar bookControls">
+		<div class="control">
+			<a class="ui inverted statistic" href="">
+				<div class="value">
+					<i class="setting icon"></i>
+				</div>
+				<div class="label">
+					Settings
+				</div>
+			</a>
+		</div>
+		<div class="control">
+			<a class="ui inverted statistic" href="">
+				<div class="value">
+					<i class="bar chart icon"></i>
+				</div>
+				<div class="label">
+					Progress
+				</div>
+			</a>
+		</div>
+	</div>
+	<!-- book homepage or title page or whatever -->
+	<div id="bookHome" class="fixed">
 		<div class="ui page grid">
 			<div class="sixteen wide column">
 				<h1 class="ui dividing header">{{name}}</h1>
@@ -11,13 +48,15 @@
 
 		<div class="ui inverted dimmer"></div>
 	</div>
-	<!-- chapters -->
-	{{#with readingNow}}
-		{{> Template.dynamic template=getTemplate data=getContents }}
-	{{/with}}
-	<div class="ui page dimmer the-end">
-		<div class="content">
-			<div class="center"><h2 class="huge header">The End</h2></div>
+	<div class="pusher readbook">
+		<!-- chapters -->
+		{{#with readingNow}}
+			{{> Template.dynamic template=getTemplate data=getContents }}
+		{{/with}}
+		<div class="ui page dimmer the-end">
+			<div class="content">
+				<div class="center"><h2 class="huge header">The End</h2></div>
+			</div>
 		</div>
 	</div>
 </template>
