@@ -6,3 +6,7 @@ Template.library.helpers({
 		return {bookId: this._id}
 	}
 });
+
+Template.library.onRendered(function(){
+	$('body').removeClass();
+});
