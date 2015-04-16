@@ -41,6 +41,9 @@ Template.readBook.events({
 			bookQuery.containers = [];
 			ReadingPaths.insert(bookQuery);
 		}
+	},
+	'click .progressButton': function (event) {
+		$('.ui.sidebar.chapterChart').sidebar('toggle');
 	}, 
 	'sequence:end': function(event){
 		var bookId = Router.current().params.bookId,
@@ -93,7 +96,7 @@ Template.readBook.onRendered(function(){
 	$(window).scroll(function(e){
 		var newscroll = this.scrollY;
 		if (newscroll < lastScroll) {
-			$('.ui.sidebar:not(.visible)').sidebar('show');
+			$('.ui.sidebar.menuBar:not(.visible), .ui.sidebar.bookControls:not(.visible)').sidebar('show');
 		} else if (newscroll > lastScroll) {
 			$('.ui.sidebar.visible').sidebar('hide');
 		}
@@ -102,8 +105,8 @@ Template.readBook.onRendered(function(){
 
 	// progress bar stuff
     var margin = {top: 20, right: 20, bottom: 30, left: 40},
-    width = 960 - margin.left - margin.right,
-    height = 500 - margin.top - margin.bottom;
+    width = 400 - margin.left - margin.right,
+    height = 300 - margin.top - margin.bottom;
 
     var x = d3.scale.ordinal()
         .rangeRoundBands([0, width], .1);
@@ -120,14 +123,13 @@ Template.readBook.onRendered(function(){
         .orient("left")
         .ticks(10, "%");
 
-    var svg = d3.select(".ui.sidebar.progress svg")
+    var svg = d3.select(".ui.sidebar.chapterChart svg")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
 	    .append("g")
 	        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
     d3.csv("/wordcount.tsv", type, function(error, data) {
-      console.log(data)
       x.domain(data.map(function(d) { return d.chapter; }));
       y.domain([0, d3.max(data, function(d) { return d.wordcount; })]);
 

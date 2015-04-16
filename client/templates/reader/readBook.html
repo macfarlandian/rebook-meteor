@@ -1,6 +1,6 @@
 <template name="readBook">
 	<!-- sidebars -->
-	<div class="ui sidebar top">
+	<div class="ui sidebar top menuBar">
 		<div class="ui large black inverted menu">
 			<a class="item" href="{{pathFor route="library"}}">
 			    <i class="chevron left icon"></i> Back to Library
@@ -13,8 +13,8 @@
 			</div>
 		</div>
 	</div>
-	<div class="ui bottom sidebar progress">
-		<svg></svg>
+	<div class="ui bottom sidebar chapterChart">
+		<div class="ui fluid card"><svg></svg></div>
 	</div>
 	<div class="ui bottom sidebar bookControls">
 		<div class="control">
@@ -28,7 +28,7 @@
 			</a>
 		</div>
 		<div class="control">
-			<a class="ui inverted statistic" href="">
+			<a class="ui inverted statistic progressButton" href="">
 				<div class="value">
 					<i class="bar chart icon"></i>
 				</div>

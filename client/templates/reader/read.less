@@ -161,13 +161,15 @@
 // IN-BOOK MENU
 // ************************************
 
+@controls-width: 8rem;
+
 
 .pushable .pusher.readbook {
     position: static;
 }
 
 .ui.bottom.sidebar.bookControls {
-    width: 8rem !important;
+    width: @controls-width !important;
     right: 0;
     left: auto;
     background-color: #000;
@@ -175,5 +177,35 @@
     .control {
         text-align: center;
         padding: 1rem;
+    }
+}
+
+.ui.sidebar.chapterChart {
+    width: auto !important;
+    right: @controls-width !important;
+
+    .bar {
+      fill: #2979FF;
+        opacity: 40%;
+    }
+
+    .bar:hover {
+        fill: #2979FF;
+      opacity: 100%;
+    }
+
+    .axis {
+      font: 10px sans-serif;
+    }
+
+    .axis path,
+    .axis line {
+      fill: none;
+      stroke: #000;
+      shape-rendering: crispEdges;
+    }
+
+    .x.axis path {
+      display: none;
     }
 }
