@@ -93,7 +93,7 @@ Template.readBook.onRendered(function(){
 	    	dimPage: false
 	    })
 	    ;
-	$(window).scroll(function(e){
+	$(window).scroll($.debounce(250, function(e){
 		var newscroll = this.scrollY;
 		if (newscroll < lastScroll) {
 			$('.ui.sidebar.menuBar:not(.visible), .ui.sidebar.bookControls:not(.visible)').sidebar('show');
@@ -101,7 +101,7 @@ Template.readBook.onRendered(function(){
 			$('.ui.sidebar.visible').sidebar('hide');
 		}
 		lastScroll = newscroll;
-	});
+	}));
 
 	// progress bar stuff
 	Tracker.autorun(function () {

@@ -62,6 +62,7 @@ Template.readCollections.events({
 
 Template.readCollections.onRendered(function(){
 	this.$('nav.next').visibility({
+		throttle: 500,
 		onBottomPassed: function(){
 			// add completed container to history, if not already there
             var path = getPath();

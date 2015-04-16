@@ -23,6 +23,7 @@ Template.readSequences.onRendered(function() {
     });
     this.$('.rebook-sequence .chapters').visibility({
         once: false,
+        throttle: 500,
         onBottomVisible: function(){
             // add completed container to history, if not already there
             var path = getPath();
