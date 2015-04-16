@@ -105,8 +105,9 @@ Template.readBook.onRendered(function(){
 
 	// progress bar stuff
     var margin = {top: 20, right: 20, bottom: 30, left: 40},
-    width = 400 - margin.left - margin.right,
-    height = 300 - margin.top - margin.bottom;
+	    // calculate the width dynamically based on available space
+	    width = $('.chapterChart').width() - margin.left - margin.right,
+	    height = 300 - margin.top - margin.bottom;
 
     var x = d3.scale.ordinal()
         .rangeRoundBands([0, width], .1);
