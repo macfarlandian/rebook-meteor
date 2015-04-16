@@ -106,8 +106,13 @@ Template.readBook.onRendered(function(){
 	// progress bar stuff
 	Tracker.autorun(function () {
 		
-		var book = Books.findOne({_id: Router.current().params.bookId});
+		var book = Books.findOne({_id: Router.current().params.bookId}),
+			path = getPath();
+
 	    if (book) {
+	    	// initialize path if it's empty
+	    	if (path == undefined) path = {path: []};
+
 	    	var chaps = book.allChapters();
 	    	var margin = {top: 20, right: 20, bottom: 30, left: 40},
 			    // calculate the width dynamically based on available space
@@ -157,10 +162,16 @@ Template.readBook.onRendered(function(){
 	          	.data(chaps)
 	        	.enter().append("rect")
 	          		.attr("class", "bar")
+	          		.classed("read", function(d){
+	          			if (_.includes(path.path, d._id)) return true;
+	          			return false;
+	          		})
 	          		.attr("x", function(d) { return x(d.name); })
 	          		.attr("width", x.rangeBand())
 	          		.attr("y", function(d) { return y(d.length); })
 	          		.attr("height", function(d) { return height - y(d.length); });
+
+
 
 		    
 	    }

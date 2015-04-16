@@ -185,27 +185,33 @@
     right: @controls-width !important;
 
     .bar {
-      fill: #2979FF;
-        opacity: 40%;
-    }
+        fill: #000000;
+        opacity: 0.15;
 
-    .bar:hover {
-        fill: #2979FF;
-      opacity: 100%;
+        &:hover {
+            fill: #2979FF;
+            opacity: 1.0;
+        }
+
+        &.read {
+            opacity: 1.0;
+        }
+
     }
 
     .axis {
-      font: 10px sans-serif;
-    }
+        font: 10px sans-serif;
+        
+        path, line {
+            fill: none;
+            stroke: #000;
+            shape-rendering: crispEdges;
+        }
 
-    .axis path,
-    .axis line {
-      fill: none;
-      stroke: #000;
-      shape-rendering: crispEdges;
-    }
-
-    .x.axis path {
-      display: none;
+        &.x {
+            path {
+                display: none;
+            }
+        }
     }
 }
