@@ -185,16 +185,33 @@
     right: @controls-width !important;
 
     .bar {
-        fill: #000000;
-        opacity: 0.15;
-
-        &:hover {
-            fill: #2979FF;
-            opacity: 1.0;
+        rect {
+            fill: #c9c9c9;
+        }
+        text {
+            display: none;
         }
 
-        &.read {
-            opacity: 1.0;
+        &.read:not(.current) {
+            rect {
+                fill: #000000;
+            }
+            
+        }
+
+        &.current {
+            text {
+                display: block;
+                fill: #2979FF;
+            }
+            rect:not(.partial) {
+                stroke: #2979FF;
+                stroke-width: 4px;
+            }
+            rect.partial {
+                fill: #000000;
+            }
+
         }
 
     }

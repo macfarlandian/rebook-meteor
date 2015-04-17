@@ -61,13 +61,14 @@ Template.readCollections.events({
 });
 
 Template.readCollections.onRendered(function(){
+	var t = this;
 	this.$('nav.next').visibility({
 		throttle: 500,
 		onBottomPassed: function(){
 			// add completed container to history, if not already there
             var path = getPath();
-            if (!_.includes(path.containers, this.data._id)) {
-                path.containers.push(this.data._id);
+            if (!_.includes(path.containers, t.data._id)) {
+                path.containers.push(t.data._id);
                 ReadingPaths.update(path._id, {$set: {containers: path.containers}});
             }
 
