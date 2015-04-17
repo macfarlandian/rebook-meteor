@@ -135,7 +135,7 @@ Template.readBook.onRendered(function(){
 		    var yAxis = d3.svg.axis()
 		        .scale(y)
 		        .orient("left")
-		        .ticks(10, "%");
+		        .ticks(10);
 
 		    // clear any existing SVG, if exists
 		    d3.select(".ui.sidebar.chapterChart svg").remove();
