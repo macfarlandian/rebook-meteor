@@ -17,7 +17,7 @@ Template.readBook.helpers({
     		template = 'readCollections';
     	}
     	return template;
-    }
+    },
 });
 
 Template.readBook.events({
@@ -41,6 +41,9 @@ Template.readBook.events({
 			bookQuery.containers = [];
 			ReadingPaths.insert(bookQuery);
 		}
+	},
+	'click .progressButton': function (event) {
+		$('.ui.sidebar.chapterChart').sidebar('toggle');
 	}, 
 	'sequence:end': function(event){
 		var bookId = Router.current().params.bookId,
@@ -90,13 +93,126 @@ Template.readBook.onRendered(function(){
 	    	dimPage: false
 	    })
 	    ;
-	$(window).scroll(function(e){
+	$(window).scroll($.debounce(250, function(e){
 		var newscroll = this.scrollY;
 		if (newscroll < lastScroll) {
-			$('.ui.sidebar:not(.visible)').sidebar('show');
+			$('.ui.sidebar.menuBar:not(.visible), .ui.sidebar.bookControls:not(.visible)').sidebar('show');
 		} else if (newscroll > lastScroll) {
 			$('.ui.sidebar.visible').sidebar('hide');
 		}
 		lastScroll = newscroll;
-	})
+	}));
+
+	// progress bar stuff
+	Tracker.autorun(function () {
+		
+		var book = Books.findOne({_id: Router.current().params.bookId}),
+			path = getPath(),
+			place = getPlace();
+
+	    if (book) {
+	    	// initialize path if it's empty
+	    	if (path == undefined) path = {path: []};
+
+	    	var chaps = book.allChapters();
+	    	var margin = {top: 20, right: 20, bottom: 30, left: 40},
+			    // calculate the width dynamically based on available space
+			    width = $('.chapterChart').width() - margin.left - margin.right,
+			    height = 300 - margin.top - margin.bottom;
+
+		    var x = d3.scale.ordinal()
+		        .rangeRoundBands([0, width], .1);
+
+		    var y = d3.scale.linear()
+		        .range([height, 0]);
+
+		    var xAxis = d3.svg.axis()
+		        .scale(x)
+		        .orient("bottom")
+		        .tickFormat("")
+		        .innerTickSize(0);
+
+		    var yAxis = d3.svg.axis()
+		        .scale(y)
+		        .orient("left")
+		        .ticks(10);
+
+		    // clear any existing SVG, if exists
+		    d3.select(".ui.sidebar.chapterChart svg").remove();
+
+		    var svg = d3.select(".ui.sidebar.chapterChart .card")
+		    	.append('svg')
+		        .attr("width", width + margin.left + margin.right)
+		        .attr("height", height + margin.top + margin.bottom)
+			    .append("g")
+			        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+		    x.domain(chaps.map(function(d) { return d.name; }));
+		    y.domain([0, d3.max(chaps, function(d) { return d.length; })]);
+
+		    svg.append("g")
+		        .attr("class", "x axis")
+		        .attr("transform", "translate(0," + height + ")")
+		        .call(xAxis);
+
+		    svg.append("g")
+		        .attr("class", "y axis")
+		        .call(yAxis)
+		        .append("text")
+		            .attr("transform", "rotate(-90)")
+		            .attr("y", 6)
+		            .attr("dy", ".71em")
+		            .style("text-anchor", "end")
+		          	.text("Length");
+
+	      	var bars = svg.selectAll(".bar")
+		      	.data(chaps)
+	        	.enter().append("g")
+	          		.attr("class", "bar")
+	          		.classed("read", function(d){
+	          			if (_.includes(path.path, d._id)) return true;
+	          			return false;
+	          		})
+	          		.classed("current", function(d){
+	          			if (d._id == place.chapter) return true;
+	          			return false;
+	          		});
+	      	
+	        bars.append('rect')
+          		.attr("x", function(d) { return x(d.name); })
+          		.attr("width", x.rangeBand())
+          		.attr("y", function(d) { return y(d.length); })
+          		.attr("height", function(d) { return height - y(d.length); });
+          	
+          	bars.append('text')
+          		.attr("transform", function(d) { 
+          			var coords = {
+          				x:  x(d.name) + (x.rangeBand() / 2),
+          				y: y(d.length) - 5
+          			};
+          			return 'rotate(-90 '+ coords.x + ' ' + coords.y +') translate(' + coords.x + ' ' + coords.y + ')';
+          		})
+          		.text(function(d){ return d.name })
+          		.attr('dy', 5)
+          	
+      		// add a partial progress bar to whichever bar is current
+      		// bars.filter(function(d){ return d._id == place.chapter})
+      		// 	.append('rect')
+      		// 	.attr('class', 'partial')
+      		// 	.attr("x", function(d) { return x(d.name); })
+        //   		.attr("width", x.rangeBand())
+        //   		.attr("y", function(d) { return y(d.length) + (height - y(d.length))/2; })
+        //   		.attr("height", function(d) { 
+        //   			// TODO: this is kind of a dumb solution just based on the height
+        //   			// of the chapter element
+        //   			var chapterElement = $('#' + d._id + ' article');
+        //   			console.log(chapterElement.height(), chapterElement.offset().top, $(window).scrollTop())
+        //   			return (height - y(d.length)) / 2; });
+	    }
+
+	    function type(d) {
+	      d.wordcount = +d.wordcount;
+	      return d;
+	    }
+	});
 });

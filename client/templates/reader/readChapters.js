@@ -36,6 +36,7 @@ Template.readChapters.onRendered(function(){
 
     // watch for reader starting a new chapter
     $(t.firstNode).visibility({
+        throttle: 500,
         once: false,
         onUpdate: function(calc){
             // fade the color rails
@@ -70,6 +71,7 @@ Template.readChapters.onRendered(function(){
     // watch for reader progressing to a new paragraph
     var paras = t.$('article > p');
     paras.visibility({
+        throttle: 500,
         once: false,
         onTopPassed: function(calc){
             // pause to make sure the user isn't just skimming past
@@ -86,8 +88,8 @@ Template.readChapters.onRendered(function(){
                     };
                     markPlace(newMark);
                 }
-            }, 750); //timer length should be the same as initial scroll time to prevent triggering here
+            }, 250); //timer length should be the same as initial scroll time to prevent triggering here
         }
     });
-        
+     
 });
