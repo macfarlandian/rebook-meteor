@@ -47,6 +47,7 @@ Template.readBook.events({
 	},
 	'click .progressButton': function (event) {
 		$('.ui.sidebar.chapterChart').sidebar('toggle');
+		$(event.target).toggleClass('active');
 	}, 
 	'sequence:end': function(event){
 		var bookId = Router.current().params.bookId,
@@ -93,13 +94,13 @@ Template.readBook.onRendered(function(){
 	t.$('.ui.sidebar')
 	    .sidebar({
 	    	transition: 'overlay',
-	    	dimPage: false
+	    	// dimPage: false
 	    })
 	    ;
 	$(window).scroll($.debounce(250, function(e){
 		var newscroll = this.scrollY;
 		if (newscroll < lastScroll) {
-			$('.ui.sidebar.menuBar:not(.visible), .ui.sidebar.bookControls:not(.visible)').sidebar('show');
+			$('.ui.sidebar.menuBar:not(.visible), .ui.sidebar.chapterChart:not(.visible)').sidebar('show');
 		} else if (newscroll > lastScroll) {
 			$('.ui.sidebar.visible').sidebar('hide');
 		}
