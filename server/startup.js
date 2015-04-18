@@ -19,7 +19,7 @@ Meteor.startup(function(){
                 name: name,
                 contents: Assets.getText('data/scriv-export/Draft/'+name),
             };
-            text.length = (text.contents.split(/\s+/).length); // word count
+            text.wordcount = (text.contents.split(/\s+/).length);
             Resources.insert(text);
         })
     }
@@ -29,7 +29,7 @@ Meteor.startup(function(){
             type: "audio",
             name: "subway sound",
             assetPath: "some audio file.mp3",
-            length: timeToWords(0.4167)
+            wordcount: timeToWords(0.4167),
         };
         Resources.insert(aud);
     }
@@ -39,7 +39,7 @@ Meteor.startup(function(){
             type: "image",
             name: "david bowie's grandma",
             assetPath: "image01.jpg",
-            length: timeToWords(0.2)
+            wordcount: timeToWords(0.2)
         };
         Resources.insert(img);
     }
@@ -53,14 +53,14 @@ Meteor.startup(function(){
                 };
             
             chap.contents[0].start = 0;
-            chap.contents[0].end = chap.contents[0].start + chap.contents[0].length ;
+            chap.contents[0].end = chap.contents[0].start + chap.contents[0].wordcount ;
             chap.contents[0].track = 0;
         
             if (index == 0){
                 // first chapter starts with an audio file
                 var aud = Resources.findOne({type: "audio"});
                 aud.start = 0;
-                aud.end = aud.start + aud.length;
+                aud.end = aud.start + aud.wordcount;
                 aud.track = 1;
                 chap.contents.push(aud);
                 
@@ -71,10 +71,14 @@ Meteor.startup(function(){
                 // third chapter has an image in it
                 var img = Resources.findOne({type: "image"});
                 img.start =  750;
-                img.end = img.start + img.length;
+                img.end = img.start + img.wordcount;
                 img.track = 1;
                 chap.contents.push(img);
             }
+            chap.wordcount = _.reduce(chap.contents, function(memo, current){
+                return memo + current.wordcount;
+            }, 0);
+        
             Chapters.insert(chap);
         })
 
@@ -92,6 +96,10 @@ Meteor.startup(function(){
         chaps.forEach(function(doc){
             seq.contents.push(doc);
         });
+        seq.wordcount = _.reduce(seq.contents, function(memo, current){
+            return memo + current.wordcount;
+        }, 0);
+        
         Sequences.insert(seq);
 
         seq = {
@@ -105,6 +113,9 @@ Meteor.startup(function(){
         chaps.forEach(function(doc){
             seq.contents.push(doc);
         });
+        seq.wordcount = _.reduce(seq.contents, function(memo, current){
+            return memo + current.wordcount;
+        }, 0);
         Sequences.insert(seq);
 
         seq = {
@@ -118,6 +129,9 @@ Meteor.startup(function(){
         chaps.forEach(function(doc){
             seq.contents.push(doc);
         });
+        seq.wordcount = _.reduce(seq.contents, function(memo, current){
+            return memo + current.wordcount;
+        }, 0);
         Sequences.insert(seq);
     }
 
@@ -130,6 +144,9 @@ Meteor.startup(function(){
         seqs.forEach(function(doc){
             coll.contents.push(doc);
         });
+        coll.wordcount = _.reduce(coll.contents, function(memo, current){
+            return memo + current.wordcount;
+        }, 0);
         Collections.insert(coll);
     }
 
@@ -138,6 +155,10 @@ Meteor.startup(function(){
             name: '12-9',
             contents: [Sequences.findOne({name: 'Sugar – First Leg'}), Collections.findOne({name: 'Second Leg'})],
         };
+        book.wordcount = _.reduce(book.contents, function(memo, current){
+            return memo + current.wordcount;
+        }, 0);
+        
         Books.insert(book);
     }
 
