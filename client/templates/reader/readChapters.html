@@ -7,13 +7,11 @@
 			<div class="left fader"></div>
 			<div class="right fader"></div>
 			{{#each mainTrack}} 
-                {{#with resource }} 
                 {{#if isText}} 
                     {{#each paras contents}} 
                         {{#markdown}}{{text}}{{/markdown}} 
                     {{/each}} 
                 {{/if}} 
-                {{/with}} 
             {{/each}}
 		</article>
 	</div>

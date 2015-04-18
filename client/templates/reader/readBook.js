@@ -6,6 +6,11 @@ Template.readBook.helpers({
     	if (this.collection != undefined) return Collections.findOne(this.collection);
     	if (this.sequence != undefined) return Sequences.findOne(this.sequence);
     },
+    getChapterName: function(){
+    	if (this.chapter != undefined) return Chapters.findOne(this.chapter);
+    	if (this.collection != undefined) return Collections.findOne(this.collection);
+    	if (this.sequence != undefined) return Sequences.findOne(this.sequence);
+    },
     getTemplate: function(){
     	// Collections can contain Sequences, but not vice versa.
     	// So if a Collection is present it dominates.
@@ -23,7 +28,7 @@ Template.readBook.helpers({
 Template.readBook.events({
 	'click #startButton': function (event) {
 		var book = this;
-		var first = _.findWhere(book.contents, {_id: book.start})
+		var first = book.contents[0];
 
 		$('#bookHome').dimmer('toggle');
 		
@@ -174,7 +179,7 @@ Template.readBook.onRendered(function(){
 	          			return false;
 	          		})
 	          		.classed("current", function(d){
-	          			if (d._id == place.chapter) return true;
+	          			if (place && d._id == place.chapter) return true;
 	          			return false;
 	          		});
 	      	
