@@ -29,8 +29,6 @@ Template.readBook.events({
 	'click #startButton': function (event) {
 		var book = this;
 		var first = book.contents[0];
-
-		$('#bookHome').dimmer('toggle');
 		
 		if (first.model == 'Sequences') markPlace({sequence: first._id});
 		if (first.model == 'Collections') markPlace({collection: first._id});

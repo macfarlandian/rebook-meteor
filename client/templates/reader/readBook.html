@@ -48,28 +48,13 @@
 			</a>
 		</div>
 	</div>
-	<!-- book homepage or title page or whatever -->
-	<div id="bookHome" class="fixed">
-		<div class="ui page grid">
-			<div class="sixteen wide column">
-				<h1 class="ui dividing header">{{name}}</h1>
-				<div>title page</div>
-				<div class="ui divider"></div>
-				<button class="ui button" id="startButton">start</button>
-			</div>
-		</div>
-
-		<div class="ui inverted dimmer"></div>
-	</div>
 	<div class="pusher readbook">
-		<!-- chapters -->
-		{{#with readingNow}}
+		{{#if readingNow}}
+			{{#with readingNow}}
 			{{> Template.dynamic template=getTemplate data=getContents }}
-		{{/with}}
-		<div class="ui page dimmer the-end">
-			<div class="content">
-				<div class="center"><h2 class="huge header">The End</h2></div>
-			</div>
-		</div>
+			{{/with}}		
+		{{else}}
+			{{> titlePage}}
+		{{/if}}
 	</div>
 </template>

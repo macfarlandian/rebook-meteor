@@ -32,7 +32,7 @@ Template.readChapters.onRendered(function(){
 
     // watch for reader starting a new chapter
     $(t.firstNode).visibility({
-        throttle: 500,
+        throttle: 100,
         once: false,
         onUpdate: function(calc){
             // fade the color rails
@@ -67,7 +67,7 @@ Template.readChapters.onRendered(function(){
     // watch for reader progressing to a new paragraph
     var paras = t.$('article > p');
     paras.visibility({
-        throttle: 500,
+        throttle: 200,
         once: false,
         onTopPassed: function(calc){
             // pause to make sure the user isn't just skimming past
