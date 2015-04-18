@@ -212,8 +212,10 @@
 .pushable {
     .pusher {
         &.readbook {
-            -webkit-filter: blur(3px);
-            filter: blur(3px);
+            &.dimmed {
+                -webkit-filter: blur(3px);
+                filter: blur(3px);
+            }
         }
     }
 }
