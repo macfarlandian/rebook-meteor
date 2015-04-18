@@ -62,7 +62,7 @@ Template.readBook.events({
 			// for now let's skip gates ... maybe they are an optional extension
 			// assume the array is ordered
 			var next = _.findIndex(book.contents, {_id: seq}) + 1;
-			if (next < book.contents.length) {
+			if (next < book.contents.wordcount) {
 				next = book.contents[next];
 				if (next.model == 'Sequences') markPlace({sequence: next._id})
 				if (next.model == 'Collections') markPlace({collection: next._id})
@@ -77,7 +77,7 @@ Template.readBook.events({
 			place = getPlace();
 		var coll = this._id;
 		var next = _.findIndex(book.contents, {_id: coll}) + 1;
-		if (next < book.contents.length) {
+		if (next < book.contents.wordcount) {
 			next = book.contents[next];
 			if (next.model == 'Sequences') markPlace({sequence: next._id})
 			if (next.model == 'Collections') markPlace({collection: next._id})
@@ -89,6 +89,20 @@ Template.readBook.events({
 });
 
 Template.readBook.onRendered(function(){
+	// d3 setup for the progress chart
+	var margin = {top: 20, right: 20, bottom: 30, left: 40},
+	    // calculate the width dynamically based on available space
+	    width = $('.chapterChart').width() - margin.left - margin.right,
+	    height = 300 - margin.top - margin.bottom,
+	    activeStrokeWidth = 4;
+
+    var x = d3.scale.ordinal()
+        .rangeRoundBands([0, width], .1);
+
+    var y = d3.scale.linear()
+        .range([height, 0]);
+
+    // detect scrolling up
 	var lastScroll = 0,
 		t = this;
 	t.$('.ui.sidebar')
@@ -105,6 +119,28 @@ Template.readBook.onRendered(function(){
 			$('.ui.sidebar.visible').sidebar('hide');
 		}
 		lastScroll = newscroll;
+
+		// update partial progress bar on whichever bar is current
+  		var bars = d3.selectAll(".ui.sidebar.chapterChart .card .bar"),
+  			place = getPlace();
+  		
+  		// TODO: this is kind of a dumb solution just based on the height
+		// of the chapter element
+        var chapterElement = $('#' + place.chapter + ' article'),
+        	chapterSize = chapterElement.height() - chapterElement.offset().top,
+        	chapterProgress = ($(window).scrollTop() - chapterElement.offset().top) / chapterSize;
+		
+  		bars.filter(function(d){ return d._id == place.chapter})
+  			.select('.partial')
+  			.transition()
+  			.attr("y", function(d) { 
+  				// debugger;
+  				return y(d.wordcount * chapterProgress) + activeStrokeWidth / 2
+
+  			})
+      		.attr("height", function(d) { 
+      			return height - y(d.wordcount * chapterProgress) - activeStrokeWidth; 
+      		});
 	}));
 
 	// progress bar stuff
@@ -118,17 +154,7 @@ Template.readBook.onRendered(function(){
 	    	// initialize path if it's empty
 	    	if (path == undefined) path = {path: []};
 
-	    	var chaps = book.allChapters();
-	    	var margin = {top: 20, right: 20, bottom: 30, left: 40},
-			    // calculate the width dynamically based on available space
-			    width = $('.chapterChart').width() - margin.left - margin.right,
-			    height = 300 - margin.top - margin.bottom;
-
-		    var x = d3.scale.ordinal()
-		        .rangeRoundBands([0, width], .1);
-
-		    var y = d3.scale.linear()
-		        .range([height, 0]);
+	    	var chaps = book.chapterLengths();
 
 		    var xAxis = d3.svg.axis()
 		        .scale(x)
@@ -152,7 +178,7 @@ Template.readBook.onRendered(function(){
 			        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 		    x.domain(chaps.map(function(d) { return d.name; }));
-		    y.domain([0, d3.max(chaps, function(d) { return d.length; })]);
+		    y.domain([0, d3.max(chaps, function(d) { return d.wordcount; })]);
 
 		    svg.append("g")
 		        .attr("class", "x axis")
@@ -185,33 +211,29 @@ Template.readBook.onRendered(function(){
 	        bars.append('rect')
           		.attr("x", function(d) { return x(d.name); })
           		.attr("width", x.rangeBand())
-          		.attr("y", function(d) { return y(d.length); })
-          		.attr("height", function(d) { return height - y(d.length); });
+          		.attr("y", function(d) { return y(d.wordcount); })
+          		.attr("height", function(d) { return height - y(d.wordcount); })
+          		.attr("stroke-width", function(d){
+          			if (place && d._id == place.chapter) return activeStrokeWidth
+          		});
+
+          	bars.append('rect')
+          		.classed('partial', true)
+          		.attr("x", function(d) { return x(d.name) + activeStrokeWidth / 2; })
+          		.attr("width", x.rangeBand() - activeStrokeWidth)
+          		.attr("y", function(d) { return y(d.wordcount); })
+          		.attr("height", 0);
           	
           	bars.append('text')
           		.attr("transform", function(d) { 
           			var coords = {
           				x:  x(d.name) + (x.rangeBand() / 2),
-          				y: y(d.length) - 5
+          				y: y(d.wordcount) - 5
           			};
           			return 'rotate(-90 '+ coords.x + ' ' + coords.y +') translate(' + coords.x + ' ' + coords.y + ')';
           		})
           		.text(function(d){ return d.name })
           		.attr('dy', 5)
-          	
-      		// add a partial progress bar to whichever bar is current
-      		// bars.filter(function(d){ return d._id == place.chapter})
-      		// 	.append('rect')
-      		// 	.attr('class', 'partial')
-      		// 	.attr("x", function(d) { return x(d.name); })
-        //   		.attr("width", x.rangeBand())
-        //   		.attr("y", function(d) { return y(d.length) + (height - y(d.length))/2; })
-        //   		.attr("height", function(d) { 
-        //   			// TODO: this is kind of a dumb solution just based on the height
-        //   			// of the chapter element
-        //   			var chapterElement = $('#' + d._id + ' article');
-        //   			console.log(chapterElement.height(), chapterElement.offset().top, $(window).scrollTop())
-        //   			return (height - y(d.length)) / 2; });
 	    }
 
 	    function type(d) {
