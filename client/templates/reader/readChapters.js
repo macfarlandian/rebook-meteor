@@ -3,12 +3,8 @@ Template.readChapters.helpers({
         return _.where(this.contents, {track: 0})
     },
 
-    resource: function(){
-        return Resources.findOne({_id: this.resource_id});
-    },
-
     isText: function(){
-        return this.type == "text";
+        return _.includes(['text', 'markdown'], this.type);
     },
 
     paras: function(text){

@@ -12,14 +12,14 @@ Meteor.startup(function(){
         "rondo -287-.txt"
     ];
 
-    if (Resources.find({type: "text"}).count() === 0) {
+    if (Resources.find({type: "markdown"}).count() === 0) {
         _.each(textfiles, function(name){
             var text = {
-                type: "text",
+                type: "markdown",
                 name: name,
                 contents: Assets.getText('data/scriv-export/Draft/'+name),
             };
-            text.length = (text.contents.split(/\s+/).length / 250);
+            text.wordcount = (text.contents.split(/\s+/).length);
             Resources.insert(text);
         })
     }
@@ -28,8 +28,8 @@ Meteor.startup(function(){
         var aud = {
             type: "audio",
             name: "subway sound",
-            assetPath: "some audio file.ext",
-            length: 0.4167
+            assetPath: "some audio file.mp3",
+            wordcount: timeToWords(0.4167),
         };
         Resources.insert(aud);
     }
@@ -39,7 +39,7 @@ Meteor.startup(function(){
             type: "image",
             name: "david bowie's grandma",
             assetPath: "image01.jpg",
-            length: 0.2
+            wordcount: timeToWords(0.2)
         };
         Resources.insert(img);
     }
@@ -49,38 +49,36 @@ Meteor.startup(function(){
             var text = Resources.findOne({name: name}),
                 chap = {
                     name: name.split(/-\d+-\.txt/)[0],
-                    contents: [
-                        {
-                            resource_id: text._id,
-                            start: 0,
-                            length: text.length,
-                            end: 0 + text.length,
-                            track: 0
-                        }
-                    ]
+                    contents: [text]
                 };
+            
+            chap.contents[0].start = 0;
+            chap.contents[0].end = chap.contents[0].start + chap.contents[0].wordcount ;
+            chap.contents[0].track = 0;
+        
             if (index == 0){
+                // first chapter starts with an audio file
                 var aud = Resources.findOne({type: "audio"});
-                chap.contents.push({
-                    resource_id: aud._id,
-                    start: 0,
-                    end: 0 + aud.length,
-                    length: aud.length,
-                    track: 1
-                });
-                chap.contents[0].start += 0.3;
-                chap.contents[0].end += 0.3;
+                aud.start = 0;
+                aud.end = aud.start + aud.wordcount;
+                aud.track = 1;
+                chap.contents.push(aud);
+                
+                chap.contents[0].start += 75;
+                chap.contents[0].end += 75;
             }
             if (index == 2){
+                // third chapter has an image in it
                 var img = Resources.findOne({type: "image"});
-                chap.contents.push({
-                    resource_id: img._id,
-                    start: 3,
-                    end: 3 + img.length,
-                    length: img.length,
-                    track: 1
-                });
+                img.start =  750;
+                img.end = img.start + img.wordcount;
+                img.track = 1;
+                chap.contents.push(img);
             }
+            chap.wordcount = _.reduce(chap.contents, function(memo, current){
+                return memo + current.wordcount;
+            }, 0);
+        
             Chapters.insert(chap);
         })
 
@@ -96,8 +94,12 @@ Meteor.startup(function(){
         });
         var chaps = Chapters.find({name: {$in: slice}});
         chaps.forEach(function(doc){
-            seq.contents.push({_id: doc._id, model: 'Chapters'});
+            seq.contents.push(doc);
         });
+        seq.wordcount = _.reduce(seq.contents, function(memo, current){
+            return memo + current.wordcount;
+        }, 0);
+        
         Sequences.insert(seq);
 
         seq = {
@@ -109,8 +111,11 @@ Meteor.startup(function(){
         });
         chaps = Chapters.find({name: {$in: slice}});
         chaps.forEach(function(doc){
-            seq.contents.push({_id: doc._id, model: 'Chapters'});
+            seq.contents.push(doc);
         });
+        seq.wordcount = _.reduce(seq.contents, function(memo, current){
+            return memo + current.wordcount;
+        }, 0);
         Sequences.insert(seq);
 
         seq = {
@@ -122,8 +127,11 @@ Meteor.startup(function(){
         });
         chaps = Chapters.find({name: {$in: slice}});
         chaps.forEach(function(doc){
-            seq.contents.push({_id: doc._id, model: 'Chapters'});
+            seq.contents.push(doc);
         });
+        seq.wordcount = _.reduce(seq.contents, function(memo, current){
+            return memo + current.wordcount;
+        }, 0);
         Sequences.insert(seq);
     }
 
@@ -134,31 +142,23 @@ Meteor.startup(function(){
         };
         var seqs = Sequences.find({name: /Second Leg/})
         seqs.forEach(function(doc){
-            coll.contents.push({_id: doc._id, model: 'Sequences'});
+            coll.contents.push(doc);
         });
+        coll.wordcount = _.reduce(coll.contents, function(memo, current){
+            return memo + current.wordcount;
+        }, 0);
         Collections.insert(coll);
     }
 
     if (Books.find().count() == 0){
         var book = {
             name: '12-9',
-            contents: [
-                {
-                    model: 'Sequences',
-                    _id: Sequences.findOne({name: 'Sugar – First Leg'})._id,
-                    gates: [{
-                        type: 'completion',
-                        target: Collections.findOne({name: 'Second Leg'})._id
-                    }]
-                },
-                {
-                    model: 'Collections',
-                    _id: Collections.findOne({name: 'Second Leg'})._id,
-                    gates: []
-                }
-            ],
-            start: Sequences.findOne({name: 'Sugar – First Leg'})._id
+            contents: [Sequences.findOne({name: 'Sugar – First Leg'}), Collections.findOne({name: 'Second Leg'})],
         };
+        book.wordcount = _.reduce(book.contents, function(memo, current){
+            return memo + current.wordcount;
+        }, 0);
+        
         Books.insert(book);
     }
 
