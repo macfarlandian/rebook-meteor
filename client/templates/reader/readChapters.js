@@ -34,10 +34,6 @@ Template.readChapters.onRendered(function(){
     $(t.firstNode).visibility({
         throttle: 100,
         once: false,
-        onUpdate: function(calc){
-            // fade the color rails
-            t.$('.fader').css({opacity: 1 - calc.percentagePassed});
-        },
         onBottomPassed: function(calc){
             var path = getPath();
             if (!_.includes(path.path, t.data._id)){
