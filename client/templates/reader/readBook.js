@@ -127,7 +127,7 @@ Template.readBook.onRendered(function(){
   		// TODO: this is kind of a dumb solution just based on the height
 		// of the chapter element
         var chapterElement = $('#' + place.chapter + ' article'),
-        	chapterSize = chapterElement.height() - chapterElement.offset().top,
+        	chapterSize = chapterElement.height(),
         	chapterProgress = ($(window).scrollTop() - chapterElement.offset().top) / chapterSize;
 		
   		bars.filter(function(d){ return d._id == place.chapter})
