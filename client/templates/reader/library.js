@@ -1,6 +1,6 @@
 Template.library.helpers({
 	books: function () {
-		return Books.find();
+		return Books.find({}, {sort: [["lastOpened", "desc"]]});
 	},
 	linkParams: function(){
 		return {bookId: this._id}
@@ -29,6 +29,12 @@ Template.library.helpers({
 			}, 0)
 			;
 		return "height: " + read / total * 100 + "%;";
+	}
+});
+
+Template.library.events({
+	'click a.book': function (event) {
+		Books.update({_id: this._id}, {$set: {lastOpened: Date.now()}});
 	}
 });
 
