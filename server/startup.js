@@ -160,6 +160,26 @@ Meteor.startup(function(){
         }, 0);
         
         Books.insert(book);
+
+        // add some dummy books for the library view
+        var dummybooks = [
+            {name: "Slaughterhouse-Five", wordcount: 47192, contents: []},
+            {name: "Brave New World", wordcount: 64531, contents: []},
+            {name: "Ulysses", wordcount: 265222, contents: []},
+            {name: "Jane Eyre", wordcount: 183858, contents: []},
+            {name: "Animal Farm", wordcount: 29966, contents: []},
+            {name: "One Hundred Years of Solitude", wordcount: 144523, contents: []},
+            {name: "The Fault in Our Stars", wordcount: 67203, contents: []},
+            {name: "Infinite Jest", wordcount: 483994, contents: []},
+            {name: "The Joy Luck Club", wordcount: 91419, contents: []}, 
+            {name: "Hamlet", wordcount: 30066, contents: []},
+            {name: "White Teeth", wordcount: 169389, contents: []},
+            {name: "Pride and Prejudice", wordcount: 122685, contents: []}
+        ]
+
+        _.each(dummybooks, function(book){
+            Books.insert(book);
+        })
     }
 
 })

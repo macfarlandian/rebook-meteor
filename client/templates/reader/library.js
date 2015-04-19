@@ -14,7 +14,9 @@ Template.library.helpers({
 		return d3.format(',.0f')(this.wordcount)
 	},
 	readTime: function(){
-		return moment.duration(this.wordcount / 250, 'minutes').humanize();
+		var hours = Math.round(moment.duration(this.wordcount / 250, 'minutes').as("hours"));
+		if (hours == 1) return hours + " hour";
+		return  hours + " hours";
 	},
 	progressHeight: function(){
 		var total = this.wordcount,
@@ -43,6 +45,6 @@ Template.library.onRendered(function(){
 });
 
 var spineWidth = d3.scale.linear()
-	.domain([0,375])
-	.range([0,1])
+	.domain([0,75000])
+	.range([0,110])
 	;
