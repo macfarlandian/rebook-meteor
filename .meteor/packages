@@ -12,3 +12,4 @@ markdown
 raix:handlebar-helpers
 iron:router
 semantic:ui-css
+momentjs:moment
