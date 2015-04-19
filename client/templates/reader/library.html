@@ -1,16 +1,18 @@
 <template name="library">
-	<div class="ui page grid">	
+	<div class="ui padded page grid library">	
 		<div class="sixteen wide column">
 			<h1 class="ui dividing header">Library</h1>
-			<div class="ui cards">
 			{{#each books}}
-				<a class="card" href="{{pathFor route="library.book" data=linkParams}}">
-					<div class="content">
-						<div class="header">{{ name }}</div>
-					</div>
-				</a>
+			<a class="ui fluid card book" href="{{pathFor route="library.book" data=linkParams}}" style={{spineWidth}}>
+				<div class="progress" style={{progressHeight}}></div>
+				<div class="content">
+					<h2 class="ui header">{{ name }} 
+						<div class="sub header">by Book Author Esq.</div>
+						<div class="sub header">{{formatWordcount}} words (est. reading time: {{readTime}})</div>
+					</h2>
+				</div>
+			</a>
 			{{/each}}
-			</div>
 		</div>
 	</div>
 </template>
