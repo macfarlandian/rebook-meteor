@@ -72,19 +72,9 @@ Template.readChapters.onRendered(function(){
 
             g.append("path")
                 .attr("d", arc)
-                .style("fill", function(d,i) { return ['#000000', '#c9c9c9'][i] });
-
-            // g.append("text")
-            //     .attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")"; })
-            //     .attr("dy", ".35em")
-            //     .style("text-anchor", "middle")
-            //     .text(function(d) { return d.data.age; });
-
-
+                .style("fill", function(d,i) { return ['#848484', '#c9c9c9'][i] });
         i++;
     }
-    // console.log(t.data.name, markerCount, markerSpacing);
-
 
     // watch for reader starting a new chapter
     $(t.firstNode).visibility({
