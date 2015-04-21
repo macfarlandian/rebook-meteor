@@ -6,11 +6,12 @@
 			<a class="ui fluid card book" href="{{pathFor route="library.book" data=linkParams}}" style={{spineWidth}}>
 				<div class="progress" style={{progressHeight}}></div>
 				<div class="content">
-					<h3 class="ui header">{{ name }} 
-						<div class="sub header">by Book Author Esq. 
-							<small>{{formatWordcount}} words <em>(read time: ~{{readTime}})</em></small>
-						</div>
-					</h3>
+					<div class="header">{{ name }}</div>
+					<div class="meta">
+						<span>Book Author Esq.</span>
+						<span>{{formatWordcount}} words</span> 
+						<span><em>{{readTime}}</em></span>
+					</div>
 				</div>
 			</a>
 			{{/each}}

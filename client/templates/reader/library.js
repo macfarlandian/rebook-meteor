@@ -7,7 +7,7 @@ Template.library.helpers({
 	},
 	spineWidth: function(){
 		var width = spineWidth(this.wordcount);
-		width =  d3.max([width, 50]); // min width is 50
+		// width =  d3.max([width, 50]); // min width is 50
 		return "min-height: " + width + "px;";
 	},
 	formatWordcount: function(){
@@ -15,8 +15,8 @@ Template.library.helpers({
 	},
 	readTime: function(){
 		var hours = Math.round(moment.duration(this.wordcount / 250, 'minutes').as("hours"));
-		if (hours == 1) return hours + " hour";
-		return  hours + " hours";
+		if (hours == 1) return hours + " hr";
+		return  hours + " hrs";
 	},
 	progressHeight: function(){
 		var total = this.wordcount,
@@ -30,7 +30,7 @@ Template.library.helpers({
 				}
 			}, 0)
 			;
-		return "height: " + read / total * 100 + "%;";
+		return "width: " + read / total * 100 + "%;";
 	}
 });
 
