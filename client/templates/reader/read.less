@@ -105,21 +105,10 @@
             .typewide();
         }
 
-        .fader {
-            width: 4%;
+        .milemark {
             position: absolute;
-            top: 0;
-            bottom: 0;
-            background-color: @chapter-color;
-            transition: opacity 0.2s;
-
-            &.left {
-                left: 0;
-            }
-
-            &.right {
-                right: 0;
-            }
+            left: 1%;
+            width: 5%;
         }
     }
 }
@@ -215,6 +204,33 @@
                 -webkit-filter: blur(3px);
                 filter: blur(3px);
             }
+        }
+    }
+}
+
+
+
+
+// ************************************
+// LIBRARY
+// ************************************
+
+.library {
+    background-image: url('/pixel_weave.png');
+    .book {
+        background-color: rgba(91, 161, 255, 0.3);
+        overflow: hidden;
+
+        .progress {
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            background-color: rgba(91, 161, 255, 1.0);
+            z-index: 0;
+        }
+        .content {
+            z-index: 1;
         }
     }
 }

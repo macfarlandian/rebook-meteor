@@ -193,7 +193,7 @@ Template.readBook.onRendered(function(){
 		            .attr("y", 6)
 		            .attr("dy", ".71em")
 		            .style("text-anchor", "end")
-		          	.text("Length");
+		          	.text("Words");
 
 	      	var bars = svg.selectAll(".bar")
 		      	.data(chaps)

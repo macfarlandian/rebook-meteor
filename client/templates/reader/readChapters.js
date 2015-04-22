@@ -30,14 +30,56 @@ Template.readChapters.helpers({
 Template.readChapters.onRendered(function(){
     var t = this; // to access the meteor template object in deeper scopes
 
+    // calculate the number of mile markers based on screen height 
+    // optimal = 1 / 2 or 3 screens 
+    // minimum: one at the halfway point
+    var screenHeight = $(window).height(),
+        chapterElement = $('#' + t.data._id + ' article'),
+        chapterHeight = chapterElement.height()
+        markerCount = Math.floor(chapterHeight / screenHeight / 2),
+        markerSpacing = Math.floor(chapterHeight / markerCount),
+        i = 1;
+    
+    while (i < markerCount) {
+        var markContainer = $('<div>')
+            .addClass('milemark')
+            .css('top', markerSpacing * i)
+            // .text(Math.floor(markerSpacing * i / chapterHeight * 100) + "%")
+            ;
+        markContainer.appendTo(chapterElement);
+
+        // add a donut chart to the markContainer
+        var width = markContainer.width(),
+            radius = width / 2,
+            arc = d3.svg.arc()
+                .outerRadius(radius - 1)
+                .innerRadius(radius - 10),
+            pie = d3.layout.pie()
+                .sort(null)
+                .value(function(d) { return d })
+            svg = d3.select(markContainer[0]).append("svg")
+                .attr("width", width)
+                .attr("height", width)
+                .append("g")
+                    .attr("transform", "translate(" + width / 2 + "," + width / 2 + ")"),
+            progress = markerSpacing * i / chapterHeight,
+            data = [progress, 1 - progress],
+            g = svg.selectAll(".arc")
+                .data(pie(data))
+                .enter().append("g")
+                    .attr("class", "arc")
+            ;
+
+            g.append("path")
+                .attr("d", arc)
+                .style("fill", function(d,i) { return ['#848484', '#c9c9c9'][i] });
+        i++;
+    }
+
     // watch for reader starting a new chapter
     $(t.firstNode).visibility({
         throttle: 100,
         once: false,
-        onUpdate: function(calc){
-            // fade the color rails
-            t.$('.fader').css({opacity: 1 - calc.percentagePassed});
-        },
         onBottomPassed: function(calc){
             var path = getPath();
             if (!_.includes(path.path, t.data._id)){
