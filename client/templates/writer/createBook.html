@@ -1,15 +1,16 @@
 <template name="createBook">
-    <div class="ui internally celled relaxed grid">
-        <section class="ten wide column" id="">
-            {{#with $.Session.get 'workArea'}}
-            {{> UI.dynamic template=this}}
-            {{/with}}
-        </section>
-
-        <section class="six wide column" id="preview">
-            {{#with $.Session.get 'previewArea'}}
-            {{> UI.dynamic template=this}}
-            {{/with}}
-        </section>
+    <div class="ui three column padded divided grid">
+        <div class="column">
+            <h3>Preview</h3>
+            {{> contentPreview getPreviewContent}}
+        </div>
+        <div class="column">
+            <h3>Structure: {{name}}</h3>
+            {{> bookStructure getBookStructure}}
+        </div>
+        <div class="column">
+            <h3>Chapters</h3>
+            {{> bookChapters}}
+        </div>
     </div>
 </template>

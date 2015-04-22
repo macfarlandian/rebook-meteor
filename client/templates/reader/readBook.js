@@ -154,7 +154,7 @@ Template.readBook.onRendered(function(){
 	    	// initialize path if it's empty
 	    	if (path == undefined) path = {path: []};
 
-	    	var chaps = book.chapterLengths();
+	    	var chaps = book.allChapters();
 
 		    var xAxis = d3.svg.axis()
 		        .scale(x)

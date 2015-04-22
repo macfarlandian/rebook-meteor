@@ -1,4 +1,4 @@
-Template.contentpreview.helpers({
+Template.contentPreview.helpers({
     resource: function(){
         return Resources.findOne(Session.get('previewData'));
     },

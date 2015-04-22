@@ -1,10 +1,10 @@
-Template.bookBuild.helpers({
+Template.bookStructure.helpers({
     book: function(){
         return Books.findOne(Session.get('workData'));
     }
 });
 
-Template.bookBuild.rendered = function(){
+Template.bookStructure.rendered = function(){
     var container = d3.select('#bookContainer'),
         width = 744,
         height = 500,
