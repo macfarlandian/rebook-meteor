@@ -1,10 +1,10 @@
-Template.bookBuild.helpers({
+Template.bookStructure.helpers({
     book: function(){
         return Books.findOne(Session.get('workData'));
     }
 });
 
-Template.bookBuild.rendered = function(){
+Template.bookStructure.rendered = function(){
     var container = d3.select('#bookContainer'),
         width = 744,
         height = 500,
@@ -25,7 +25,7 @@ Template.bookBuild.rendered = function(){
 
         // nodes are the containers in a book
         graph.nodes = _.map(book.contents, function(cur){
-            var obj = Models[cur.model].findOne(cur._id);
+            var obj = Containers.findOne(cur._id);
             return {
                 name: obj.name,
                 _id: obj._id,

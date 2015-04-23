@@ -4,7 +4,7 @@ Template.collectionBuild.helpers({
     },
     getContents: function(){
         if (this.model == "Chapters") return getChapter(this._id);
-        return Models[this.model].findOne(this._id);
+        return Containers.findOne(this._id);
     },
     length: function(){
         return this.getLength();

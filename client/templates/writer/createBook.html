@@ -1,0 +1,16 @@
+<template name="createBook">
+    <div class="ui three column padded divided grid">
+        <div class="column">
+            <h3>Preview</h3>
+            {{> contentPreview getPreviewContent}}
+        </div>
+        <div class="column">
+            <h3>Structure: {{name}}</h3>
+            {{> bookStructure getBookStructure}}
+        </div>
+        <div class="column">
+            <h3>Chapters</h3>
+            {{> bookChapters}}
+        </div>
+    </div>
+</template>

@@ -1,3 +1,12 @@
+Template.createBook.helpers({
+    getBookChapters: function(){
+        return Books.findOne(this._id).allChapters();
+    }
+});
+
+// global vars for displaying preview on click
+previewContent = undefined;
+
 // a helper helper ... DRY chapter fetching
 function getChapter() {
     var c = Chapters.findOne();
@@ -19,10 +28,3 @@ function getChapter() {
 
     return c;
 }
-
-Template.schemtest.helpers({
-    chapter: getChapter,
-});
-
-// global vars for displaying preview on click
-previewContent = undefined;

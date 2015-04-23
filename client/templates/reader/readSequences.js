@@ -6,7 +6,6 @@ Template.readSequences.helpers({
 
 Template.readSequences.onRendered(function() {
     var t = this;
-    $('#bookHome').dimmer('show');
     
     var place = getPlace();
     if (place.chapter == undefined) {

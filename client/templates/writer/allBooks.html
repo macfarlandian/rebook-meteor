@@ -1,0 +1,36 @@
+<template name="allBooks">
+	<div class="ui one column padded grid">
+		<div class="column">
+			<h1 class="ui dividing header">All My Books</h1>
+			<div class="ui four cards">
+				<div class="card">
+					<div class="ui active dimmer">
+						<div class="content">
+							<div class="center">
+								<div class="ui inverted button">+ Start a New Book</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				{{#each myBooks}}
+				<div class="card">
+					<div class="content">
+						<div class="header">{{name}}</div>
+						<div class="meta">
+							<span>{{wordcount}} words</span>
+							<span>Last edited: {{editTime}}</span>
+						</div>
+						<div class="description">
+							Chapters: xx lorem ipsum?
+						</div>
+					</div>
+					<div class="extra content">
+						<a href="{{pathFor route="create.book" data=bookId }}" class="edit"><i class="edit icon"></i>Edit</a>
+						<a class="right floated delete"><i class="trash icon"></i>Delete</a>
+					</div>
+				</div>
+				{{/each}}
+			</div>
+		</div>
+	</div>
+</template>	
