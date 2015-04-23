@@ -55,3 +55,15 @@ Template.bookStructure.onRendered(function(){
     });
     
 });
+
+Template.bookStructure.events({
+    'click .bookStructure': function (e) {
+        $('.scrubber').css('transform', 'translateY('+(e.pageY - $(e.currentTarget).offset().top)+'px)')
+    },
+    'click .content': function (e) {
+        var add = true;
+        if (_.includes(e.target.classList, 'active')) add = false;
+        $('.column.content').removeClass('active');
+        if (add) $(e.target).addClass('active');
+    }
+});

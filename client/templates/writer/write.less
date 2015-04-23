@@ -34,6 +34,16 @@
 		}
 	}
 
+	.scrubber {
+		position: absolute;
+		width: 100%;
+		height: 3px;
+		background-color: red;
+		z-index: 10;
+		opacity: 0.5;
+		pointer-events: none;
+	}
+
 	.grid {
 		margin-top: 20px;
 
@@ -43,6 +53,10 @@
 			.content {
 				border: 1px solid black;
 				background-color: #fff;
+
+				&.active {
+					background-color: yellow;
+				}
 			}	
 		}
 	}
