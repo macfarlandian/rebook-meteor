@@ -1,4 +1,4 @@
-Meteor.startup(function(){
+(function(){Meteor.startup(function(){
     // data fixtures for testing
     var textfiles = [
         "bar tattoo -33-.txt",
@@ -84,8 +84,9 @@ Meteor.startup(function(){
 
     }
 
-    if (Sequences.find().count() == 0) {
+    if (Containers.find({type: 'sequence'}).count() == 0) {
         var seq = {
+            type: 'sequence',
             name: 'Sugar – First Leg',
             contents: []
         };
@@ -100,9 +101,10 @@ Meteor.startup(function(){
             return memo + current.wordcount;
         }, 0);
         
-        Sequences.insert(seq);
+        Containers.insert(seq);
 
         seq = {
+            type: 'sequence',
             name: 'Sugar – Second Leg',
             contents: []
         };
@@ -116,9 +118,10 @@ Meteor.startup(function(){
         seq.wordcount = _.reduce(seq.contents, function(memo, current){
             return memo + current.wordcount;
         }, 0);
-        Sequences.insert(seq);
+        Containers.insert(seq);
 
         seq = {
+            type: 'sequence',
             name: 'Xu Kong – Second Leg',
             contents: []
         };
@@ -132,28 +135,29 @@ Meteor.startup(function(){
         seq.wordcount = _.reduce(seq.contents, function(memo, current){
             return memo + current.wordcount;
         }, 0);
-        Sequences.insert(seq);
+        Containers.insert(seq);
     }
 
-    if (Collections.find().count() == 0) {
+    if (Containers.find({type: 'collection'}).count() == 0) {
         var coll = {
+            type: 'collection',
             name: 'Second Leg',
             contents: []
         };
-        var seqs = Sequences.find({name: /Second Leg/})
+        var seqs = Containers.find({type: 'sequence', name: /Second Leg/})
         seqs.forEach(function(doc){
             coll.contents.push(doc);
         });
         coll.wordcount = _.reduce(coll.contents, function(memo, current){
             return memo + current.wordcount;
         }, 0);
-        Collections.insert(coll);
+        Containers.insert(coll);
     }
 
     if (Books.find().count() == 0){
         var book = {
             name: '12-9',
-            contents: [Sequences.findOne({name: 'Sugar – First Leg'}), Collections.findOne({name: 'Second Leg'})],
+            contents: [Containers.findOne({type: 'sequence', name: 'Sugar – First Leg'}), Containers.findOne({type: 'collection', name: 'Second Leg'})],
         };
         book.wordcount = _.reduce(book.contents, function(memo, current){
             return memo + current.wordcount;
@@ -183,3 +187,5 @@ Meteor.startup(function(){
     }
 
 })
+
+})();

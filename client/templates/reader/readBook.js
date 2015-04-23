@@ -3,13 +3,13 @@ Template.readBook.helpers({
     	return Placemarkers.findOne({userId: Session.get('userId'), book: Router.current().params.bookId});
     },
     getContents: function(){
-    	if (this.collection != undefined) return Collections.findOne(this.collection);
-    	if (this.sequence != undefined) return Sequences.findOne(this.sequence);
+    	if (this.collection != undefined) return Containers.findOne(this.collection);
+    	if (this.sequence != undefined) return Containers.findOne(this.sequence);
     },
     getChapterName: function(){
     	if (this.chapter != undefined) return Chapters.findOne(this.chapter);
-    	if (this.collection != undefined) return Collections.findOne(this.collection);
-    	if (this.sequence != undefined) return Sequences.findOne(this.sequence);
+    	if (this.collection != undefined) return Containers.findOne(this.collection);
+    	if (this.sequence != undefined) return Containers.findOne(this.sequence);
     },
     getTemplate: function(){
     	// Collections can contain Sequences, but not vice versa.
@@ -30,8 +30,8 @@ Template.readBook.events({
 		var book = this;
 		var first = book.contents[0];
 		
-		if (first.model == 'Sequences') markPlace({sequence: first._id});
-		if (first.model == 'Collections') markPlace({collection: first._id});
+		if (first.type == 'sequence') markPlace({sequence: first._id});
+		if (first.type == 'collection') markPlace({collection: first._id});
 
 		// create a history entry for this book if not exists
 		var bookQuery = {
@@ -62,10 +62,10 @@ Template.readBook.events({
 			// for now let's skip gates ... maybe they are an optional extension
 			// assume the array is ordered
 			var next = _.findIndex(book.contents, {_id: seq}) + 1;
-			if (next < book.contents.wordcount) {
+			if (next < book.contents.length) {
 				next = book.contents[next];
-				if (next.model == 'Sequences') markPlace({sequence: next._id})
-				if (next.model == 'Collections') markPlace({collection: next._id})
+				if (next.type == 'sequence') markPlace({sequence: next._id})
+				if (next.type == 'collection') markPlace({collection: next._id})
 			} else {
 				// end of book
 			}
@@ -79,11 +79,10 @@ Template.readBook.events({
 		var next = _.findIndex(book.contents, {_id: coll}) + 1;
 		if (next < book.contents.wordcount) {
 			next = book.contents[next];
-			if (next.model == 'Sequences') markPlace({sequence: next._id})
-			if (next.model == 'Collections') markPlace({collection: next._id})
+			if (next.type == 'sequence') markPlace({sequence: next._id})
+			if (next.type == 'collections') markPlace({collection: next._id})
 		} else {
 			// end of book
-			$('.the-end').dimmer('show');
 		}
 	}
 });

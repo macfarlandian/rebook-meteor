@@ -1,12 +1,12 @@
 
 Template.sequenceBuild.helpers({
     sequence: function(){
-        return Sequences.findOne({_id: Session.get('workData')});
+        return Containers.findOne({_id: Session.get('workData')});
     },
     getContents: function(){
         if (this.model == 'Chapters') return getChapter(this._id);
         // TODO: do this with a pub/sub callback automatically
-        return Models[this.model].findOne(this._id);
+        return Containers.findOne(this._id);
     },
     length: function(){
         return this.getLength();

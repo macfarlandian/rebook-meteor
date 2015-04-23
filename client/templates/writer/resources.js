@@ -1,6 +1,6 @@
 Template.resourceList.helpers({
     retrieve: function(coll){
-        return Models[coll].find();
+        return Containers.find();
     },
     displayName: function(){
         if (this == undefined) return this;

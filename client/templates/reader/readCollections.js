@@ -4,7 +4,7 @@ Template.readCollections.helpers({
 			place = getPlace();
 		if (place.sequence != undefined) {
 			choice.template = "readSequences";
-			choice.data = Sequences.findOne(place.sequence);
+			choice.data = Containers.findOne(place.sequence);
 		}
 		return choice
 	},
@@ -25,7 +25,7 @@ Template.readCollections.helpers({
 	},
 
 	sequenceName: function(){
-		var seq = Sequences.findOne(this._id);
+		var seq = Containers.findOne(this._id);
 		if (seq) return seq.name;
 	}, 
 
@@ -52,7 +52,7 @@ Template.readCollections.events({
 		place.chapter = undefined;
 		place.sequence = undefined;
 		
-		if (context.model == 'Sequences') place.sequence = context._id;
+		if (context.type == 'sequence') place.sequence = context._id;
 		if (context.model == 'Chapters') place.chapter = context._id;
 
 		markPlace(place);

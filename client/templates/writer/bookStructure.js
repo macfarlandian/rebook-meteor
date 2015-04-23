@@ -25,7 +25,7 @@ Template.bookStructure.rendered = function(){
 
         // nodes are the containers in a book
         graph.nodes = _.map(book.contents, function(cur){
-            var obj = Models[cur.model].findOne(cur._id);
+            var obj = Containers.findOne(cur._id);
             return {
                 name: obj.name,
                 _id: obj._id,
