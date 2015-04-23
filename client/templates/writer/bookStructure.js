@@ -4,6 +4,10 @@ var bookScale = d3.scale.linear()
     .domain([0, wordToPixel])
     .rangeRound([0,1]);
 
+var flags = {
+    dragTimeline: false,
+};
+
 Template.bookStructure.helpers({
     contentHeight: bookScale,
 });
@@ -50,7 +54,17 @@ Template.bookStructure.onRendered(function(){
             // .attr('transform', 'rotate(-90 0 0)')
             .attr('dy', -3)
             .attr('x', 3)
-            .style('font-style', 'italic')
+            .style('font-style', 'italic');
+
+        var drag = d3.behavior.drag()
+        drag.on("drag", function(){
+            // prevent from dragging beyond event bounds
+            var ypos = d3.min([d3.event.y - $(this).position().top, $(this).height()]);
+            ypos = d3.max([ypos, 0]);
+            $('.scrubber').css('transform', 'translateY('+ypos+'px)')
+        });
+
+        d3.select('.bookStructure').call(drag);
 
     });
     
