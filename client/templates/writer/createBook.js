@@ -1,7 +1,7 @@
 Template.createBook.helpers({
     getBookChapters: function(){
         return Books.findOne(this._id).allChapters();
-    }
+    },
 });
 
 // global vars for displaying preview on click

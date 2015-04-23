@@ -1,3 +1,51 @@
 .menuPad{
 	margin-top: 50px;
 }
+
+.bookStructure {
+	position: relative;
+
+	svg.scale {
+		overflow: visible;
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+
+		.axis {
+			font-size: .75rem;
+			path {
+				stroke-width: 1px;
+				fill: none;
+				stroke: #000;
+			}
+			.tick {
+				font-size: .65rem;
+				line {
+					stroke-width: 1px;
+					fill: none;
+					stroke: #000;
+
+					&.grid {
+						stroke: #c9c9c9;
+					}
+				}
+			}
+		}
+	}
+
+	.grid {
+		margin-top: 20px;
+
+		.row {
+			padding: 0 !important;
+			margin-bottom: -1px;
+			.content {
+				border: 1px solid black;
+				background-color: #fff;
+			}	
+		}
+	}
+	
+	
+}

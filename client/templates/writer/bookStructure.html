@@ -1,7 +1,14 @@
 <template name="bookStructure">
-    {{#with book}}
-    <h1><i class="book icon"></i> {{name}}</h1>
-    {{/with}}
-    <svg id="bookLinks"></svg>
-    <div id="bookContainer"></div>
+	<div class="bookStructure">
+		<svg class="scale"></svg>
+		<div class="ui centered grid">
+			{{#each this}}
+			<div class="four column centered row">
+				<div class="column content" style="height: {{contentHeight wordcount}}px">
+					{{name}}
+				</div>
+			</div>
+			{{/each}}
+		</div>
+	</div>
 </template>
