@@ -4,10 +4,23 @@
 		<div class="scrubber"></div>
 		<div class="ui centered grid">
 			{{#each this}}
-			<div class="four column centered row">
-				<div class="column content" style="height: {{contentHeight wordcount}}px">
+			<div class="{{#if isCollection}}two column {{/if}}centered row">
+				{{#if isCollection}}
+				<div class="column collection">
+					<div class="title">{{name}}</div>
+					<div class="ui {{collectionWidth}} column centered grid">
+						{{#each contents}}
+						<div class="column content" style="height: {{contentHeight wordcount}}px">
+							{{name}}
+						</div>
+						{{/each}}
+					</div>
+				</div>
+				{{else}}
+				<div class="four wide column content" style="height: {{contentHeight wordcount}}px">
 					{{name}}
 				</div>
+				{{/if}}
 			</div>
 			{{/each}}
 		</div>

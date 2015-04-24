@@ -10,6 +10,13 @@ var flags = {
 
 Template.bookStructure.helpers({
     contentHeight: bookScale,
+    isCollection: function(){
+        return this.type == 'collection';
+    },
+    collectionWidth: function(){
+        // 16 is the default number of columns in semantic ui grid
+        return numToWords(d3.min([this.contents.length, 16]))
+    },
 });
 
 Template.bookStructure.onRendered(function(){
