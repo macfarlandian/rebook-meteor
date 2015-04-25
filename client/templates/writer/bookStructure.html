@@ -4,20 +4,20 @@
 		<div class="scrubber"></div>
 		<div class="ui centered grid">
 			{{#each this}}
-			<div class="{{#if isCollection}}two column {{/if}}centered row">
-				{{#if isCollection}}
+			<div class="{{#if $eq type 'collection'}}two column {{/if}}centered row">
+				{{#if $eq type 'collection'}}
 				<div class="column collection">
 					<div class="title">{{name}}</div>
 					<div class="ui {{collectionWidth}} column centered grid">
 						{{#each contents}}
-						<div class="column content" style="height: {{contentHeight wordcount}}px">
+						<div class="column content {{#if $eq type 'sequence'}}sequence{{else}}chapter{{/if}}" style="height: {{contentHeight wordcount}}px" id={{_id}}>
 							{{name}}
 						</div>
 						{{/each}}
 					</div>
 				</div>
 				{{else}}
-				<div class="four wide column content" style="height: {{contentHeight wordcount}}px">
+				<div class="four wide column content {{#if $eq type 'sequence'}}sequence{{else}}chapter{{/if}}" id={{_id}} style="height: {{contentHeight wordcount}}px">
 					{{name}}
 				</div>
 				{{/if}}

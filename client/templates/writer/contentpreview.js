@@ -1,4 +1,8 @@
 Template.contentPreview.helpers({
+    isSequence: function(){
+        console.log(this)
+        return this.type == 'sequence'
+    },
     resource: function(){
         return Resources.findOne(Session.get('previewData'));
     },
@@ -45,4 +49,10 @@ Template.contentPreview.helpers({
         }
 
     }
+});
+
+Template.contentPreview.onRendered(function(){
+    var prevArea = this.$('.previewArea'),
+        height = $(window).height() - prevArea.offset().top; 
+    prevArea.height(height);
 });

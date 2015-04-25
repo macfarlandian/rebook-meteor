@@ -10,9 +10,6 @@ var flags = {
 
 Template.bookStructure.helpers({
     contentHeight: bookScale,
-    isCollection: function(){
-        return this.type == 'collection';
-    },
     collectionWidth: function(){
         // 16 is the default number of columns in semantic ui grid
         return numToWords(d3.min([this.contents.length, 16]))
@@ -57,8 +54,6 @@ Template.bookStructure.onRendered(function(){
         svg.select('.axis')
             .append('text')
             .text('words')
-            // .attr('text-anchor', 'end')
-            // .attr('transform', 'rotate(-90 0 0)')
             .attr('dy', -3)
             .attr('x', 3)
             .style('font-style', 'italic');
@@ -70,6 +65,15 @@ Template.bookStructure.onRendered(function(){
             ypos = d3.max([ypos, 0]);
             $('.scrubber').css('transform', 'translateY('+ypos+'px)')
         });
+        drag.on('dragend', function(){
+            var current = $('.bookStructure .content').filter(function(){
+                return _.inRange($('.scrubber').offset().top, $(this).offset().top, $(this).offset().top + $(this).outerHeight());
+            }).first();
+            var previewContent = {_id: current.attr('id')};
+            if (current.hasClass('sequence')) { previewContent.type = 'sequence'}
+            else { previewContent.type = 'chapter' } 
+            Session.set('previewContent', previewContent);
+        })
 
         d3.select('.bookStructure').call(drag);
 

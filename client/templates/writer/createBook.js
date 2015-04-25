@@ -2,6 +2,12 @@ Template.createBook.helpers({
     getBookChapters: function(){
         return Books.findOne(this._id).allChapters();
     },
+    getPreviewContent: function(){
+        var previewContent = Session.get('previewContent');
+        if (previewContent && previewContent.type == 'sequence') return Containers.findOne(previewContent._id);
+        return Chapters.findOne(previewContent._id);
+
+    }
 });
 
 // global vars for displaying preview on click

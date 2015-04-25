@@ -1,15 +1,20 @@
 <template name="contentPreview">
-    {{#with resource}}
-    {{#if $eq type 'text'}}
-    <div class="inactive top"></div>
+    <h3>Preview: <span class="ui label">{{name}}</span></h3>
+    <div class="previewArea">
+    {{#if isSequence}}
+        {{> previewSequence}}
+    {{/if}}
+    {{#if isChapter}}
+        {{> previewChapter}}
+    {{/if}}
+    </div>
+    <!-- <div class="inactive top"></div>
     <div class="inactive bottom"></div>
     <article>
         <h2>{{name}}</h2>
         {{#each paras contents}}
         {{#markdown}}{{this.text}}{{/markdown}}
-            {{!-- {{#each this}}
-                <span class="word">{{this}}</span>
-            {{/each}} --}}
+            
         {{#if markOverlaps}}
             {{#each markOverlaps.start}}
             <div class="ui horizontal divider">
@@ -77,6 +82,5 @@
             </div>
         </div>
     </article>
-    {{/if}}
-    {{/with}}
-</template>
+    
+ --></template>
