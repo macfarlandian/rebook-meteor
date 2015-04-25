@@ -1,5 +1,5 @@
 <template name="bookChapters">
-	<div class="ui fluid styled accordion">	
+	<div class="ui fluid styled accordion chapterList">	
 		<h5 class="active title"><i class="dropdown icon"></i>Available</h5>
 		<div class="active content">
 			<div class="ui small celled list">
@@ -21,7 +21,7 @@
 						<div class="header">{{name}}</div>
 						<div class="description">{{wordcount}} words</div>
 					</div>
-					<div class="ui right floated label">Part of: <br/>{{parentName}}</div>
+					{{#if parentName}}<div class="ui group {{#if firstOfGroup}}first{{/if}}">{{parentName}}</div>{{/if}}
 				</div>
 				{{/each}}
 			</div>

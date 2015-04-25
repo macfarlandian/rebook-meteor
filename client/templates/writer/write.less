@@ -93,3 +93,26 @@
 	overflow: auto;
 	// width: 100%;
 }
+
+@groupcolor: #c9c9c9;
+.chapterList {
+	.item.used {
+		position: relative;
+		.group {
+			position: absolute;
+			right: 0;
+			top: 0;
+			bottom: 0;
+			padding: 0.3em 0.5em;
+			max-width: 40%;
+			background-color: @groupcolor;
+
+			&:not(.first) {
+				color: @groupcolor;
+				cursor: default;
+			}
+		}	
+	}
+
+	
+}
