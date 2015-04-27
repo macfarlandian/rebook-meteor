@@ -13,3 +13,6 @@ raix:handlebar-helpers
 iron:router
 semantic:ui-css
 momentjs:moment
+cfs:standard-packages
+cfs:filesystem
+localmod:upload-jquery
