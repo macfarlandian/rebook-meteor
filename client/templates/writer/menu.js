@@ -1,3 +1,10 @@
+Template.menu.helpers({
+    allBooks: function () {
+        // TODO: not ideal to hard code this URL but whatevs
+        return Router.current().route.path() == "/create"
+    }
+});
+
 Template.menu.events({
     "click .resources": function(event, template){
         Session.set('previewArea', 'resourceList');
