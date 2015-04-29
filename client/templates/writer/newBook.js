@@ -68,7 +68,6 @@ Template.newBook.events({
 					} else {
 						var name = res.name.substr(0,res.name.length - 4);
 					}
-					console.log(name)
 					var chap = {
 						name: name,
 						contents: [res]
@@ -125,5 +124,8 @@ Template.newBook.events({
 		})
 
 		Router.go('/create');
+	},
+	'click .button.goToBook': function(){
+		Books.update({_id: Session.get('newBook')}, {$set: {lastEdited: Date.now()}})
 	}
 });

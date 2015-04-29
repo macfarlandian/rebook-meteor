@@ -170,7 +170,6 @@
             {name: "Slaughterhouse-Five", wordcount: 47192, contents: []},
             {name: "Brave New World", wordcount: 64531, contents: []},
             {name: "Ulysses", wordcount: 265222, contents: []},
-            {name: "Jane Eyre", wordcount: 183858, contents: []},
             {name: "Animal Farm", wordcount: 29966, contents: []},
             {name: "One Hundred Years of Solitude", wordcount: 144523, contents: []},
             {name: "The Fault in Our Stars", wordcount: 67203, contents: []},
