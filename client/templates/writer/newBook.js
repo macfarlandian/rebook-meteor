@@ -4,6 +4,9 @@ Template.newBook.helpers({
 	},
 	textUploads: function(){
 		return Session.get('textUploads');
+	},
+	bookId: function(){
+		return {bookId: Session.get('newBook')};
 	}
 });
 
@@ -11,6 +14,8 @@ Template.newBook.onRendered(function(){
 	// reset Session vars that are only relevant while this is in progress
 	Session.set('textUploads', [])
 	Session.set('newBook', undefined);
+	Session.set('newResources', []);
+	Session.set('newChapters', []);
 })
 
 Template.newBook.events({
@@ -48,6 +53,12 @@ Template.newBook.events({
 				}
 				Resources.insert(resource, function(err, res_id){
 					if (err) return console.log(err); 
+					
+					// log this id in case user cancels
+					var newResources = Session.get('newResources');
+					newResources.push(res_id);
+					Session.set('newResources', newResources);
+
 					var res = Resources.findOne(res_id);
 					// make a new chapter with this as the only resource, and the same name
 					
@@ -71,6 +82,12 @@ Template.newBook.events({
 
 		            Chapters.insert(chap, function(err, chap_id){
 		            	if (err) return console.log(err);
+
+		            	// log this id in case user cancels
+						var newChapters = Session.get('newChapters');
+						newChapters.push(chap_id);
+						Session.set('newChapters', newChapters);
+
 		            	var chap = Chapters.findOne(chap_id);
 		            	newBook.availableChapters.push(chap);
 		            	
@@ -93,17 +110,20 @@ Template.newBook.events({
 		});
 
 	    e.target.value = ""; // Reset the upload form
+	},
+	'click .button.cancel': function () {
+		// abort creation of the book - delete the book and all uploads
+		Books.remove({_id: Session.get('newBook')})
+		var newChapters = Session.get('newChapters'),
+			newResources = Session.get('newResources');
 
+		_.each(newChapters, function(_id){
+			Chapters.remove({_id: _id});
+		});
+		_.each(newResources, function(_id){
+			Resources.remove({_id: _id});
+		})
 
-		// 	Uploads.insert(file, function(err, obj){
-		// 		console.log(obj.isUploaded())
-		// 		// Tracker.autorun(function () {
-		// 		// 	console.log(obj.uploadProgress())
-		// 		// 	if (obj.isUploaded()){
-		// 		// 		console.log('uploaded')
-		// 		// 	}
-		// 		// });
-		// 	});
-		// })
+		Router.go('/create');
 	}
 });
