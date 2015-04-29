@@ -19,5 +19,5 @@ Template.allBooks.events({
 		var result = window.confirm("Are you sure you want to delete " + this.name + "?");
 
 		if(result) Books.remove({_id: this._id});
-	}
+	},
 });
