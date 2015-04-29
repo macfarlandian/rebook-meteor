@@ -35,26 +35,32 @@
 						<h3>Upload text files (.txt, .md)</h3>
 						<div class="ui blue message">
 							<p>Every text file you upload will automatically be converted into its own Chapter. If this isn't what you want, you can split and combine them later.</p>
-							</div>
-						{{> upload_semanticUI multiple=true fileTypes=".txt,.md"}}
-						<!-- <form class="ui form" id="textUpload">
+						</div>
+						
+						<form class="ui form" id="textUpload">
 							<div class="field">
-								<label for="files" class="ui icon button"><i class="file icon"></i>File upload</label>
-								<input type="file" id="files" style="display: none;"/>
+								<!-- <label for="txtFiles" class="ui icon button"><i class="file icon"></i>Choose files...</label> -->
+								<input type="file" id="txtFiles" multiple/>
 							</div>
-						</form> -->
+						</form>
+						<div class="ui celled list">
+						{{#each textUploads}}
+							<div class="item"><div class="content">{{name}}</div></div>
+						{{/each}}
+						</div>
+
 					</div>
 					<div class="column">
 						<h3>Upload non-text media (audio, video, images)</h3>
 						<div class="ui yellow message">
 							<p>Media will be stored as Story Assets that you can add to any of your Chapters.</p>
 						</div>
-						{{> upload_semanticUI multiple=true}}
 					</div>
 				</div>
-				<div class="ui hidden divider"></div>
-				<a class="ui huge green button">Done – Go to my book</a>
 			</div>
+			<div class="ui hidden divider"></div>
+				<a class="ui huge red button">Cancel</a>
+				<a class="ui huge green disabled button">Done – Go to my book</a>
 		</div>
 	</div>
 </template>

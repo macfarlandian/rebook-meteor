@@ -185,7 +185,6 @@
             Books.insert(book);
         })
     }
-
 })
 
 })();

@@ -14,5 +14,5 @@ iron:router
 semantic:ui-css
 momentjs:moment
 cfs:standard-packages
-cfs:filesystem
-localmod:upload-jquery
+cfs:gridfs
+cfs:ui
