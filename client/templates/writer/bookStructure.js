@@ -97,10 +97,18 @@ Template.bookStructure.events({
 
 function updatePreview(){
     var active = $('.bookStructure .content').filter('.active');
-    var previewContent = {_id: active.attr('id')};
-    if (active.hasClass('sequence')) { previewContent.type = 'sequence'}
-    else { previewContent.type = 'chapter' } 
-    Session.set('previewContent', previewContent);
+    if (active.length != 0) {
+        var previewContent = {_id: active.attr('id')};
+        if (active.hasClass('sequence')) { 
+            previewContent.type = 'sequence'
+        } else { 
+            previewContent.type = 'chapter' 
+        } 
+        Session.set('previewContent', previewContent);
+
+        var scrollPct = ($('.scrubber').offset().top - active.offset().top) / active.outerHeight();
+        Session.set('previewScrollPct', scrollPct);
+    }
 }
 
 function markOverlaps(){
