@@ -17,6 +17,9 @@ Template.bookStructure.helpers({
 });
 
 Template.bookStructure.onRendered(function(){
+    // initial marking based on scrubber start pos
+    markOverlaps();
+    updatePreview();
     
     this.autorun(function(){
         var data = Template.currentData();
@@ -66,13 +69,9 @@ Template.bookStructure.onRendered(function(){
             $('.scrubber').css('transform', 'translateY('+ypos+'px)')
         });
         drag.on('dragend', function(){
-            var current = $('.bookStructure .content').filter(function(){
-                return _.inRange($('.scrubber').offset().top, $(this).offset().top, $(this).offset().top + $(this).outerHeight());
-            }).first();
-            var previewContent = {_id: current.attr('id')};
-            if (current.hasClass('sequence')) { previewContent.type = 'sequence'}
-            else { previewContent.type = 'chapter' } 
-            Session.set('previewContent', previewContent);
+            markOverlaps();
+            // use info of whatever content is marked "active"
+            updatePreview();
         })
 
         d3.select('.bookStructure').call(drag);
@@ -84,11 +83,36 @@ Template.bookStructure.onRendered(function(){
 Template.bookStructure.events({
     'click .bookStructure': function (e) {
         $('.scrubber').css('transform', 'translateY('+(e.pageY - $(e.currentTarget).offset().top)+'px)')
+        markOverlaps();
+        updatePreview();
     },
     'click .content': function (e) {
         var add = true;
         if (_.includes(e.target.classList, 'active')) add = false;
         $('.column.content').removeClass('active');
         if (add) $(e.target).addClass('active');
+        updatePreview();
     }
 });
+
+function updatePreview(){
+    var active = $('.bookStructure .content').filter('.active');
+    var previewContent = {_id: active.attr('id')};
+    if (active.hasClass('sequence')) { previewContent.type = 'sequence'}
+    else { previewContent.type = 'chapter' } 
+    Session.set('previewContent', previewContent);
+}
+
+function markOverlaps(){
+    var contents = $('.bookStructure .content');
+    var overlaps = contents.filter(function(){
+        return _.inRange($('.scrubber').offset().top, $(this).offset().top, $(this).offset().top + $(this).outerHeight());
+    });
+    current = overlaps.first();
+    
+    if (overlaps.filter('.active').length == 0) {
+        // no active content in this collection
+        contents.removeClass('active');
+        current.addClass('active');
+    } 
+}
