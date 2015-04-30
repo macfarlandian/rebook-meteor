@@ -13,3 +13,14 @@ Template.bookChapters.helpers({
 Template.bookChapters.onRendered(function(){
 	this.$('.ui.accordion').accordion();
 });
+
+Template.bookChapters.events({
+	'mouseover .chapterList .item': function (event, template) {
+		// make chapter draggable
+		$(event.currentTarget).draggable({
+			opacity: 0.4,
+			revert: "invalid",
+			revertDuration: 250,
+		});
+	}
+});

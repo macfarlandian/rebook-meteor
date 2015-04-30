@@ -1,5 +1,7 @@
 <template name="bookStructure">
 	<div class="bookStructure">
+		
+		{{#if this}}
 		<svg class="scale"></svg>
 		<div class="scrubber"></div>
 		<div class="ui centered grid">
@@ -24,5 +26,10 @@
 			</div>
 			{{/each}}
 		</div>
+		{{else}}
+		<div class="ui segment structureHelp">
+			drag your first chapter here to get started
+		</div>
+		{{/if}}
 	</div>
 </template>

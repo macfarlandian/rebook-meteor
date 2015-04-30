@@ -17,6 +17,22 @@ Template.bookStructure.helpers({
 });
 
 Template.bookStructure.onRendered(function(){
+    var structureArea = this.$('.bookStructure'),
+        structureHelp = this.$('.structureHelp');
+    structureHelp.droppable({
+        tolerance: "touch",
+        drop: function(e,ui){
+            var chapterId = ui.draggable.get(0).dataset.id,
+                chapter = Chapters.findOne({_id: chapterId}),
+                book = Books.findOne({_id: Router.current().params.bookId});
+            // add chapter to the book's contents, remove from available chapters
+            _.remove(book.availableChapters, {_id: chapterId});
+            book.contents.push(chapter);
+            Books.update({_id: book._id}, book);
+        }
+    });
+
+
     this.autorun(function(){
         var data = Template.currentData();
         if (data == null) return;
@@ -99,6 +115,10 @@ Template.bookStructure.events({
         $('.column.content').removeClass('active');
         if (add) $(e.target).addClass('active');
         updatePreview();
+    },
+    'dragover .structureHelp': function (e) {
+        e.preventDefault();
+        $(e.target).css('opacity', 1)
     }
 });
 

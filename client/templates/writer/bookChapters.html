@@ -1,31 +1,37 @@
 <template name="bookChapters">
-	<div class="ui fluid styled accordion chapterList">	
-		<h5 class="active title"><i class="dropdown icon"></i>Available</h5>
-		<div class="active content">
-			<div class="ui small celled list">
-				{{#each availableChapters}}
-				<div class="item available">
-					<div class="ui image"><i class="star icon"></i></div>
-					<div class="content"><span class="header">{{name}}</span></div>
-				</div>
-				{{/each}}
-			</div>
-		</div>
-		<h5 class="title"><i class="dropdown icon"></i>Used</h5>
-		<div class="content">
-			<div class="ui small celled list">
-				{{#each getChaptersFromContents}}
-				<div class="item used">
-					<img class="ui mini image" src="/doc-single-icon.png"/>
-					<div class="content">
-						<div class="header">{{name}}</div>
-						<div class="description">{{wordcount}} words</div>
+	<div style="overflow-x: visible">
+		<div class="chapterList">
+			<div class="ui fluid styled accordion">	
+				<h5 class="active title"><i class="dropdown icon"></i>Available</h5>
+				<div class="active content">
+					<div class="ui small celled list">
+						{{#each availableChapters}}
+						<div class="item available" data-id={{_id}}>
+							<img class="ui mini image" src="/doc-single-icon.png"/>
+							<div class="content">
+								<div class="header">{{name}}</div>
+								<div class="description">{{wordcount}} words</div>
+							</div>
+						</div>
+						{{/each}}
 					</div>
-					{{#if parentName}}<div class="ui group {{#if firstOfGroup}}first{{/if}}">{{parentName}}</div>{{/if}}
 				</div>
-				{{/each}}
+				<h5 class="title"><i class="dropdown icon"></i>Used</h5>
+				<div class="content">
+					<div class="ui small celled list">
+						{{#each getChaptersFromContents}}
+						<div class="item used">
+							<img class="ui mini image" src="/doc-single-icon.png"/>
+							<div class="content">
+								<div class="header">{{name}}</div>
+								<div class="description">{{wordcount}} words</div>
+							</div>
+							{{#if parentName}}<div class="ui group {{#if firstOfGroup}}first{{/if}}">{{parentName}}</div>{{/if}}
+						</div>
+						{{/each}}
+					</div>
+				</div>
 			</div>
 		</div>
-	</div>
-	
+		</div>
 </template>

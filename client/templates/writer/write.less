@@ -2,8 +2,22 @@
 	margin-top: 50px;
 }
 
+.fixedColumn{
+	position: fixed;
+	width: inherit;
+	margin-left: -1rem;
+	padding: 0 1rem;
+}
+
 .bookStructure {
 	position: relative;
+
+	.structureHelp {
+		font-weight: bold;
+		font-size: 3.5rem;
+		opacity: 0.4;
+	}
+
 
 	svg.scale {
 		overflow: visible;
@@ -87,16 +101,16 @@
 }
 
 .positionMarker {
-		position: absolute;
-		top: 60px;
-		left: 0;
-		width: 100%;
-		height: 8px;
-		background-color: red;
-		z-index: 5;
-		opacity: 0.15;
-		pointer-events: none;
-	}
+	position: absolute;
+	top: 60px;
+	left: 0;
+	width: 100%;
+	height: 8px;
+	background-color: red;
+	z-index: 5;
+	opacity: 0.15;
+	pointer-events: none;
+}
 
 .previewArea {
 	height: 100%;
@@ -105,23 +119,29 @@
 }
 
 @groupcolor: #c9c9c9;
-.chapterList {
-	.item.used {
+.chapterList {	
+	.item {
 		position: relative;
-		.group {
-			position: absolute;
-			right: 0;
-			top: 0;
-			bottom: 0;
-			padding: 0.3em 0.5em;
-			max-width: 40%;
-			background-color: @groupcolor;
+		top: 0;
+		left: 0;
+		z-index: 30;
+		&.used {
+			position: relative;
+			.group {
+				position: absolute;
+				right: 0;
+				top: 0;
+				bottom: 0;
+				padding: 0.3em 0.5em;
+				max-width: 40%;
+				background-color: @groupcolor;
 
-			&:not(.first) {
-				color: @groupcolor;
-				cursor: default;
-			}
-		}	
+				&:not(.first) {
+					color: @groupcolor;
+					cursor: default;
+				}
+			}	
+		}
 	}
 
 	
