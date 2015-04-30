@@ -77,6 +77,18 @@ Template.bookStructure.onRendered(function(){
         d3.select('.bookStructure').call(drag);
 
     });
+
+    Tracker.autorun(function () {
+        var previewScrollPct = Session.get('previewScrollPct');
+        if (previewScrollPct) {
+            var active = $('.bookStructure .content').filter('.active');
+            if (active.length != 0) {
+                var scrubOffset = active.offset().top - $('.bookStructure').offset().top + (active.outerHeight() * previewScrollPct);
+                $('.scrubber').css('transform', 'translateY(' + scrubOffset + 'px)');
+                console.log('scrubOffset', scrubOffset)
+            }
+        }
+    });
     
 });
 

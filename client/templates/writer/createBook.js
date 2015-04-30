@@ -10,15 +10,6 @@ Template.createBook.helpers({
     }
 });
 
-Template.createBook.onRendered(function(){
-    Tracker.autorun(function () {
-        var previewScrollPct = Session.get('previewScrollPct');
-        if (previewScrollPct) {
-            $('.previewArea').scrollTop($('.previewArea').get(0).scrollHeight * previewScrollPct);
-        }
-    });
-});
-
 // global vars for displaying preview on click
 previewContent = undefined;
 

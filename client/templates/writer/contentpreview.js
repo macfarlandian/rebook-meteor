@@ -55,4 +55,18 @@ Template.contentPreview.onRendered(function(){
     var prevArea = this.$('.previewArea'),
         height = $(window).height() - prevArea.offset().top; 
     prevArea.height(height);
+
+    // make scrolling update scrubber position
+    prevArea.scroll(function(e){
+        var scrollPct = prevArea.scrollTop() / prevArea.get(0).scrollHeight;
+        Session.set('previewScrollPct', scrollPct);
+        console.log('scrollPct', scrollPct, Session.get('previewScrollPct'))
+    })
+
+    Tracker.autorun(function () {
+        var previewScrollPct = Session.get('previewScrollPct');
+        if (previewScrollPct) {
+            prevArea.scrollTop(prevArea.get(0).scrollHeight * previewScrollPct);
+        }
+    });
 });
