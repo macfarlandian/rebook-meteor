@@ -25,3 +25,14 @@ Template.previewChapter.helpers({
         }
     }
 });
+
+Template.previewChapter.onRendered(function(){
+    Meteor.setTimeout(function(){
+        var previewScrollPct = Session.get('previewScrollPct'),
+            prevArea = $('.previewArea');
+        
+        if (previewScrollPct) {
+            prevArea.scrollTop(prevArea.get(0).scrollHeight * previewScrollPct);
+        }  
+    }, 100)
+});
