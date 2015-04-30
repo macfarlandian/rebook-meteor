@@ -15,7 +15,7 @@
 				{{#each myBooks}}
 				<div class="card">
 					<div class="content">
-						<div class="header">{{name}}</div>
+						<div class="header"><a href="{{pathFor route="create.book" data=bookId }}">{{name}}</a></div>
 						<div class="meta">
 							<span>{{wordcount}} words</span>
 							<span>Last edited: {{editTime}}</span>
@@ -25,7 +25,7 @@
 						</div>
 					</div>
 					<div class="extra content">
-						<a href="{{pathFor route="create.book" data=bookId }}" class="edit"><i class="edit icon"></i>Edit</a>
+						<a class="edit"><i class="edit icon"></i>Edit</a>
 						<a class="right floated delete"><i class="trash icon"></i>Delete</a>
 					</div>
 				</div>
