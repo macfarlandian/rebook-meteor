@@ -34,3 +34,10 @@ function getChapter() {
 
     return c;
 }
+
+Template.createBook.onRendered(function(){
+    // reset temporary vars for content previews
+    Session.set('previewScrollPct', undefined);
+    Session.set('previewContent', undefined);
+
+});

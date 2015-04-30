@@ -17,10 +17,6 @@ Template.bookStructure.helpers({
 });
 
 Template.bookStructure.onRendered(function(){
-    // initial marking based on scrubber start pos
-    markOverlaps();
-    updatePreview();
-    
     this.autorun(function(){
         var data = Template.currentData();
         if (data == null) return;
@@ -89,7 +85,6 @@ Template.bookStructure.onRendered(function(){
             }
         }
     });
-    
 });
 
 Template.bookStructure.events({
