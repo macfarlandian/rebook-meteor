@@ -35,7 +35,7 @@ Template.bookStructure.onRendered(function(){
 
     this.autorun(function(){
         var data = Template.currentData();
-        if (data == null) return;
+        if (data == null) return; 
 
         var svg = d3.select('svg.scale'),
             totalwords = d3.sum(data, function(d){ return d.wordcount }),
@@ -43,11 +43,18 @@ Template.bookStructure.onRendered(function(){
 
         var axisScale = d3.scale.linear()
             .domain([0,totalwords])
-            .range([0, height]);
+            .range([0, height])
+            ;
         
+        // don't have too many ticks close together
+        var numTicks = Math.ceil(height / 50);
+        console.log(numTicks)
+
         var axis = d3.svg.axis()
             .scale(axisScale)
             .orient('right')
+            .ticks(numTicks)
+            ;
 
         svg
             .attr('height', height)
@@ -73,20 +80,20 @@ Template.bookStructure.onRendered(function(){
             .attr('x', 3)
             .style('font-style', 'italic');
 
-        var drag = d3.behavior.drag()
-        drag.on("drag", function(){
+        var dragScrubber = d3.behavior.drag()
+        dragScrubber.on("drag", function(){
             // prevent from dragging beyond event bounds
             var ypos = d3.min([d3.event.y - $(this).position().top, $(this).height()]);
             ypos = d3.max([ypos, 0]);
             $('.scrubber').css('transform', 'translateY('+ypos+'px)')
         });
-        drag.on('dragend', function(){
+        dragScrubber.on('dragend', function(){
             markOverlaps();
             // use info of whatever content is marked "active"
             updatePreview();
         })
 
-        d3.select('.bookStructure').call(drag);
+        d3.select('.bookStructure').call(dragScrubber);
 
     });
 
