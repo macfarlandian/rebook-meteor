@@ -36,7 +36,8 @@ Template.bookStructure.onRendered(function(){
     var structureArea = this.$('.bookStructure'),
         structureHelp = this.$('.structureHelp');
     structureHelp.droppable({
-        tolerance: "touch",
+        tolerance: "pointer",
+        greedy: true,
         drop: addChapter
     });
 
@@ -50,7 +51,6 @@ Template.bookStructure.onRendered(function(){
         out: clearDropTargets,
         drop: addChapter
     });
-
 
     this.autorun(function(){
         var data = Template.currentData();
@@ -140,10 +140,6 @@ Template.bookStructure.events({
         $('.column.content').removeClass('active');
         if (add) $(e.target).addClass('active');
         updatePreview();
-    },
-    'dragover .structureHelp': function (e) {
-        e.preventDefault();
-        $(e.target).css('opacity', 1)
     }
 });
 

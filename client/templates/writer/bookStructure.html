@@ -12,7 +12,7 @@
 			{{#each this}}
 			<div class="{{#if $eq type 'collection'}}two column {{/if}}centered row">
 				{{#if $eq type 'collection'}}
-				<div class="column collection">
+				<div class="column collection" id={{_id}}>
 					<div class="title">{{name}}</div>
 					<div class="ui {{collectionWidth}} column centered grid">
 						{{#each contents}}
