@@ -1,11 +1,16 @@
 Template.createBook.helpers({
     getBookChapters: function(){
         return Books.findOne(this._id).allChapters();
+    },
+    getPreviewContent: function(){
+        var previewContent = Session.get('previewContent');
+        if (previewContent != undefined && previewContent.type == 'sequence') {
+            return Containers.findOne(previewContent._id);
+        } else if (previewContent != undefined && previewContent.type == 'chapter') {
+            return Chapters.findOne(previewContent._id);            
+        }
     }
 });
-
-// global vars for displaying preview on click
-previewContent = undefined;
 
 // a helper helper ... DRY chapter fetching
 function getChapter() {
@@ -28,3 +33,10 @@ function getChapter() {
 
     return c;
 }
+
+Template.createBook.onRendered(function(){
+    // reset temporary vars for content previews
+    Session.set('previewScrollPct', undefined);
+    Session.set('previewContent', undefined);
+
+});

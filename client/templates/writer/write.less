@@ -1,3 +1,166 @@
 .menuPad{
 	margin-top: 50px;
 }
+
+.fixedColumn{
+	position: fixed;
+	width: inherit;
+	margin-left: -1rem;
+	padding: 0 1rem;
+}
+
+.bookStructure {
+	position: relative;
+	padding-bottom: 100px;
+
+	.structureHelp {
+		font-weight: bold;
+		font-size: 3.5rem;
+		opacity: 0.4;
+	}
+
+
+	svg.scale {
+		overflow: visible;
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+
+		.axis {
+			font-size: .75rem;
+			path {
+				stroke-width: 1px;
+				fill: none;
+				stroke: #000;
+			}
+			.tick {
+				font-size: .65rem;
+				line {
+					stroke-width: 1px;
+					fill: none;
+					stroke: #000;
+
+					&.grid {
+						stroke: #c9c9c9;
+					}
+				}
+			}
+		}
+	}
+
+	.scrubber {
+		position: absolute;
+		width: 100%;
+		height: 3px;
+		background-color: red;
+		z-index: 10;
+		opacity: 0.5;
+		pointer-events: none;
+	}
+
+	.grid {
+		margin-top: 20px;
+
+		.row {
+			padding: 0 !important;
+			margin-bottom: -1px;
+
+			.column.dropTargetBottom {
+				border-bottom: 5px solid rgb(0, 0, 255) !important;
+			}
+
+			&.collectionDrop {
+				.column:last-child:not(.collection){
+					border-right: 5px solid rgb(0, 0, 255) !important;
+				}
+			}
+
+			.collection {
+				background-color: rgba(255, 255, 255, 0.2);
+				padding: 2px 6px;
+				border: 1px solid black;
+
+				.title {
+					position: absolute;
+					top: 0;
+					left: 0;
+					width: 100%;
+					background-color: rgba(0, 0, 0, 0.5);
+					z-index: 20;
+					text-align: center;
+					color: #fff;
+					padding: 3px 0;
+					pointer-events: none;
+				}
+
+				.grid {
+					margin: 0;
+				}
+			}
+
+			.content {
+				border: 1px solid black;
+				background-color: #fff;
+
+				&.active {
+					border-color: red;
+				}
+			}	
+		}
+	}
+}
+
+.positionMarker {
+	position: absolute;
+	top: 60px;
+	left: 0;
+	width: 100%;
+	height: 8px;
+	background-color: red;
+	z-index: 5;
+	opacity: 0.15;
+	pointer-events: none;
+}
+
+.previewArea {
+	height: 100%;
+	overflow: auto;
+	// width: 100%;
+}
+
+@groupcolor: #c9c9c9;
+.chapterList {	
+	.item {
+		position: relative;
+		top: 0;
+		left: 0;
+		z-index: 30;
+		&.used {
+			position: relative;
+			.group {
+				position: absolute;
+				right: 0;
+				top: 0;
+				bottom: 0;
+				padding: 0.3em 0.5em;
+				max-width: 40%;
+				background-color: @groupcolor;
+
+				&:not(.first) {
+					color: @groupcolor;
+					cursor: default;
+				}
+			}	
+		}
+	}
+
+	
+}
+
+
+// add a new book modal
+.segment.stepTwo {
+	display: none;
+	text-align: center;
+}

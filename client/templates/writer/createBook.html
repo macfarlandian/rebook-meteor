@@ -1,16 +1,21 @@
 <template name="createBook">
-    <div class="ui three column padded divided grid">
-        <div class="column">
-            <h3>Preview</h3>
-            {{> contentPreview getPreviewContent}}
-        </div>
-        <div class="column">
-            <h3>Structure: {{name}}</h3>
-            {{> bookStructure getBookStructure}}
-        </div>
-        <div class="column">
-            <h3>Chapters</h3>
-            {{> bookChapters}}
+    <div class="ui three column padded divided equal height grid">
+        <div class="row">
+            <div class="column">
+                <div class="fixedColumn">
+                    {{> contentPreview getPreviewContent}}
+                </div>
+            </div>
+            <div class="column">
+                <div class="fixedColumn">
+                    <h3>Structure: {{name}}</h3>
+                    {{> bookStructure contents}}
+                </div>
+            </div>
+            <div class="column">
+                <h3>Chapters</h3>
+                {{> bookChapters}}
+            </div>
         </div>
     </div>
 </template>

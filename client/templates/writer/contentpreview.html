@@ -1,82 +1,13 @@
 <template name="contentPreview">
-    {{#with resource}}
-    {{#if $eq type 'text'}}
-    <div class="inactive top"></div>
-    <div class="inactive bottom"></div>
-    <article>
-        <h2>{{name}}</h2>
-        {{#each paras contents}}
-        {{#markdown}}{{this.text}}{{/markdown}}
-            {{!-- {{#each this}}
-                <span class="word">{{this}}</span>
-            {{/each}} --}}
-        {{#if markOverlaps}}
-            {{#each markOverlaps.start}}
-            <div class="ui horizontal divider">
-                start {{this}}
-            </div>
-            {{/each}}
-            {{#each markOverlaps.end}}
-            <div class="ui horizontal divider">
-                end {{this}}
-            </div>
-            {{/each}}
-        {{/if}}
-        {{/each}}
-    </article>
+    <h3>Preview: <span class="ui label">{{name}}</span></h3>
+    <div class="positionMarker"></div>
+    <div class="previewArea">
+    {{#if isSequence}}
+        {{> previewSequence}}
     {{else}}
-    <article>
-        <div class="ui fluid card">
-            {{#if $eq type 'image'}}
-            <img src="http://placehold.it/500x320&text=image+TK" alt="" class="ui image"/>
-            {{/if}}
-            <div class="content">
-                <div class="header">{{name}}</div>
-                <div class="meta">
-                    <div class="ui label">
-                        type
-                        <div class="detail">
-                            {{type}}
-                        </div>
-                    </div>
-                    <div class="ui label">
-                        length
-                        <div class="detail">
-                            {{length}} min
-                        </div>
-                    </div>
-                </div>
-                <div class="description">
-                    {{#if $eq type 'audio'}}
-                    <p>
-                        <i class="large play icon link"></i>
-                        <i class="large stop icon link"></i>
-                    </p>
-                    {{/if}}
-                    <p>[description of file]</p>
-                </div>
-            </div>
-            <div class="extra content">
-                {{#if $eq type 'audio'}}
-                <h5>Options</h5>
-                <div class="ui list">
-                    <a class="item">
-                        <i class="icon checkmark box"></i>
-                        <div class="content">Loop</div>
-                    </a>
-                    <a class="item">
-                        <i class="icon checkmark box"></i>
-                        <div class="content">Fade in</div>
-                    </a>
-                    <a class="item">
-                        <i class="icon checkmark box"></i>
-                        <div class="content">Fade out</div>
-                    </a>
-                </div>
-                {{/if}}
-            </div>
-        </div>
-    </article>
+        {{#if isChapter}}
+            {{> previewChapter}}
+        {{/if}}
     {{/if}}
-    {{/with}}
+    </div>
 </template>

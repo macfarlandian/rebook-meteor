@@ -1,0 +1,12 @@
+<template name="previewChapter">
+	<article>
+		<h4>{{name}}</h4>
+		{{#each mainTrack}} 
+        {{#if isText}} 
+            {{#each paras contents}} 
+                {{#markdown}}{{text}}{{/markdown}} 
+            {{/each}} 
+        {{/if}} 
+        {{/each}}
+	</article>
+</template>
