@@ -3,7 +3,7 @@ Template.previewChapter.helpers({
         return _.where(this.contents, {track: 0})
     },
     isText: function(){
-        return _.includes(['text', 'markdown'], this.type);
+        return _.includes(['text', 'markdown', 'text/markdown'], this.type);
     },
 
     paras: function(text){

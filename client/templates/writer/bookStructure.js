@@ -122,7 +122,6 @@ Template.bookStructure.onRendered(function(){
             if (active.length != 0) {
                 var scrubOffset = active.offset().top - $('.bookStructure').offset().top + (active.outerHeight() * previewScrollPct);
                 $('.scrubber').css('transform', 'translateY(' + scrubOffset + 'px)');
-                console.log('scrubOffset', scrubOffset)
             }
         }
     });

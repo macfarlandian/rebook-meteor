@@ -4,14 +4,13 @@ Template.createBook.helpers({
     },
     getPreviewContent: function(){
         var previewContent = Session.get('previewContent');
-        if (previewContent && previewContent.type == 'sequence') return Containers.findOne(previewContent._id);
-        return Chapters.findOne(previewContent._id);
-
+        if (previewContent != undefined && previewContent.type == 'sequence') {
+            return Containers.findOne(previewContent._id);
+        } else if (previewContent != undefined && previewContent.type == 'chapter') {
+            return Chapters.findOne(previewContent._id);            
+        }
     }
 });
-
-// global vars for displaying preview on click
-previewContent = undefined;
 
 // a helper helper ... DRY chapter fetching
 function getChapter() {

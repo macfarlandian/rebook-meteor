@@ -1,7 +1,9 @@
 Template.contentPreview.helpers({
     isSequence: function(){
-        console.log(this)
         return this.type == 'sequence'
+    },
+    isChapter: function(){
+        return this.model == 'Chapters'
     },
     resource: function(){
         return Resources.findOne(Session.get('previewData'));
@@ -60,7 +62,6 @@ Template.contentPreview.onRendered(function(){
     prevArea.scroll(function(e){
         var scrollPct = prevArea.scrollTop() / prevArea.get(0).scrollHeight;
         Session.set('previewScrollPct', scrollPct);
-        console.log('scrollPct', scrollPct, Session.get('previewScrollPct'))
     })
 
     Tracker.autorun(function () {
