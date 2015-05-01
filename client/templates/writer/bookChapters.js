@@ -68,6 +68,7 @@ Template.bookChapters.events({
 
 			        		book.contents =  contents1.concat(newColl, contents2);
 			        		_.remove(book.availableChapters, {_id: newChap._id})
+			        		book.wordcount = updateWordcount(book)
 			        		Books.update({_id: book._id}, book);
 
 			        	}
@@ -77,9 +78,3 @@ Template.bookChapters.events({
 		});
 	}
 });
-
-function updateWordcount(container){
-	return _.reduce(container.contents, function(memo, cur){
-		return memo + cur.wordcount;
-	}, 0);
-}

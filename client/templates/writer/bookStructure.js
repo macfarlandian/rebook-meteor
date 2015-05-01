@@ -23,6 +23,8 @@ function addChapter(e,ui){
     // add chapter to the book's contents, remove from available chapters
     _.remove(book.availableChapters, {_id: chapterId});
     book.contents.push(chapter);
+    book.wordcount = updateWordcount(book)
+    console.log(book)
     Books.update({_id: book._id}, book);
 
     clearDropTargets();
