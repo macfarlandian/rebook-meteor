@@ -16,20 +16,39 @@ Template.bookStructure.helpers({
     },
 });
 
+function addChapter(e,ui){
+    var chapterId = ui.draggable.get(0).dataset.id,
+    chapter = Chapters.findOne({_id: chapterId}),
+    book = Books.findOne({_id: Router.current().params.bookId});
+    // add chapter to the book's contents, remove from available chapters
+    _.remove(book.availableChapters, {_id: chapterId});
+    book.contents.push(chapter);
+    Books.update({_id: book._id}, book);
+
+    clearDropTargets();
+}
+
+function clearDropTargets(){
+    $('.bookStructure .row:last-child > .column').removeClass('dropTargetBottom');
+}
+
 Template.bookStructure.onRendered(function(){
     var structureArea = this.$('.bookStructure'),
         structureHelp = this.$('.structureHelp');
     structureHelp.droppable({
         tolerance: "touch",
-        drop: function(e,ui){
-            var chapterId = ui.draggable.get(0).dataset.id,
-                chapter = Chapters.findOne({_id: chapterId}),
-                book = Books.findOne({_id: Router.current().params.bookId});
-            // add chapter to the book's contents, remove from available chapters
-            _.remove(book.availableChapters, {_id: chapterId});
-            book.contents.push(chapter);
-            Books.update({_id: book._id}, book);
-        }
+        drop: addChapter
+    });
+
+    // dropping in book structure appends to the end
+    structureArea.droppable({
+        tolerance: 'pointer',
+        over: function(e,ui){
+            // find the bottom most content element and highlight the bottom of it as a drop target
+            $('.bookStructure .row:last-child > .column').addClass('dropTargetBottom');
+        },
+        out: clearDropTargets,
+        drop: addChapter
     });
 
 
@@ -48,7 +67,6 @@ Template.bookStructure.onRendered(function(){
         
         // don't have too many ticks close together
         var numTicks = Math.ceil(height / 50);
-        console.log(numTicks)
 
         var axis = d3.svg.axis()
             .scale(axisScale)
