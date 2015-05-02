@@ -4,7 +4,7 @@ Template.readChapters.helpers({
     },
 
     isText: function(){
-        return _.includes(['text', 'markdown'], this.type);
+        return _.includes(['text', 'markdown', 'text/markdown'], this.type);
     },
 
     paras: function(text){
@@ -27,8 +27,43 @@ Template.readChapters.helpers({
     }
 });
 
+Template.readChapters.events({
+    'visibility:bottomvisible .rebook-chapter': function (event) {
+        event.stopPropagation();
+        var path = getPath();
+        if (!_.includes(path.path, this._id)) {
+            path.path.push(this._id);
+            ReadingPaths.update(path._id, {$set: {path: path.path}});
+        }
+    },
+    'visibility:toppassed p': function(event,template,passing, pIndex){
+        // pause to make sure the user isn't just skimming past
+        var p = this,
+            place = getPlace();
+        Meteor.setTimeout(function(){
+            if (passing) {
+                newMark = {
+                    sequence: place.sequence,
+                    collection: place.collection,
+                    chapter: template.data._id,
+                    paragraph: pIndex
+                };
+                markPlace(newMark);
+            }
+        }, 250); //timer length should be the same as initial scroll time to prevent triggering here
+    }
+});
+
 Template.readChapters.onRendered(function(){
     var t = this; // to access the meteor template object in deeper scopes
+    // detect end of chapter
+    this.$('.rebook-chapter').visibility({
+        once: false,
+        throttle: 250,
+        onBottomVisible: function(){
+            $(this).trigger('visibility:bottomvisible');
+        }
+    });
 
     // calculate the number of mile markers based on screen height 
     // optimal = 1 / 2 or 3 screens 
@@ -76,25 +111,11 @@ Template.readChapters.onRendered(function(){
         i++;
     }
 
-    // watch for reader starting a new chapter
-    $(t.firstNode).visibility({
-        throttle: 100,
-        once: false,
-        onBottomPassed: function(calc){
-            var path = getPath();
-            if (!_.includes(path.path, t.data._id)){
-                // on completion of a new chapter, add it to the path
-                path.path.push(t.data._id);
-                ReadingPaths.update(path._id, {$set: {path: path.path}});
-            }
-        }
-    });
-
     // retrieve place marker
     var place = getPlace();
 
     // scroll to the most recent paragraph, if marked, if it's in this chapter
-    if (place.chapter == t.data._id) {
+    if (place.chapter == this.data._id) {
         // if a chapter is marked
         if (place.paragraph != undefined) {
             // if a paragraph is marked, go to it
@@ -107,26 +128,12 @@ Template.readChapters.onRendered(function(){
     }
     
     // watch for reader progressing to a new paragraph
-    var paras = t.$('article > p');
+    var paras = this.$('article > p');
     paras.visibility({
         throttle: 200,
         once: false,
         onTopPassed: function(calc){
-            // pause to make sure the user isn't just skimming past
-            var p = this,
-                place = getPlace();
-
-            Meteor.setTimeout(function(){
-                if (calc.passing) {
-                    newMark = {
-                        sequence: place.sequence,
-                        collection: place.collection,
-                        chapter: t.data._id,
-                        paragraph: paras.index(p)
-                    };
-                    markPlace(newMark);
-                }
-            }, 250); //timer length should be the same as initial scroll time to prevent triggering here
+            $(this).trigger('visibility:toppassed', [calc.passing, paras.index(this)]);
         }
     });
      

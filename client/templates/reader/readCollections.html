@@ -14,7 +14,7 @@
 		                {{#each contents}}
 		                	{{#if isChapter}}
 		                	{{#with getChapter _id}}
-		                		<a class="item">{{name}}</a>
+		                		<a class="item {{#if isRead}}disabled{{/if}}">{{name}}</a>
 		                	{{/with}}
 		                	{{else}}
 		                		<a class="item {{#if isRead}}disabled{{/if}}">{{sequenceName}}</a>

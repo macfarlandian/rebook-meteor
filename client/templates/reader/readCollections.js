@@ -5,6 +5,9 @@ Template.readCollections.helpers({
 		if (place.sequence != undefined) {
 			choice.template = "readSequences";
 			choice.data = Containers.findOne(place.sequence);
+		} else if (place.chapter != undefined) {
+			choice.template = "readChapters";
+			choice.data = Chapters.findOne(place.chapter);
 		}
 		return choice
 	},
@@ -16,11 +19,7 @@ Template.readCollections.helpers({
 	getChapter: getChapter,
 	
 	isRead: function () {
-		var bookQuery = {
-			userId: Session.get('userId'),
-			book: Router.current().params.bookId
-		};
-		var path = ReadingPaths.findOne(bookQuery);
+		var path = getPath();
 		if (path) return _.contains(path.path, this._id) || _.contains(path.containers, this._id);
 	},
 
@@ -30,11 +29,7 @@ Template.readCollections.helpers({
 	}, 
 
 	allRead: function(){
-		var bookQuery = {
-			userId: Session.get('userId'),
-			book: Router.current().params.bookId
-		};
-		var path = ReadingPaths.findOne(bookQuery);
+		var path = getPath();
 		if (path){
 			var ids = _.pluck(this.contents, '_id');
 			return _.reduce(ids, function(memo, val){
@@ -51,29 +46,12 @@ Template.readCollections.events({
 		var place = getPlace();
 		place.chapter = undefined;
 		place.sequence = undefined;
+		place.paragraph = undefined;
 		
 		if (context.type == 'sequence') place.sequence = context._id;
 		if (context.model == 'Chapters') place.chapter = context._id;
 
 		markPlace(place);
-
+		$(window).scrollTop(0)
 	}
-});
-
-Template.readCollections.onRendered(function(){
-	var t = this;
-	this.$('nav.next').visibility({
-		throttle: 500,
-		onBottomPassed: function(){
-			// add completed container to history, if not already there
-            var path = getPath();
-            if (!_.includes(path.containers, t.data._id)) {
-                path.containers.push(t.data._id);
-                ReadingPaths.update(path._id, {$set: {containers: path.containers}});
-            }
-
-			// signal to the book that we've reached the end of this collection
-			$(this).trigger('collection:end');
-		}
-	});
 });

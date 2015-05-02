@@ -22,9 +22,11 @@
 	</div>
 	<div class="pusher readbook">
 		{{#if readingNow}}
+			<div class="rebook-page">
 			{{#with readingNow}}
 			{{> Template.dynamic template=getTemplate data=getContents }}
 			{{/with}}		
+			</div>
 		{{else}}
 			{{> titlePage}}
 		{{/if}}
