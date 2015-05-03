@@ -125,8 +125,21 @@
 
 .previewArea {
 	height: 100%;
-	overflow: auto;
-	// width: 100%;
+	overflow-y: auto;
+	width: 100%;
+	.column {
+		margin-right: 0;
+
+		.ui.card.otherTrack {
+			float: right;
+			max-width: 50%;
+			margin: 0 0 1em 1em;
+
+			audio {
+				max-width: 100%;
+			}
+		}
+	}
 }
 
 @groupcolor: #c9c9c9;
