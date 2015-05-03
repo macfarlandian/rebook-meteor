@@ -3,10 +3,25 @@ Template.readChapters.helpers({
         return _.where(this.contents, {track: 0})
     },
 
+    trackOverlap: function(contents){
+        var para = this;
+        var otherTracks = _.filter(contents, function(item){
+            return item.track > 0;
+        });
+        return _.filter(otherTracks, function(item){
+            return (item.start >= para.end - para.length) && (item.start <= para.end);
+        });
+    },
+
     isText: function(){
         return _.includes(['text', 'markdown', 'text/markdown'], this.type);
     },
-
+    isImage: function(){
+        return this.type == "image";
+    },
+    isAudio: function(){
+        return this.type == "audio";
+    },
     paras: function(text){
         if (text){
             var paras = text.split(/(?:\s*\r\n|\s*\n|\s*\r){2,}/gm);
@@ -36,7 +51,7 @@ Template.readChapters.events({
             ReadingPaths.update(path._id, {$set: {path: path.path}});
         }
     },
-    'visibility:toppassed p': function(event,template,passing, pIndex){
+    'visibility:toppassed p': function(event, template, passing, pIndex){
         // pause to make sure the user isn't just skimming past
         var p = this,
             place = getPlace();
@@ -136,5 +151,22 @@ Template.readChapters.onRendered(function(){
             $(this).trigger('visibility:toppassed', [calc.passing, paras.index(this)]);
         }
     });
+
+    // audio configurations
+    var audios = this.$('audio');
+    audios.visibility({
+        onTopVisible: function(calc){
+            var el = $(this);
+            if (el.hasClass('autoplay')) {
+                // debounce to make sure we're not rapidly scrolling past it
+                Meteor.setTimeout(function(){
+                    if (calc.visible) el.trigger('play');    
+                }, 200)
+                
+            }
+        }
+
+    })
+
      
 });
