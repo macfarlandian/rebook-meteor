@@ -7,6 +7,19 @@
 			{{#each mainTrack}} 
                 {{#if isText}} 
                     {{#each paras contents}} 
+                    	{{#each trackOverlap ../../contents}}
+		                
+	                    {{#if isImage}}
+	                    <img class="ui right floated image otherTrack" src="http://placehold.it/800x800" alt={{name}}/>
+	                    {{/if}}
+		                    
+	                    {{#if isAudio}}
+	                    <audio src="/subway-sound.mp3" id={{_id}} class="autoplay">
+	                    <p>Your browser does not support the <code>audio</code> element.</p>
+	                    </audio>
+	                    {{/if}}
+
+		                {{/each}}
                         {{#markdown}}{{text}}{{/markdown}} 
                     {{/each}} 
                 {{/if}} 

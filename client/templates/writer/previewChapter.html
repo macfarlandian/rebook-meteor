@@ -2,11 +2,30 @@
 	<article>
 		<h4>{{name}}</h4>
 		{{#each mainTrack}} 
-        {{#if isText}} 
+            {{#if isText}} 
             {{#each paras contents}} 
-                {{#markdown}}{{text}}{{/markdown}} 
+                {{#each trackOverlap ../../contents}}
+                <div class="ui card otherTrack">
+                    {{#if isImage}}
+                    <div class="ui image">
+                        <img src="http://placehold.it/350x350" alt={{name}}/>
+                    </div>    
+                    {{/if}}
+                    <div class="content">
+                        <div class="header">{{name}}</div>
+                    </div>
+                    {{#if isAudio}}
+                    <div class="extra content">    
+                        <audio src="/subway-sound.mp3" controls>
+                        <p>Your browser does not support the <code>audio</code> element.</p>
+                        </audio>
+                    </div>
+                    {{/if}}
+                </div>
+                {{/each}}
+                {{#markdown}}{{text}}{{/markdown}}
             {{/each}} 
-        {{/if}} 
+            {{/if}} 
         {{/each}}
 	</article>
 </template>
