@@ -16,3 +16,4 @@ momentjs:moment
 cfs:standard-packages
 cfs:gridfs
 cfs:ui
+bevanhunt:leaflet

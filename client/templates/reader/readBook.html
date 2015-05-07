@@ -1,7 +1,7 @@
 <template name="readBook">
 	<!-- sidebars -->
 	<div class="ui sidebar top menuBar">
-		<div class="ui menu">
+		<div class="ui large menu">
 			<a class="item" href="{{pathFor route="library"}}">
 			    <i class="chevron left icon"></i>Library
 			</a>
@@ -11,15 +11,23 @@
 			</div>
 
 			<div class="right menu">
-				<a href="" class="active item progressButton"><i class="bar chart icon"></i></a>
-				<a href="" class="item"><i class="list icon"></i></a>
-				<a href="" class="item"><i class="setting icon"></i></a>
+				<a class="active item progressButton"><i class="bar chart icon"></i></a>
+				{{#if mapEnabled }}<a class="item mapButton"><i class="map icon"></i></a>{{/if}}
+				<!-- <a href="" class="item"><i class="list icon"></i></a> -->
+				<!-- <a href="" class="item"><i class="setting icon"></i></a> -->
 			</div>
 		</div>
 	</div>
 	<div class="ui bottom sidebar chapterChart">
-		<div class="ui fluid card"></div>
+		<div class="ui fluid card">
+		</div>
 	</div>
+	{{#if mapEnabled}}<div class="ui bottom sidebar chapterMap">
+		<div class="ui fluid card">
+			{{> map}}
+		</div>
+	</div>
+	{{/if}}
 	<div class="pusher readbook">
 		{{#if readingNow}}
 			<div class="rebook-page">
