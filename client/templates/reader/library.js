@@ -18,9 +18,9 @@ Template.library.helpers({
 		if (hours == 1) return hours + " hr";
 		return  hours + " hrs";
 	},
-	progressHeight: function(){
+	progressSize: function(){
 		var total = this.wordcount,
-			chapters = this.chapterLengths(),
+			chapters = this.getChaptersFromContents(),
 			path = ReadingPaths.findOne({userId: Session.get('userId'), book: this._id}),
 			read = _.reduce(chapters, function(memo, current){
 				if (path && _.includes(path.path, current._id)) {
@@ -31,6 +31,9 @@ Template.library.helpers({
 			}, 0)
 			;
 		return "width: " + read / total * 100 + "%;";
+	},
+	bookColor: function(){
+		return _.sample(["color1", "color2", "color3", 'color4', 'color5', 'color6', 'color7']);
 	}
 });
 

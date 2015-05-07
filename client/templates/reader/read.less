@@ -19,7 +19,9 @@
 // ************************************
 @chapter-color: #00cbeb;
 @dark-grey: #1e1e1e;
-@light-grey: #ebebeb; //#d8d8d8;
+@light-grey: #ebebeb;
+@teal: #2F8093;
+@orange: #C46328;
 
 
 
@@ -147,6 +149,15 @@
 // IN-BOOK MENU
 // ************************************
 
+.menuBar {
+    .ui.menu {
+        background-color: @teal;
+        .item {
+            font-size: 1.5rem;
+        }
+    }
+}
+
 .ui.sidebar.chapterChart {
     
     .bar {
@@ -215,10 +226,55 @@
 // LIBRARY
 // ************************************
 
+
 .library {
-    background-image: url('/pixel_weave.png');
+    background-image: url('/diamond.png');
     .book {
         background-color: rgba(91, 161, 255, 0.3);
+
+        &.color1 {
+            background-color: rgba(222,137,69,0.3);
+            .progress {
+                background-color: rgba(222,137,69,1.0);
+            }
+        }
+        &.color2 {
+            background-color: rgba(231,61,95,0.3);
+            .progress {
+                background-color: rgba(231,61,95,1.0);
+            }
+        }
+        &.color3 {
+            background-color: rgba(132,151,199,0.3);
+            .progress {
+                background-color: rgba(132,151,199,1.0);
+            }
+        }
+        &.color4 {
+            background-color: rgba(200,192,91,0.3);
+            .progress {
+                background-color: rgba(200,192,91,1.0);
+            }
+        }
+        &.color5 {
+            background-color: rgba(174,159,184,0.3);
+            .progress {
+                background-color: rgba(174,159,184,1.0);
+            }
+        }
+        &.color6 {
+            background-color: rgba(233,191,64,0.3);
+            .progress {
+                background-color: rgba(233,191,64,1.0);
+            }
+        }
+        &.color7 {
+            background-color: rgba(128,202,195,0.3);
+            .progress {
+                background-color: rgba(128,202,195,1.0);
+            }
+        }
+        
         overflow: hidden;
 
         .progress {

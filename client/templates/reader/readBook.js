@@ -172,7 +172,7 @@ Template.readBook.onRendered(function(){
 	    })
 	});
 
-$(window).scroll($.debounce(250, function(e){
+$(window).scroll($.debounce(100, function(e){
 	var newscroll = this.scrollY;
 	if (newscroll < lastScroll) {
 		$('.ui.sidebar.menuBar:not(.visible), .ui.sidebar.chapterChart:not(.visible)').sidebar('show');

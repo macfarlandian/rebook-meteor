@@ -3,8 +3,8 @@
 		<div class="sixteen wide column">
 			<h1 class="ui dividing header">Library</h1>
 			{{#each books}}
-			<a class="ui fluid card book" href="{{pathFor route="library.book" data=linkParams}}" style={{spineWidth}}>
-				<div class="progress" style={{progressHeight}}></div>
+			<a class="ui fluid card book {{bookColor}}" href="{{pathFor route="library.book" data=linkParams}}" style="{{spineWidth}}">
+				<div class="progress" style={{progressSize}}></div>
 				<div class="content">
 					<div class="header">{{ name }}</div>
 					<div class="meta">
