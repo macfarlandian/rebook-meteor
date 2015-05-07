@@ -3,32 +3,19 @@ Template.map.onRendered(function(){
 });
 
 var drawMap = function() {
-// ease scrolling
-            $('a[href*=#]:not([href=#])').click(function() {
-                if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
-                        var target = $(this.hash);
-                        target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
-                if (target.length) {
-                    $('html,body').animate({
-                        scrollTop: target.offset().top
-                        }, 1000);
-                    return false;
-                    }
-                }
-            });
-    
-    // Creates popup
-    // #modal-launcher is the button with map icon
-    $("#modal-launcher, #modal-background, #modal-close").click(function() {
-        $("#modal-content, #modal-background").toggleClass("active");
-    });
+	var margin = {top: 20, right: 20, bottom: 30, left: 40},
+	    // calculate the width dynamically based on available space
+	    // width = $('.chapterMap').width() - margin.left - margin.right,
+	    height = $(window).height() / 2;
+
+	$('.chapterMap #map').height(height)
 
     var bounds = [
             [-153, 118],
             [153, -118]
     ]
         
-    var map = L.map('map').setView([0, 0], 1).setMaxBounds(bounds);
+    var map = L.map('map').setView([31.508, -52.30], 5).setMaxBounds(bounds);
     L.tileLayer('/_media/{z}/{x}/{y}.png', {
         minZoom: 1,
         maxZoom: 5,
