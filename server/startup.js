@@ -157,6 +157,7 @@
     if (Books.find().count() == 0){
         var book = {
             name: '12-9',
+            author: "Ian MacFarland",
             contents: [Containers.findOne({type: 'sequence', name: 'Sugar – First Leg'}), Containers.findOne({type: 'collection', name: 'Second Leg'})],
         };
         book.wordcount = _.reduce(book.contents, function(memo, current){
@@ -167,23 +168,90 @@
 
         // add some dummy books for the library view
         var dummybooks = [
-            {name: "Slaughterhouse-Five", wordcount: 47192, contents: []},
-            {name: "Brave New World", wordcount: 64531, contents: []},
-            {name: "Ulysses", wordcount: 265222, contents: []},
-            {name: "Animal Farm", wordcount: 29966, contents: []},
-            {name: "One Hundred Years of Solitude", wordcount: 144523, contents: []},
-            {name: "The Fault in Our Stars", wordcount: 67203, contents: []},
-            {name: "Infinite Jest", wordcount: 483994, contents: []},
-            {name: "The Joy Luck Club", wordcount: 91419, contents: []}, 
-            {name: "Hamlet", wordcount: 30066, contents: []},
-            {name: "White Teeth", wordcount: 169389, contents: []},
-            {name: "Pride and Prejudice", wordcount: 122685, contents: []}
+            {name: "Slaughterhouse-Five", wordcount: 47192, author: "Kurt Vonnegut Jr.", contents: []},
+            {name: "Brave New World", wordcount: 64531, author: "Aldous Huxley", contents: []},
+            {name: "Ulysses", wordcount: 265222, author: "James Joyce", contents: []},
+            {name: "Animal Farm", wordcount: 29966, author: "George Orwell", contents: []},
+            {name: "One Hundred Years of Solitude", wordcount: 144523, author: "Gabriel Garcia Marquez", contents: []},
+            {name: "The Fault in Our Stars", wordcount: 67203, author: "John Green", contents: []},
+            {name: "Infinite Jest", wordcount: 483994, author: "David Foster Wallace", contents: []},
+            {name: "The Joy Luck Club", wordcount: 91419, author: "Amy Tan", contents: []}, 
+            {name: "Hamlet", wordcount: 30066, author: "William Shakespeare", contents: []},
+            {name: "White Teeth", wordcount: 169389, author: "Zadie Smith", contents: []},
+            {name: "Pride and Prejudice", wordcount: 122685, author: "Jane Austen", contents: []}
         ]
 
         _.each(dummybooks, function(book){
             Books.insert(book);
         })
     }
+
+    // LOTR fixture
+    if (Books.find({name: "The Fellowship of the Ring"}).count() == 0) {
+        var chapters = [
+            "A Long-expected Party.txt",
+            "The Shadow of the Past.txt",
+            "Three is Company.txt",
+            "A Short Cut to Mushrooms.txt"
+        ];
+
+        // create resources
+        _.each(chapters, function(name){
+            var text = {
+                name: name,
+                type: 'text/plain',
+                contents: Assets.getText('data/lotr/'+name),
+            };
+            text.wordcount = (text.contents.split(/\s+/).length);
+            Resources.insert(text);
+        });
+
+        // create chapters
+        // include map coordinates
+        var coords = [
+            {lat: 36.80928470205937, lng: -62.22656249999999},
+            {lat: 36.77409249464195, lng: -61.65527343749999},
+            {lat: 34.052659421375964, lng: -58.22753906250001},
+            {lat: 33.87041555094183, lng: -51.67968749999999}
+        ];
+
+        _.each(chapters, function(name, index){
+            var text = Resources.findOne({name: name}),
+                chap = {
+                    name: name.split(/\.txt/)[0],
+                    contents: [text]
+                };
+            
+            chap.contents[0].start = 0;
+            chap.contents[0].end = chap.contents[0].start + chap.contents[0].wordcount ;
+            chap.contents[0].track = 0;
+            chap.coords = coords[index];
+
+            chap.wordcount = _.reduce(chap.contents, function(memo, current){
+                return memo + current.wordcount;
+            }, 0);
+        
+            Chapters.insert(chap);
+        });
+
+        // make the book
+        var book = {
+            name: "The Fellowship of the Ring",
+            author: "J.R.R. Tolkein",
+            mapEnabled: true,
+            contents: []
+        };
+        _.each(chapters, function(file){
+            var name = file.split(/\.txt/)[0];
+            book.contents.push(Chapters.findOne({name: name}));
+        });
+        book.wordcount = _.reduce(book.contents, function(memo, current){
+            return memo + current.wordcount;
+        }, 0);
+        
+        Books.insert(book);
+    }
+
 })
 
 })();
