@@ -53,9 +53,17 @@ Template.readBook.events({
 		}
 	},
 	'click .progressButton': function (event) {
+		$('.ui.sidebar.chapterMap').sidebar('hide');
 		$('.ui.sidebar.chapterChart').sidebar('toggle');
+		$('.menuBar .item').not(event.target).removeClass('active');
 		$(event.target).toggleClass('active');
 	}, 
+	'click .mapButton': function(event){
+		$('.ui.sidebar.chapterChart').sidebar('hide');
+		$('.ui.sidebar.chapterMap').sidebar('toggle');
+		$('.menuBar .item').not(event.target).removeClass('active');
+		$(event.currentTarget).toggleClass('active');
+	},
 	'visibility:bottomvisible .rebook-page': function(event, template){
 		// add completed container to history, if not already there
         var path = getPath(),
@@ -152,6 +160,7 @@ Template.readBook.onRendered(function(){
 	    })
     ;
 
+
     Tracker.autorun(function () {
     	var place = getPlace();
     	if (!place) return;
@@ -203,7 +212,7 @@ $(window).scroll($.debounce(100, function(e){
 
 			})
 	.attr("height", function(d) { 
-		return height - y(d.wordcount * chapterProgress) - activeStrokeWidth; 
+		return d3.max([height - y(d.wordcount * chapterProgress) - activeStrokeWidth, 0])
 	});
 }));
 
@@ -305,4 +314,5 @@ $(window).scroll($.debounce(100, function(e){
 			return d;
 		}
 	});
+	
 });

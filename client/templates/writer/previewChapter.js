@@ -12,7 +12,7 @@ Template.previewChapter.helpers({
         });
     },
     isText: function(){
-        return _.includes(['text', 'markdown', 'text/markdown'], this.type);
+        return _.includes(['text', 'markdown', 'text/markdown', 'text/plain'], this.type);
     },
     isImage: function(){
         return this.type == "image";
