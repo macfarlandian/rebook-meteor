@@ -243,7 +243,7 @@ $(window).scroll($.debounce(100, function(e){
 		    // clear any existing SVG, if exists
 		    d3.select(".ui.sidebar.chapterChart svg").remove();
 
-		    var svg = d3.select(".ui.sidebar.chapterChart .card")
+		    var svg = d3.select(".ui.sidebar.chapterChart")
 		    .append('svg')
 		    .attr("width", width + margin.left + margin.right)
 		    .attr("height", height + margin.top + margin.bottom)
@@ -300,8 +300,8 @@ $(window).scroll($.debounce(100, function(e){
 		    bars.append('text')
 		    .attr("transform", function(d) { 
 		    	var coords = {
-		    		x:  x(d.name) + (x.rangeBand() / 2),
-		    		y: y(d.wordcount) - 5
+		    		x: x(d.name) + (x.rangeBand() / 2),
+		    		y: y(0) - activeStrokeWidth - 5
 		    	};
 		    	return 'rotate(-90 '+ coords.x + ' ' + coords.y +') translate(' + coords.x + ' ' + coords.y + ')';
 		    })
