@@ -10,11 +10,11 @@
 		{{/unless}}
 		<div class="ui centered grid">
 			{{#each this}}
-			<div class="{{#if $eq type 'collection'}}two column {{/if}}centered row">
+			<div class="centered row">
 				{{#if $eq type 'collection'}}
-				<div class="column collection" id={{_id}}>
+				<div class="twelve wide column collection" id={{_id}}>
 					<div class="title">{{name}}</div>
-					<div class="ui {{collectionWidth}} column centered grid">
+					<div class="ui four column centered grid">
 						{{#each contents}}
 						<div class="column content {{#if $eq type 'sequence'}}sequence{{else}}chapter{{/if}}" style="height: {{contentHeight wordcount}}px" id={{_id}}>
 							{{name}}

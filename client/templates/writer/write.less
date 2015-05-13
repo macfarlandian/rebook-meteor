@@ -71,7 +71,7 @@
 			}
 
 			&.collectionDrop {
-				.column:last-child:not(.collection){
+				.content:last-child:not(.collection){
 					border-right: 5px solid rgb(0, 0, 255) !important;
 				}
 			}
@@ -91,7 +91,8 @@
 					text-align: center;
 					color: #fff;
 					padding: 3px 0;
-					pointer-events: none;
+					cursor: pointer;
+					// pointer-events: none;
 				}
 
 				.grid {
@@ -102,6 +103,7 @@
 			.content {
 				border: 1px solid black;
 				background-color: #fff;
+				font-size: 12px;
 
 				&.active {
 					border-color: red;

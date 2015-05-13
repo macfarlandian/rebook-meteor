@@ -68,82 +68,80 @@
     }
 
     // Poe fixture
-    if (Books.find({name: "The Works of Edgar Allan Poe"}).count() == 0) {
-        var chapters = [
-            "Edgar Allan Poe: An Appreciation.txt",
-            "Edgar Allan Poe.txt",
-            "Death Of Edgar A. Poe.txt",
-            "Four Beasts In One—the Homo-cameleopard.txt",
-            "Ms. Found In A Bottle.txt",
-            "The Balloon-hoax.txt",
-            "The Gold-bug.txt",
-            "The Murders In The Rue Morgue.txt",
-            'The Mystery Of Marie Roget. A Sequel To "the Murders In The Rue Morgue.".txt',
-            "The Oval Portrait.txt",
-            "The Unparalleled Adventures Of One Hans Pfaal.txt"
-        ];
-        // create resources
-        _.each(chapters, function(name){
-            var text = {
-                name: name,
-                type: 'text/plain',
-                contents: Assets.getText('data/poe/'+name),
-            };
-            text.wordcount = (text.contents.split(/\s+/).length);
-            Resources.insert(text);
-        });
-        // create chapters
-        _.each(chapters, function(name){
-            var text = Resources.findOne({name: name}),
-                chap = {
-                    name: name.split(/\.txt/)[0],
-                    contents: [text]
-                };
+    // if (Books.find({name: "The Works of Edgar Allan Poe"}).count() == 0) {
+    //     var chapters = [
+    //         "Edgar Allan Poe: An Appreciation.txt",
+    //         "Four Beasts In One—the Homo-cameleopard.txt",
+    //         "Ms. Found In A Bottle.txt",
+    //         "The Balloon-hoax.txt",
+    //         "The Gold-bug.txt",
+    //         "The Murders In The Rue Morgue.txt",
+    //         'The Mystery Of Marie Roget. A Sequel To "the Murders In The Rue Morgue.".txt',
+    //         "The Oval Portrait.txt",
+    //         "The Unparalleled Adventures Of One Hans Pfaal.txt"
+    //     ];
+    //     // create resources
+    //     _.each(chapters, function(name){
+    //         var text = {
+    //             name: name,
+    //             type: 'text/plain',
+    //             contents: Assets.getText('data/poe/'+name),
+    //         };
+    //         text.wordcount = (text.contents.split(/\s+/).length);
+    //         Resources.insert(text);
+    //     });
+    //     // create chapters
+    //     _.each(chapters, function(name){
+    //         var text = Resources.findOne({name: name}),
+    //             chap = {
+    //                 name: name.split(/\.txt/)[0],
+    //                 contents: [text]
+    //             };
             
-            chap.contents[0].start = 0;
-            chap.contents[0].end = chap.contents[0].start + chap.contents[0].wordcount ;
-            chap.contents[0].track = 0;
+    //         chap.contents[0].start = 0;
+    //         chap.contents[0].end = chap.contents[0].start + chap.contents[0].wordcount ;
+    //         chap.contents[0].track = 0;
 
-            chap.wordcount = _.reduce(chap.contents, function(memo, current){
-                return memo + current.wordcount;
-            }, 0);
+    //         chap.wordcount = _.reduce(chap.contents, function(memo, current){
+    //             return memo + current.wordcount;
+    //         }, 0);
         
-            Chapters.insert(chap);
-        });
-        // create collection
-        var coll = {
-            type: "collection",
-            name: "Stories",
-            contents: []
-        }
-        _.each(chapters, function(name, i){
-            if (i < 3) return;
-            name = name.split(/\.txt/)[0];
-            var chapter = Chapters.findOne({name: name});
-            coll.contents.push(chapter)
-        });
-        coll.wordcount = _.reduce(coll.contents, function(memo, current){
-            return memo + current.wordcount;
-        }, 0);
-        coll_id = Containers.insert(coll);
-        // make the book
-        var book = {
-            name: "The Works of Edgar Allan Poe",
-            author: "Edgar Allan Poe",
-            contents: []
-        };
-        _.each(chapters, function(name, i){
-            if (i > 2) return;
-            name = name.split(/\.txt/)[0];
-            var chapter = Chapters.findOne({name: name});
-            book.contents.push(chapter)
-        });
-        book.contents.push(Containers.findOne(coll_id));
-        book.wordcount = _.reduce(book.contents, function(memo, current){
-            return memo + current.wordcount;
-        }, 0);
-        Books.insert(book);
-    }
+    //         Chapters.insert(chap);
+    //     });
+    //     // create collection
+    //     var coll = {
+    //         type: "collection",
+    //         name: "Stories",
+    //         contents: []
+    //     }
+    //     _.each(chapters, function(name, i){
+    //         if (i < 3) return;
+    //         name = name.split(/\.txt/)[0];
+    //         var chapter = Chapters.findOne({name: name});
+    //         coll.contents.push(chapter)
+    //     });
+    //     coll.wordcount = _.reduce(coll.contents, function(memo, current){
+    //         return memo + current.wordcount;
+    //     }, 0);
+    //     coll_id = Containers.insert(coll);
+    //     // make the book
+    //     var book = {
+    //         name: "The Works of Edgar Allan Poe",
+    //         author: "Edgar Allan Poe",
+    //         contents: []
+    //     };
+    //     _.each(chapters, function(name, i){
+    //         if (i > 2) return;
+    //         name = name.split(/\.txt/)[0];
+    //         var chapter = Chapters.findOne({name: name});
+    //         book.contents.push(chapter)
+    //     });
+    //     book.contents.push(Containers.findOne(coll_id));
+    //     book.wordcount = _.reduce(book.contents, function(memo, current){
+    //         return memo + current.wordcount;
+    //     }, 0);
+    //     Books.insert(book);
+    // }
 
     // a bunch of standard linear books
     var books = [

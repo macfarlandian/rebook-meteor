@@ -1,12 +1,13 @@
 <template name="menu">
-    <div class="ui inverted fixed top menu">
+    <div class="ui large fixed top menu">
         {{#unless allBooks}}
             <a class="item" href="{{pathFor route="create"}}">
                 <i class="ui left chevron icon"></i> Return to All My Books
             </a>
         {{/unless}}
-        <div class="item">
-            (r)ebook
+        <div class="header item">
+            Book Builder
         </div>
+        <div class="item">{{name}}</div>
     </div>
 </template>
