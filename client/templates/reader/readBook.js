@@ -64,6 +64,14 @@ Template.readBook.events({
 		$('.menuBar .item').not(event.target).removeClass('active');
 		$(event.currentTarget).toggleClass('active');
 	},
+	'click g.bar': function (event) {
+		var _id = event.currentTarget.dataset.id;
+		var place = getPlace();
+		place.chapter = _id;
+		place.paragraph = undefined;
+		Placemarkers.update({_id: place._id}, place);
+		$(window).scrollTop(0);
+	},
 	'visibility:bottomvisible .rebook-page': function(event, template){
 		// add completed container to history, if not already there
         var path = getPath(),
@@ -227,7 +235,7 @@ $(window).scroll($.debounce(100, function(e){
 	    	// initialize path if it's empty
 	    	if (path == undefined) path = {path: []};
 
-	    	var chaps = book.allChapters();
+	    	var chaps = book.getChaptersFromContents();
 
 	    	var xAxis = d3.svg.axis()
 	    	.scale(x)
@@ -272,6 +280,7 @@ $(window).scroll($.debounce(100, function(e){
 		    .data(chaps)
 		    .enter().append("g")
 		    .attr("class", "bar")
+		    .attr("data-id", function(d){ return d._id; })
 		    .classed("read", function(d){
 		    	if (_.includes(path.path, d._id)) return true;
 		    	return false;
