@@ -2,6 +2,10 @@ Template.menu.helpers({
     allBooks: function () {
         // TODO: not ideal to hard code this URL but whatevs
         return Router.current().route.path() == "/create"
+    }, 
+
+    name: function(){
+        return Books.findOne({_id: Router.current().params.bookId}).name;
     }
 });
 
