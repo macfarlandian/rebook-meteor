@@ -53,7 +53,7 @@ Template.bookChapters.events({
 			        		var newChap = Chapters.findOne({_id: ui.draggable.get(0).dataset.id}),
 			        			oldChap = Chapters.findOne({_id: target.children('.chapter').attr('id')}),
 			        			newColl_id = Containers.insert({
-			        				name: 'New Choice Group',
+			        				name: 'New Collection',
 			        				type: 'collection',
 			        				contents: [oldChap, newChap]
 			        			}),

@@ -8,12 +8,32 @@ var flags = {
     dragTimeline: false,
 };
 
+Template.bookStructure.events({
+    'click .collection .title': function () {
+        var t = this;
+        var newname = window.prompt("Enter a new name for this collection:");
+        if (newname) {
+            Containers.update({_id: t._id}, {$set: {name: newname}});
+            var book = Books.findOne(Router.current().params.bookId);
+            book.contents = _.map(book.contents, function(item){
+                if (item._id == t._id) {
+                    item.name = newname;
+                }
+                return item;
+            })
+            Books.update({_id: book._id}, {$set: {contents: book.contents}})
+        }
+    }
+});
+
+
 Template.bookStructure.helpers({
     contentHeight: bookScale,
-    collectionWidth: function(){
+    collectionClasses: function(){
         // 16 is the default number of columns in semantic ui grid
-        return numToWords(d3.min([this.contents.length, 16]))
-    },
+        var columncount = numToWords(d3.min([this.contents.length, 4]))
+        return "ui " + columncount + " column centered grid";
+    }
 });
 
 function addChapter(e,ui){
@@ -75,6 +95,9 @@ Template.bookStructure.onRendered(function(){
             .orient('right')
             .ticks(numTicks)
             ;
+
+        // clear axis contents and redraw
+        svg.select('g.axis').remove();
 
         svg
             .attr('height', height)

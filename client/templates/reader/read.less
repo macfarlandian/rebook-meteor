@@ -105,7 +105,7 @@
             line-height: 1.6;
             .typewide();
         }
-        h1,h2,h3,h4,h5,h6 {
+        h1,h2,h3,h4,h5,h6,pre {
             .typewide();
         }
 
@@ -138,7 +138,8 @@
 
     nav.next {
         .base-shadow();
-        background-color: #FFF9E5;
+        background-color: @teal;
+        color: #fff;
         margin: 5rem;
         padding: 2rem;
     }
@@ -161,11 +162,14 @@
 
 .ui.sidebar.chapterChart {
 
+    background-color: rgba(255,255,255,0.8);
+
     svg {
         overflow: visible;
     }
     
     .bar {
+        cursor: pointer;
         rect {
             fill: #c9c9c9;
         }

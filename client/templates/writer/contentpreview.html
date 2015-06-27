@@ -1,5 +1,5 @@
 <template name="contentPreview">
-    <h3>Preview: <span class="ui label">{{name}}</span></h3>
+    <h3>Preview{{#if name}}: <span class="ui label">{{name}}</span>{{/if}}</h3>
     <div class="positionMarker"></div>
     <div class="previewArea">
     {{#if isSequence}}

@@ -64,6 +64,14 @@ Template.readBook.events({
 		$('.menuBar .item').not(event.target).removeClass('active');
 		$(event.currentTarget).toggleClass('active');
 	},
+	'click g.bar': function (event) {
+		var _id = event.currentTarget.dataset.id;
+		var place = getPlace();
+		place.chapter = _id;
+		place.paragraph = undefined;
+		Placemarkers.update({_id: place._id}, place);
+		$(window).scrollTop(0);
+	},
 	'visibility:bottomvisible .rebook-page': function(event, template){
 		// add completed container to history, if not already there
         var path = getPath(),
@@ -227,7 +235,7 @@ $(window).scroll($.debounce(100, function(e){
 	    	// initialize path if it's empty
 	    	if (path == undefined) path = {path: []};
 
-	    	var chaps = book.allChapters();
+	    	var chaps = book.getChaptersFromContents();
 
 	    	var xAxis = d3.svg.axis()
 	    	.scale(x)
@@ -243,7 +251,7 @@ $(window).scroll($.debounce(100, function(e){
 		    // clear any existing SVG, if exists
 		    d3.select(".ui.sidebar.chapterChart svg").remove();
 
-		    var svg = d3.select(".ui.sidebar.chapterChart .card")
+		    var svg = d3.select(".ui.sidebar.chapterChart")
 		    .append('svg')
 		    .attr("width", width + margin.left + margin.right)
 		    .attr("height", height + margin.top + margin.bottom)
@@ -272,6 +280,7 @@ $(window).scroll($.debounce(100, function(e){
 		    .data(chaps)
 		    .enter().append("g")
 		    .attr("class", "bar")
+		    .attr("data-id", function(d){ return d._id; })
 		    .classed("read", function(d){
 		    	if (_.includes(path.path, d._id)) return true;
 		    	return false;
@@ -300,8 +309,8 @@ $(window).scroll($.debounce(100, function(e){
 		    bars.append('text')
 		    .attr("transform", function(d) { 
 		    	var coords = {
-		    		x:  x(d.name) + (x.rangeBand() / 2),
-		    		y: y(d.wordcount) - 5
+		    		x: x(d.name) + (x.rangeBand() / 2),
+		    		y: y(0) - activeStrokeWidth - 5
 		    	};
 		    	return 'rotate(-90 '+ coords.x + ' ' + coords.y +') translate(' + coords.x + ' ' + coords.y + ')';
 		    })
