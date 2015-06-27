@@ -1,0 +1,18 @@
+<template name="renderText">
+	{{#each paras contents}} 
+		{{#each trackOverlap ../../contents}}
+	    <div class="sideTrack">
+		    {{#if isImage}}
+		    <img class="ui right floated image otherTrack" src="http://placehold.it/800x800" alt={{name}}/>
+		    {{/if}}
+		        
+		    {{#if isAudio}}
+		    <audio src="/subway-sound.mp3" id={{_id}} class="autoplay">
+		    <p>Your browser does not support the <code>audio</code> element.</p>
+		    </audio>
+		    {{/if}}
+	    </div>
+	    {{/each}}
+	    <p class="cfiWrap">{{text}}</p>
+	{{/each}} 
+</template>
