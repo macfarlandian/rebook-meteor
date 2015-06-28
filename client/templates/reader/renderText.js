@@ -50,6 +50,8 @@ Template.renderText.events({
 		var targetEl = $('p').has('.highlight');
 		// clear any highlights
 		targetEl.text(targetEl.text());
+		// clear the CFI hash
+		window.location.hash = "cfi";
 	},
 	'mouseup': function(e){
 		var sel = window.getSelection();

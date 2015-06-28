@@ -123,15 +123,20 @@ Template.readChapters.onRendered(function(){
                     
                     makeHighlight(targetEl, char_range);
 
-                    // debugger; 
+                    var scrolltarget = $('#'+place.chapter + ' article > p')
+                        .eq(place.paragraph)
+                        .find(".highlight")
+                        .offset().top;
 
                 } else {
                     // spanning ps
+                    var scrolltarget = $('#'+place.chapter + ' article > p').eq(place.paragraph).offset().top;
                 }
                 
-            } 
-
-            var scrolltarget = $('#'+place.chapter + ' article > p').eq(place.paragraph).offset().top;
+            } else {
+                var scrolltarget = $('#'+place.chapter + ' article > p').eq(place.paragraph).offset().top;
+            }
+            
             $('html, body').scrollTop(scrolltarget);
         } else {
             // go to start of chapter
