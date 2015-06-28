@@ -48,14 +48,107 @@ Template.renderText.onRendered(function() {
 Template.renderText.events({
 	'click .cfiWrap': function (e) {
 		// CFI shit
-		
 		var target = $(e.currentTarget),
-			index = target.index(),
 			tag = e.currentTarget.tagName,
 			id = _.find(e.currentTarget.classList, function(cls){
 				return cls.indexOf('resource') == 0;
-			});
-
+			}),
+			index = target.index(tag + '.' + id)
+			;
 		console.log("#cfi(" + [tag,id,index].join(',') + ")");
+	},
+	'mouseup': function(e){
+		var sel = window.getSelection();
+		if (sel.type == "Range") {
+			// identify beginning/end paragraphs
+				// (anchor / focus)
+
+			var start = sel.anchorNode,
+				startP = findP(start),
+				end = sel.focusNode,
+				endP = findP(end),
+				cfiString = '';	
+			
+			if (startP == endP) {
+				var tag = startP.tagName,
+					target = $(startP),
+					id = _.find(startP.classList, function(cls){
+						return cls.indexOf('resource') == 0;
+					}),
+					index = target.index(tag + '.' + id)
+					;
+
+				var pString = [tag,id,index].join(",");
+
+				// get character range
+				var startOffset = getCharOffsetRelativeTo(startP, start, sel.anchorOffset),
+					endOffset = getCharOffsetRelativeTo(startP, end, sel.focusOffset);
+				
+				// test that node-to-element offset is correct
+				// console.log(sel, target.text().substring(startOffset, endOffset));
+				var cString = "[" + startOffset + ":" + endOffset + "]";
+
+				cfiString = pString + cString;
+
+			} else {
+				// get p anchor strings
+				var tag = startP.tagName,
+					target = $(startP),
+					id = _.find(startP.classList, function(cls){
+						return cls.indexOf('resource') == 0;
+					}),
+					index = target.index(tag + '.' + id)
+					;
+
+				var pString = {"start": [tag,id,index].join(",")};
+
+				tag = endP.tagName,
+				target = $(endP),
+				id = _.find(endP.classList, function(cls){
+					return cls.indexOf('resource') == 0;
+				}),
+				index = target.index(tag + '.' + id)
+				;
+
+				pString.end = [tag,id,index].join(",");
+
+				// get start and end character offsets
+				var startOffset = getCharOffsetRelativeTo(startP, start, sel.anchorOffset),
+					endOffset = getCharOffsetRelativeTo(endP, end, sel.focusOffset)
+					;
+				pString.start += "[" + startOffset + ":]";
+				pString.end += "[:" + endOffset + "]";
+
+				cfiString = pString.start + "|" + pString.end
+			}
+
+			var cfi = 'cfi(' + cfiString + ')'
+			// construct the CFI string accordingly
+			// do something useful with it
+			window.location.hash = cfi;
+		}
 	}
 });
+
+function findP(node){
+	// go up the dom tree until you find a p to anchor the CFI to
+	if (node.nodeType == node.ELEMENT_NODE) {
+		var el = node;
+	} else {
+		var el = node.parentElement;
+	}
+
+	if (el.tagName != "P") {
+		el = $(el).parents('p.cfiWrap').get(0);
+	}
+
+	return el;
+
+}
+
+function getCharOffsetRelativeTo(container, node, offset) {
+    var range = document.createRange();
+    range.selectNodeContents(container);
+    range.setEnd(node, offset);
+    return range.toString().length;
+}
