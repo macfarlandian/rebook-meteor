@@ -105,6 +105,32 @@ Template.readChapters.onRendered(function(){
         // if a chapter is marked
         if (place.paragraph != undefined) {
             // if a paragraph is marked, go to it
+
+            // first check for CFI
+            if ( isCfi() ){
+                // get the cfi and highlight it and scroll to it
+                var cfiString = Router.current().params.hash.substring(4, Router.current().params.hash.length - 1),
+                    structure_markers = getCfiStructure(cfiString);
+                
+                if (structure_markers.length == 1){
+                    // intra-p
+                    var cfi = structure_markers[0],
+                        char_range = getCfiCharRange(cfi),
+                        para_pointer = getCfiParaPointer(cfi),
+                        resource_id = para_pointer[1],
+                        targetEl = $(para_pointer[0] + ".resource" + para_pointer[1]).eq(para_pointer[2]).get(0)
+                        ;
+                    
+                    makeHighlight(targetEl, char_range);
+
+                    // debugger; 
+
+                } else {
+                    // spanning ps
+                }
+                
+            } 
+
             var scrolltarget = $('#'+place.chapter + ' article > p').eq(place.paragraph).offset().top;
             $('html, body').scrollTop(scrolltarget);
         } else {
@@ -132,12 +158,11 @@ Template.readChapters.onRendered(function(){
                 // debounce to make sure we're not rapidly scrolling past it
                 Meteor.setTimeout(function(){
                     if (calc.visible) el.trigger('play');    
-                }, 200)
-                
+                }, 200)  
             }
         }
 
-    })
-
-     
+    });  
 });
+
+

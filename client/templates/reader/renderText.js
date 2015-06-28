@@ -46,16 +46,10 @@ Template.renderText.onRendered(function() {
 });
 
 Template.renderText.events({
-	'click .cfiWrap': function (e) {
-		// CFI shit
-		var target = $(e.currentTarget),
-			tag = e.currentTarget.tagName,
-			id = _.find(e.currentTarget.classList, function(cls){
-				return cls.indexOf('resource') == 0;
-			}),
-			index = target.index(tag + '.' + id)
-			;
-		console.log("#cfi(" + [tag,id,index].join(',') + ")");
+	'click p': function(e){
+		var targetEl = $('p').has('.highlight');
+		// clear any highlights
+		targetEl.text(targetEl.text());
 	},
 	'mouseup': function(e){
 		var sel = window.getSelection();
@@ -74,21 +68,22 @@ Template.renderText.events({
 					target = $(startP),
 					id = _.find(startP.classList, function(cls){
 						return cls.indexOf('resource') == 0;
-					}),
-					index = target.index(tag + '.' + id)
+					}).substring('resource'.length),
+					index = target.index(tag + '.resource' + id)
 					;
 
 				var pString = [tag,id,index].join(",");
 
 				// get character range
-				var startOffset = getCharOffsetRelativeTo(startP, start, sel.anchorOffset),
-					endOffset = getCharOffsetRelativeTo(startP, end, sel.focusOffset);
+				// set start as smaller value regardless of the selection direction
+				var startOffset = getCharOffsetRelativeTo(startP, start, _.min([sel.anchorOffset,sel.focusOffset])),
+					endOffset = getCharOffsetRelativeTo(startP, end, _.max([sel.anchorOffset,sel.focusOffset]));
 				
 				// test that node-to-element offset is correct
 				// console.log(sel, target.text().substring(startOffset, endOffset));
 				var cString = "[" + startOffset + ":" + endOffset + "]";
-
 				cfiString = pString + cString;
+				makeHighlight(startP, [startOffset, endOffset]);
 
 			} else {
 				// get p anchor strings
@@ -96,8 +91,8 @@ Template.renderText.events({
 					target = $(startP),
 					id = _.find(startP.classList, function(cls){
 						return cls.indexOf('resource') == 0;
-					}),
-					index = target.index(tag + '.' + id)
+					}).substring('resource'.length),
+					index = target.index(tag + '.resource' + id)
 					;
 
 				var pString = {"start": [tag,id,index].join(",")};
@@ -107,7 +102,7 @@ Template.renderText.events({
 				id = _.find(endP.classList, function(cls){
 					return cls.indexOf('resource') == 0;
 				}),
-				index = target.index(tag + '.' + id)
+				index = target.index(tag + '.resource' + id)
 				;
 
 				pString.end = [tag,id,index].join(",");
