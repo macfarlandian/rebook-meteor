@@ -2,3 +2,4 @@ data/scriv-export/
 private/data/
 
 *.sublime-*
+server/lib/secrets.js
