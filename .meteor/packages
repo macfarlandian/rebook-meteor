@@ -17,3 +17,4 @@ cfs:standard-packages
 cfs:gridfs
 cfs:ui
 bevanhunt:leaflet
+simoes:d3plus

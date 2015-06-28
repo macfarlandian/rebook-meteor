@@ -71,6 +71,7 @@ retry@1.0.3
 routepolicy@1.0.5
 semantic:ui-css@1.12.3
 session@1.1.0
+simoes:d3plus@1.7.3
 spacebars@1.0.6
 spacebars-compiler@1.0.6
 templating@1.1.1
